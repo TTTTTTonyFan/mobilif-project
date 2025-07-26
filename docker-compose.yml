@@ -1,0 +1,226 @@
+version: '3.8'
+
+services:
+  # 主数据库 - MySQL Master
+  mysql-master:
+    image: mysql:8.0
+    container_name: mobilif-mysql-master
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: mobilif123456
+      MYSQL_DATABASE: mobilif
+      MYSQL_USER: mobilif_user
+      MYSQL_PASSWORD: mobilif_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_master_data:/var/lib/mysql
+      - ./scripts/init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --binlog-do-db=mobilif
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=1000
+    networks:
+      - mobilif-network
+
+  # 从数据库 - MySQL Slave
+  mysql-slave:
+    image: mysql:8.0
+    container_name: mobilif-mysql-slave
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: mobilif123456
+      MYSQL_DATABASE: mobilif
+      MYSQL_USER: mobilif_user
+      MYSQL_PASSWORD: mobilif_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_slave_data:/var/lib/mysql
+    command: >
+      --server-id=2
+      --relay-log=mysql-relay-bin
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --read-only=1
+    depends_on:
+      - mysql-master
+    networks:
+      - mobilif-network
+
+  # Redis 缓存
+  redis:
+    image: redis:7.0-alpine
+    container_name: mobilif-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - mobilif-network
+
+  # Redis 集群节点 (可选，用于生产环境)
+  redis-node-1:
+    image: redis:7.0-alpine
+    container_name: mobilif-redis-node-1
+    restart: unless-stopped
+    ports:
+      - "7001:7001"
+    volumes:
+      - redis_cluster_1:/data
+    command: >
+      redis-server
+      --port 7001
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+    networks:
+      - mobilif-network
+
+  # RocketMQ NameServer
+  rocketmq-nameserver:
+    image: apache/rocketmq:5.1.0
+    container_name: mobilif-rocketmq-nameserver
+    restart: unless-stopped
+    ports:
+      - "9876:9876"
+    volumes:
+      - rocketmq_nameserver_logs:/home/rocketmq/logs
+    command: sh mqnamesrv
+    networks:
+      - mobilif-network
+
+  # RocketMQ Broker
+  rocketmq-broker:
+    image: apache/rocketmq:5.1.0
+    container_name: mobilif-rocketmq-broker
+    restart: unless-stopped
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+    volumes:
+      - rocketmq_broker_logs:/home/rocketmq/logs
+      - rocketmq_broker_store:/home/rocketmq/store
+      - ./config/broker.conf:/home/rocketmq/rocketmq-5.1.0/conf/broker.conf
+    environment:
+      NAMESRV_ADDR: "rocketmq-nameserver:9876"
+    command: sh mqbroker -c /home/rocketmq/rocketmq-5.1.0/conf/broker.conf
+    depends_on:
+      - rocketmq-nameserver
+    networks:
+      - mobilif-network
+
+  # MobiLiF 后端应用
+  mobilif-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mobilif-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: mysql-master
+      DB_PORT: 3306
+      DB_USERNAME: mobilif_user
+      DB_PASSWORD: mobilif_pass
+      DB_DATABASE: mobilif
+      DB_SLAVE_HOST: mysql-slave
+      DB_SLAVE_PORT: 3306
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: mobilif-jwt-secret-key-2024
+      JWT_EXPIRES_IN: 7d
+      WECHAT_APP_ID: your-wechat-app-id
+      WECHAT_APP_SECRET: your-wechat-app-secret
+      ROCKETMQ_NAMESERVER: rocketmq-nameserver:9876
+    volumes:
+      - ./src:/app/src
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+    depends_on:
+      - mysql-master
+      - mysql-slave
+      - redis
+      - rocketmq-nameserver
+      - rocketmq-broker
+    networks:
+      - mobilif-network
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: mobilif-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/ssl:/etc/nginx/ssl
+      - ./static:/usr/share/nginx/html
+    depends_on:
+      - mobilif-backend
+    networks:
+      - mobilif-network
+
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus
+    container_name: mobilif-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    networks:
+      - mobilif-network
+
+  # Grafana 可视化
+  grafana:
+    image: grafana/grafana
+    container_name: mobilif-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - mobilif-network
+
+volumes:
+  mysql_master_data:
+  mysql_slave_data:
+  redis_data:
+  redis_cluster_1:
+  rocketmq_nameserver_logs:
+  rocketmq_broker_logs:
+  rocketmq_broker_store:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  mobilif-network:
+    driver: bridge
