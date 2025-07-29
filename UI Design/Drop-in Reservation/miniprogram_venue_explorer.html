@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobiLiF拓练 - 微信小程序版本</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .file-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        
+        .file-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .file-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .file-icon.wxml { background: #07c160; }
+        .file-icon.wxss { background: #1aad19; }
+        .file-icon.js { background: #f7b500; }
+        .file-icon.json { background: #ff9500; }
+        
+        .file-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .file-path {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #888;
+            background: #f8f8f8;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .code-block code {
+            color: #d4d4d4;
+        }
+        
+        .comment { color: #6a9955; }
+        .tag { color: #569cd6; }
+        .attr { color: #9cdcfe; }
+        .string { color: #ce9178; }
+        .keyword { color: #c586c0; }
+        .number { color: #b5cea8; }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+        
+        .icon-item {
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 8px;
+            display: block;
+        }
+        
+        .icon-name {
+            font-size: 12px;
+            color: #666;
+            font-family: monospace;
+        }
+        
+        .tips {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .tips-title {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+        
+        .tips-content {
+            color: #424242;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .file-structure {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .folder { color: #ff9800; font-weight: bold; }
+        .file { color: #2196f3; }
+        .indent { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #07c160;">小程序</div>
+            <div>
+                <div class="file-title">MobiLiF拓练 - 场馆探索页面 (微信小程序版本)</div>
+                <div class="file-path">pages/venue-explorer/</div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">📱 微信小程序适配说明</div>
+            <div class="tips-content">
+                本版本已完全适配微信小程序框架，包括：<br>
+                • 使用小程序组件（view, text, image, scroll-view等）<br>
+                • 采用rpx响应式单位<br>
+                • 替换所有Font Awesome图标为本地SVG图片<br>
+                • 使用小程序事件绑定和数据绑定<br>
+                • 符合小程序开发规范和性能要求
+            </div>
+        </div>
+        
+        <div class="file-structure">
+            <div class="folder">pages/venue-explorer/</div>
+            <div class="indent">
+                <div class="file">index.wxml</div>
+                <div class="file">index.wxss</div>
+                <div class="file">index.js</div>
+                <div class="file">index.json</div>
+            </div>
+            <div class="folder">images/icons/</div>
+            <div class="indent">
+                <div class="file">search.svg</div>
+                <div class="file">location.svg</div>
+                <div class="file">filter.svg</div>
+                <div class="file">check.svg</div>
+                <div class="file">arrow-right.svg</div>
+                <div class="file">arrow-down.svg</div>
+                <div class="file">building.svg</div>
+                <div class="file">dumbbell.svg</div>
+                <div class="file">close.svg</div>
+                <div class="file">reset.svg</div>
+                <div class="file">map.svg</div>
+                <div class="file">user.svg</div>
+                <div class="file">battery.svg</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WXML 文件 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon wxml">XML</div>
+            <div>
+                <div class="file-title">index.wxml</div>
+                <div class="file-path">pages/venue-explorer/index.wxml</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+<span class="comment"><!-- MobiLiF拓练 - 场馆探索页面 --></span>
+<span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"page"</span><span class="tag">&gt;</span>
+  <span class="comment">&lt;!-- 页面头部 --&gt;</span>
+  <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"page-header"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"page-title"</span><span class="tag">&gt;</span>探索场馆<span class="tag">&lt;/text&gt;</span>
+  <span class="tag">&lt;/view&gt;</span>
+
+  <span class="comment">&lt;!-- 滚动区域 --&gt;</span>
+  <span class="tag">&lt;scroll-view</span> <span class="attr">class</span>=<span class="string">"page-content"</span> <span class="attr">scroll-y</span> <span class="attr">bindscrolltolower</span>=<span class="string">"onLoadMore"</span><span class="tag">&gt;</span>
+    
+    <span class="comment">&lt;!-- 城市选择器 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-selector"</span> <span class="attr">bindtap</span>=<span class="string">"showCityModal"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-selector__content"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-selector__icon"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/location.svg"</span> <span class="attr">class</span>=<span class="string">"icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-selector__text"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-selector__name"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;text&gt;</span>{{currentCity.name}}<span class="tag">&lt;/text&gt;</span>
+            <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"city-check-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"city-selector__desc"</span><span class="tag">&gt;</span>{{cityDescription}}<span class="tag">&lt;/text&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/arrow-right.svg"</span> <span class="attr">class</span>=<span class="string">"city-selector__chevron"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+
+    <span class="comment">&lt;!-- 搜索栏 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"search-bar"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/search.svg"</span> <span class="attr">class</span>=<span class="string">"search-bar__icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;input</span> 
+        <span class="attr">class</span>=<span class="string">"search-bar__input"</span>
+        <span class="attr">placeholder</span>=<span class="string">"搜索场馆名称..."</span>
+        <span class="attr">value</span>=<span class="string">"{{searchTerm}}"</span>
+        <span class="attr">bindinput</span>=<span class="string">"onSearchInput"</span>
+      <span class="tag">/&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/filter.svg"</span> <span class="attr">class</span>=<span class="string">"search-bar__icon"</span> <span class="attr">bindtap</span>=<span class="string">"toggleFilter"</span><span class="tag">&gt;&lt;/image&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+
+    <span class="comment">&lt;!-- 筛选器 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter {{isFilterVisible ? '' : 'hidden'}}"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__header"</span> <span class="attr">bindtap</span>=<span class="string">"toggleFilterContent"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__title"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/filter.svg"</span> <span class="attr">class</span>=<span class="string">"filter-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+          <span class="tag">&lt;text&gt;</span>筛选条件<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__count {{tempFilterCount > 0 ? '' : 'hidden'}}"</span><span class="tag">&gt;</span>{{tempFilterCount}}<span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/arrow-down.svg"</span> <span class="attr">class</span>=<span class="string">"filter__chevron {{isFilterContentExpanded ? 'expanded' : ''}}"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+      
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__content {{isFilterContentExpanded ? 'expanded' : ''}}"</span><span class="tag">&gt;</span>
+        <span class="comment">&lt;!-- 场馆类型筛选 --&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__group"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__group-title"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/building.svg"</span> <span class="attr">class</span>=<span class="string">"filter-group-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+            <span class="tag">&lt;text&gt;</span>场馆类型<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__options"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;view</span> <span class="attr">wx:for</span>=<span class="string">"{{gymTypeOptions}}"</span> <span class="attr">wx:key</span>=<span class="string">"value"</span> 
+                  <span class="attr">class</span>=<span class="string">"filter-option {{tempFilters.gymType.includes(item.value) ? 'selected' : ''}}"</span>
+                  <span class="attr">bindtap</span>=<span class="string">"onFilterOptionTap"</span>
+                  <span class="attr">data-type</span>=<span class="string">"gymType"</span>
+                  <span class="attr">data-value</span>=<span class="string">"{{item.value}}"</span><span class="tag">&gt;</span>
+              <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter-option__icon"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"check-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+              <span class="tag">&lt;/view&gt;</span>
+              <span class="tag">&lt;text&gt;</span>{{item.label}}<span class="tag">&lt;/text&gt;</span>
+            <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+
+        <span class="comment">&lt;!-- 课程类型筛选 --&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__group"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__group-title"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/dumbbell.svg"</span> <span class="attr">class</span>=<span class="string">"filter-group-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+            <span class="tag">&lt;text&gt;</span>课程类型<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__options"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;view</span> <span class="attr">wx:for</span>=<span class="string">"{{courseTypeOptions}}"</span> <span class="attr">wx:key</span>=<span class="string">"value"</span> 
+                  <span class="attr">class</span>=<span class="string">"filter-option {{tempFilters.courseType.includes(item.value) ? 'selected' : ''}}"</span>
+                  <span class="attr">bindtap</span>=<span class="string">"onFilterOptionTap"</span>
+                  <span class="attr">data-type</span>=<span class="string">"courseType"</span>
+                  <span class="attr">data-value</span>=<span class="string">"{{item.value}}"</span><span class="tag">&gt;</span>
+              <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter-option__icon"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"check-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+              <span class="tag">&lt;/view&gt;</span>
+              <span class="tag">&lt;text&gt;</span>{{item.label}}<span class="tag">&lt;/text&gt;</span>
+            <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+
+      <span class="comment">&lt;!-- 筛选器操作按钮 --&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"filter__actions"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="string">"filter__btn filter__btn--secondary"</span> <span class="attr">bindtap</span>=<span class="string">"resetFilters"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/reset.svg"</span> <span class="attr">class</span>=<span class="string">"btn-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+          <span class="tag">&lt;text&gt;</span>重置<span class="tag">&lt;/text&gt;</span>
+        <span class="tag">&lt;/button&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="string">"filter__btn filter__btn--primary"</span> <span class="attr">bindtap</span>=<span class="string">"confirmFilters"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"btn-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+          <span class="tag">&lt;text&gt;</span>确认<span class="tag">&lt;/text&gt;</span>
+        <span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+
+    <span class="comment">&lt;!-- 场馆列表 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-list"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">wx:for</span>=<span class="string">"{{filteredGyms}}"</span> <span class="attr">wx:key</span>=<span class="string">"id"</span> 
+            <span class="attr">class</span>=<span class="string">"gym-card"</span> 
+            <span class="attr">bindtap</span>=<span class="string">"onGymCardTap"</span>
+            <span class="attr">data-gym-id</span>=<span class="string">"{{item.id}}"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__image"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"{{item.image}}"</span> <span class="attr">class</span>=<span class="string">"gym-image"</span> <span class="attr">mode</span>=<span class="string">"aspectFill"</span><span class="tag">&gt;&lt;/image&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__badge gym-card__badge--{{item.badge.type}}"</span><span class="tag">&gt;</span>{{item.badge.text}}<span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__content"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"gym-card__name"</span><span class="tag">&gt;</span>{{item.name}}<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__location"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/location.svg"</span> <span class="attr">class</span>=<span class="string">"location-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+            <span class="tag">&lt;text&gt;</span>{{item.location}}<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__status"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"status-dot {{item.status.open ? 'open' : 'closed'}}"</span><span class="tag">&gt;&lt;/view&gt;</span>
+            <span class="tag">&lt;text&gt;</span>{{item.status.open ? '营业中' : '已闭店'}} · {{item.status.hours}}<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"gym-card__tags"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;text</span> <span class="attr">wx:for</span>=<span class="string">"{{item.courseLabels}}"</span> <span class="attr">wx:key</span>=<span class="string">"*this"</span> <span class="attr">class</span>=<span class="string">"tag"</span><span class="tag">&gt;</span>{{item}}<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+
+    <span class="comment">&lt;!-- 加载状态 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"loading {{isLoading ? '' : 'hidden'}}"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"loading__spinner"</span><span class="tag">&gt;&lt;/view&gt;</span>
+      <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"loading__text"</span><span class="tag">&gt;</span>正在加载更多场馆...<span class="tag">&lt;/text&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+
+    <span class="comment">&lt;!-- 加载完成 --&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"load-complete {{!hasMoreData &amp;&amp; !isLoading ? '' : 'hidden'}}"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"complete-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;text&gt;</span>已显示所有附近的训练场馆<span class="tag">&lt;/text&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+  <span class="tag">&lt;/scroll-view&gt;</span>
+
+  <span class="comment">&lt;!-- 底部导航 --&gt;</span>
+  <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"bottom-nav"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"nav-item active"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/search.svg"</span> <span class="attr">class</span>=<span class="string">"nav-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"nav-text"</span><span class="tag">&gt;</span>发现场馆<span class="tag">&lt;/text&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"nav-item"</span> <span class="attr">bindtap</span>=<span class="string">"switchTab"</span> <span class="attr">data-tab</span>=<span class="string">"map"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/map.svg"</span> <span class="attr">class</span>=<span class="string">"nav-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"nav-text"</span><span class="tag">&gt;</span>足迹地图<span class="tag">&lt;/text&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"nav-item"</span> <span class="attr">bindtap</span>=<span class="string">"switchTab"</span> <span class="attr">data-tab</span>=<span class="string">"profile"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/user.svg"</span> <span class="attr">class</span>=<span class="string">"nav-icon"</span><span class="tag">&gt;&lt;/image&gt;</span>
+      <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"nav-text"</span><span class="tag">&gt;</span>我的<span class="tag">&lt;/text&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+  <span class="tag">&lt;/view&gt;</span>
+<span class="tag">&lt;/view&gt;</span>
+
+<span class="comment">&lt;!-- 城市选择模态框 --&gt;</span>
+<span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"modal {{isCityModalVisible ? 'show' : ''}}"</span> <span class="attr">bindtap</span>=<span class="string">"hideCityModal"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"modal__content"</span> <span class="attr">catchtap</span>=<span class="string">"preventModalClose"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"modal__header"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"modal__title"</span><span class="tag">&gt;</span>选择城市<span class="tag">&lt;/text&gt;</span>
+      <span class="tag">&lt;image</span> <span class="attr">src</span>=<span class="string">"/images/icons/close.svg"</span> <span class="attr">class</span>=<span class="string">"modal__close"</span> <span class="attr">bindtap</span>=<span class="string">"hideCityModal"</span><span class="tag">&gt;&lt;/image&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"modal__body"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-list"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;view</span> <span class="attr">wx:for</span>=<span class="string">"{{cities}}"</span> <span class="attr">wx:key</span>=<span class="string">"id"</span> 
+              <span class="attr">class</span>=<span class="string">"city-list__item {{currentCity.id === item.id ? 'selected' : ''}}"</span>
+              <span class="attr">bindtap</span>=<span class="string">"selectCity"</span>
+              <span class="attr">data-city-id</span>=<span class="string">"{{item.id}}"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;view</span> <span class="attr">class</span>=<span class="string">"city-list__info"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"city-list__name"</span><span class="tag">&gt;</span>{{item.name}}<span class="tag">&lt;/text&gt;</span>
+            <span class="tag">&lt;text</span> <span class="attr">class</span>=<span class="string">"city-list__desc"</span><span class="tag">&gt;</span>{{item.venueCount}}个训练场馆<span class="tag">&lt;/text&gt;</span>
+          <span class="tag">&lt;/view&gt;</span>
+          <span class="tag">&lt;image</span> <span class="attr">wx:if</span>=<span class="string">"{{currentCity.id === item.id}}"</span> <span class="attr">src</span>=<span class="string">"/images/icons/check.svg"</span> <span class="attr">class</span>=<span class="string">"city-check"</span><span class="tag">&gt;&lt;/image&gt;</span>
+        <span class="tag">&lt;/view&gt;</span>
+      <span class="tag">&lt;/view&gt;</span>
+    <span class="tag">&lt;/view&gt;</span>
+  <span class="tag">&lt;/view&gt;</span>
+<span class="tag">&lt;/view&gt;</span>
+            </code>
+        </div>
+    </div>
+
+    <!-- WXSS 文件 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon wxss">CSS</div>
+            <div>
+                <div class="file-title">index.wxss</div>
+                <div class="file-path">pages/venue-explorer/index.wxss</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+<span class="comment">/* MobiLiF拓练 - 场馆探索页面样式 */</span>
+
+<span class="comment">/* 色彩变量 */</span>
+<span class="tag">:root</span> {
+  --color-primary: <span class="string">#082b41</span>;
+  --color-secondary: <span class="string">#105286</span>;
+  --color-accent: <span class="string">#fdb338</span>;
+  --color-background: <span class="string">#f1f2f4</span>;
+  --color-success: <span class="string">#10b981</span>;
+  --color-danger: <span class="string">#ef4444</span>;
+}
+
+<span class="comment">/* 基础页面样式 */</span>
+<span class="tag">.page</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="string">column</span>;
+  <span class="attr">height</span>: <span class="string">100vh</span>;
+  <span class="attr">background</span>: <span class="string">var(--color-background)</span>;
+}
+
+<span class="comment">/* 页面头部 */</span>
+<span class="tag">.page-header</span> {
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">padding</span>: <span class="number">32rpx 48rpx</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 2rpx 8rpx rgba(0,0,0,0.06)</span>;
+  <span class="attr">position</span>: <span class="string">sticky</span>;
+  <span class="attr">top</span>: <span class="number">0</span>;
+  <span class="attr">z-index</span>: <span class="number">100</span>;
+}
+
+<span class="tag">.page-title</span> {
+  <span class="attr">font-size</span>: <span class="number">48rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">700</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-primary)</span>;
+  <span class="attr">text-align</span>: <span class="string">center</span>;
+}
+
+<span class="comment">/* 页面内容 */</span>
+<span class="tag">.page-content</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">padding-bottom</span>: <span class="number">160rpx</span>;
+}
+
+<span class="comment">/* 城市选择器 */</span>
+<span class="tag">.city-selector</span> {
+  <span class="attr">background</span>: <span class="string">linear-gradient(135deg, var(--color-secondary), var(--color-primary))</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+  <span class="attr">margin</span>: <span class="number">32rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">40rpx</span>;
+  <span class="attr">padding</span>: <span class="number">40rpx</span>;
+  <span class="attr">position</span>: <span class="string">relative</span>;
+}
+
+<span class="tag">.city-selector__content</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">32rpx</span>;
+}
+
+<span class="tag">.city-selector__icon</span> {
+  <span class="attr">width</span>: <span class="number">96rpx</span>;
+  <span class="attr">height</span>: <span class="number">96rpx</span>;
+  <span class="attr">background</span>: <span class="string">rgba(255,255,255,0.2)</span>;
+  <span class="attr">border-radius</span>: <span class="number">50%</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">center</span>;
+  <span class="attr">flex-shrink</span>: <span class="number">0</span>;
+}
+
+<span class="tag">.city-selector__icon .icon</span> {
+  <span class="attr">width</span>: <span class="number">48rpx</span>;
+  <span class="attr">height</span>: <span class="number">48rpx</span>;
+}
+
+<span class="tag">.city-selector__text</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+}
+
+<span class="tag">.city-selector__name</span> {
+  <span class="attr">font-size</span>: <span class="number">36rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">700</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">8rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.city-check-icon</span> {
+  <span class="attr">width</span>: <span class="number">28rpx</span>;
+  <span class="attr">height</span>: <span class="number">28rpx</span>;
+}
+
+<span class="tag">.city-selector__desc</span> {
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0.9</span>;
+}
+
+<span class="tag">.city-selector__chevron</span> {
+  <span class="attr">width</span>: <span class="number">40rpx</span>;
+  <span class="attr">height</span>: <span class="number">40rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0.7</span>;
+}
+
+<span class="comment">/* 搜索栏 */</span>
+<span class="tag">.search-bar</span> {
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">border-radius</span>: <span class="number">24rpx</span>;
+  <span class="attr">padding</span>: <span class="number">24rpx 32rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">24rpx</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 2rpx 8rpx rgba(0,0,0,0.06)</span>;
+  <span class="attr">margin</span>: <span class="number">32rpx</span>;
+  <span class="attr">border</span>: <span class="number">4rpx</span> <span class="string">solid transparent</span>;
+}
+
+<span class="tag">.search-bar__icon</span> {
+  <span class="attr">width</span>: <span class="number">40rpx</span>;
+  <span class="attr">height</span>: <span class="number">40rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0.6</span>;
+}
+
+<span class="tag">.search-bar__input</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">font-size</span>: <span class="number">32rpx</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-primary)</span>;
+  <span class="attr">background</span>: <span class="string">none</span>;
+}
+
+<span class="comment">/* 筛选器 */</span>
+<span class="tag">.filter</span> {
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">margin</span>: <span class="number">0 32rpx 32rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">40rpx</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 2rpx 8rpx rgba(0,0,0,0.06)</span>;
+  <span class="attr">overflow</span>: <span class="string">hidden</span>;
+}
+
+<span class="tag">.filter.hidden</span> {
+  <span class="attr">display</span>: <span class="string">none</span>;
+}
+
+<span class="tag">.filter__header</span> {
+  <span class="attr">padding</span>: <span class="number">32rpx 40rpx</span>;
+  <span class="attr">border-bottom</span>: <span class="number">2rpx</span> <span class="string">solid #f0f0f0</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">space-between</span>;
+  <span class="attr">background</span>: <span class="string">#f8f9fa</span>;
+}
+
+<span class="tag">.filter__title</span> {
+  <span class="attr">font-size</span>: <span class="number">32rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-primary)</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.filter-icon</span> {
+  <span class="attr">width</span>: <span class="number">32rpx</span>;
+  <span class="attr">height</span>: <span class="number">32rpx</span>;
+}
+
+<span class="tag">.filter__count</span> {
+  <span class="attr">background</span>: <span class="string">var(--color-secondary)</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+  <span class="attr">font-size</span>: <span class="number">24rpx</span>;
+  <span class="attr">padding</span>: <span class="number">4rpx 16rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">20rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">min-width</span>: <span class="number">40rpx</span>;
+  <span class="attr">text-align</span>: <span class="string">center</span>;
+}
+
+<span class="tag">.filter__count.hidden</span> {
+  <span class="attr">display</span>: <span class="string">none</span>;
+}
+
+<span class="tag">.filter__chevron</span> {
+  <span class="attr">width</span>: <span class="number">32rpx</span>;
+  <span class="attr">height</span>: <span class="number">32rpx</span>;
+  <span class="attr">transition</span>: <span class="string">transform 0.3s ease</span>;
+  <span class="attr">opacity</span>: <span class="number">0.6</span>;
+}
+
+<span class="tag">.filter__chevron.expanded</span> {
+  <span class="attr">transform</span>: <span class="string">rotate(180deg)</span>;
+}
+
+<span class="tag">.filter__content</span> {
+  <span class="attr">padding</span>: <span class="number">0</span>;
+  <span class="attr">max-height</span>: <span class="number">0</span>;
+  <span class="attr">overflow</span>: <span class="string">hidden</span>;
+  <span class="attr">transition</span>: <span class="string">all 0.3s ease</span>;
+}
+
+<span class="tag">.filter__content.expanded</span> {
+  <span class="attr">padding</span>: <span class="number">40rpx</span>;
+  <span class="attr">max-height</span>: <span class="number">1000rpx</span>;
+}
+
+<span class="tag">.filter__group</span> {
+  <span class="attr">margin-bottom</span>: <span class="number">48rpx</span>;
+}
+
+<span class="tag">.filter__group:last-child</span> {
+  <span class="attr">margin-bottom</span>: <span class="number">0</span>;
+}
+
+<span class="tag">.filter__group-title</span> {
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">color</span>: <span class="string">#666</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">24rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.filter-group-icon</span> {
+  <span class="attr">width</span>: <span class="number">28rpx</span>;
+  <span class="attr">height</span>: <span class="number">28rpx</span>;
+}
+
+<span class="tag">.filter__options</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-wrap</span>: <span class="string">wrap</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="comment">/* 筛选选项 */</span>
+<span class="tag">.filter-option</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+  <span class="attr">padding</span>: <span class="number">16rpx 24rpx</span>;
+  <span class="attr">border</span>: <span class="number">4rpx</span> <span class="string">solid #e0e0e0</span>;
+  <span class="attr">border-radius</span>: <span class="number">40rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">color</span>: <span class="string">#666</span>;
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">transition</span>: <span class="string">all 0.2s ease</span>;
+}
+
+<span class="tag">.filter-option.selected</span> {
+  <span class="attr">background</span>: <span class="string">linear-gradient(135deg, var(--color-secondary), var(--color-primary))</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+  <span class="attr">border-color</span>: <span class="string">transparent</span>;
+}
+
+<span class="tag">.filter-option__icon</span> {
+  <span class="attr">width</span>: <span class="number">32rpx</span>;
+  <span class="attr">height</span>: <span class="number">32rpx</span>;
+  <span class="attr">border</span>: <span class="number">4rpx</span> <span class="string">solid #ccc</span>;
+  <span class="attr">border-radius</span>: <span class="number">8rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">center</span>;
+  <span class="attr">background</span>: <span class="string">white</span>;
+}
+
+<span class="tag">.filter-option.selected .filter-option__icon</span> {
+  <span class="attr">border-color</span>: <span class="string">white</span>;
+}
+
+<span class="tag">.check-icon</span> {
+  <span class="attr">width</span>: <span class="number">20rpx</span>;
+  <span class="attr">height</span>: <span class="number">20rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0</span>;
+  <span class="attr">transition</span>: <span class="string">opacity 0.2s ease</span>;
+}
+
+<span class="tag">.filter-option.selected .check-icon</span> {
+  <span class="attr">opacity</span>: <span class="number">1</span>;
+}
+
+<span class="comment">/* 筛选器操作按钮 */</span>
+<span class="tag">.filter__actions</span> {
+  <span class="attr">padding</span>: <span class="number">32rpx 40rpx 0</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">gap</span>: <span class="number">24rpx</span>;
+  <span class="attr">border-top</span>: <span class="number">2rpx</span> <span class="string">solid #f0f0f0</span>;
+  <span class="attr">margin-top</span>: <span class="number">40rpx</span>;
+}
+
+<span class="tag">.filter__btn</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">padding</span>: <span class="number">24rpx 32rpx</span>;
+  <span class="attr">border</span>: <span class="string">none</span>;
+  <span class="attr">border-radius</span>: <span class="number">24rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.filter__btn--secondary</span> {
+  <span class="attr">background</span>: <span class="string">#f0f0f0</span>;
+  <span class="attr">color</span>: <span class="string">#666</span>;
+}
+
+<span class="tag">.filter__btn--primary</span> {
+  <span class="attr">background</span>: <span class="string">linear-gradient(135deg, var(--color-secondary), var(--color-primary))</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+}
+
+<span class="tag">.btn-icon</span> {
+  <span class="attr">width</span>: <span class="number">28rpx</span>;
+  <span class="attr">height</span>: <span class="number">28rpx</span>;
+}
+
+<span class="comment">/* 场馆列表 */</span>
+<span class="tag">.gym-list</span> {
+  <span class="attr">padding</span>: <span class="number">0 32rpx</span>;
+}
+
+<span class="comment">/* 场馆卡片 */</span>
+<span class="tag">.gym-card</span> {
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">border-radius</span>: <span class="number">40rpx</span>;
+  <span class="attr">overflow</span>: <span class="string">hidden</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">32rpx</span>;
+  <span class="attr">box-shadow</span>: <span class="string">0 8rpx 24rpx rgba(0,0,0,0.1)</span>;
+}
+
+<span class="tag">.gym-card__image</span> {
+  <span class="attr">height</span>: <span class="number">320rpx</span>;
+  <span class="attr">position</span>: <span class="string">relative</span>;
+}
+
+<span class="tag">.gym-image</span> {
+  <span class="attr">width</span>: <span class="number">100%</span>;
+  <span class="attr">height</span>: <span class="number">100%</span>;
+}
+
+<span class="tag">.gym-card__badge</span> {
+  <span class="attr">position</span>: <span class="string">absolute</span>;
+  <span class="attr">top</span>: <span class="number">24rpx</span>;
+  <span class="attr">right</span>: <span class="number">24rpx</span>;
+  <span class="attr">padding</span>: <span class="number">8rpx 24rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">20rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">24rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">color</span>: <span class="string">white</span>;
+}
+
+<span class="tag">.gym-card__badge--crossfit</span> {
+  <span class="attr">background</span>: <span class="string">var(--color-accent)</span>;
+}
+
+<span class="tag">.gym-card__badge--comprehensive</span> {
+  <span class="attr">background</span>: <span class="string">var(--color-secondary)</span>;
+}
+
+<span class="tag">.gym-card__content</span> {
+  <span class="attr">padding</span>: <span class="number">40rpx</span>;
+}
+
+<span class="tag">.gym-card__name</span> {
+  <span class="attr">font-size</span>: <span class="number">36rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-primary)</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.gym-card__location</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">8rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">color</span>: <span class="string">#666</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.location-icon</span> {
+  <span class="attr">width</span>: <span class="number">28rpx</span>;
+  <span class="attr">height</span>: <span class="number">28rpx</span>;
+}
+
+<span class="tag">.gym-card__status</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">26rpx</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">24rpx</span>;
+}
+
+<span class="tag">.status-dot</span> {
+  <span class="attr">width</span>: <span class="number">16rpx</span>;
+  <span class="attr">height</span>: <span class="number">16rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">50%</span>;
+}
+
+<span class="tag">.status-dot.open</span> {
+  <span class="attr">background</span>: <span class="string">var(--color-success)</span>;
+}
+
+<span class="tag">.status-dot.closed</span> {
+  <span class="attr">background</span>: <span class="string">var(--color-danger)</span>;
+}
+
+<span class="tag">.gym-card__tags</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">gap</span>: <span class="number">12rpx</span>;
+  <span class="attr">flex-wrap</span>: <span class="string">wrap</span>;
+}
+
+<span class="comment">/* 标签 */</span>
+<span class="tag">.tag</span> {
+  <span class="attr">background</span>: <span class="string">#f0f0f0</span>;
+  <span class="attr">color</span>: <span class="string">#666</span>;
+  <span class="attr">padding</span>: <span class="number">8rpx 20rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">20rpx</span>;
+  <span class="attr">font-size</span>: <span class="number">24rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">500</span>;
+}
+
+<span class="comment">/* 底部导航 */</span>
+<span class="tag">.bottom-nav</span> {
+  <span class="attr">position</span>: <span class="string">fixed</span>;
+  <span class="attr">bottom</span>: <span class="number">0</span>;
+  <span class="attr">left</span>: <span class="number">0</span>;
+  <span class="attr">right</span>: <span class="number">0</span>;
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">border-top</span>: <span class="number">2rpx</span> <span class="string">solid #f0f0f0</span>;
+  <span class="attr">padding</span>: <span class="number">16rpx 0 env(safe-area-inset-bottom)</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">justify-content</span>: <span class="string">space-around</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">z-index</span>: <span class="number">200</span>;
+}
+
+<span class="tag">.nav-item</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="string">column</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">8rpx</span>;
+  <span class="attr">padding</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.nav-item.active</span> {
+  <span class="attr">color</span>: <span class="string">var(--color-secondary)</span>;
+}
+
+<span class="tag">.nav-icon</span> {
+  <span class="attr">width</span>: <span class="number">48rpx</span>;
+  <span class="attr">height</span>: <span class="number">48rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0.6</span>;
+}
+
+<span class="tag">.nav-item.active .nav-icon</span> {
+  <span class="attr">opacity</span>: <span class="number">1</span>;
+}
+
+<span class="tag">.nav-text</span> {
+  <span class="attr">font-size</span>: <span class="number">22rpx</span>;
+  <span class="attr">color</span>: <span class="string">#999</span>;
+  <span class="attr">font-weight</span>: <span class="number">500</span>;
+}
+
+<span class="tag">.nav-item.active .nav-text</span> {
+  <span class="attr">color</span>: <span class="string">var(--color-secondary)</span>;
+}
+
+<span class="comment">/* 模态框 */</span>
+<span class="tag">.modal</span> {
+  <span class="attr">position</span>: <span class="string">fixed</span>;
+  <span class="attr">top</span>: <span class="number">0</span>;
+  <span class="attr">left</span>: <span class="number">0</span>;
+  <span class="attr">right</span>: <span class="number">0</span>;
+  <span class="attr">bottom</span>: <span class="number">0</span>;
+  <span class="attr">z-index</span>: <span class="number">1000</span>;
+  <span class="attr">background</span>: <span class="string">rgba(0,0,0,0.5)</span>;
+  <span class="attr">display</span>: <span class="string">none</span>;
+  <span class="attr">align-items</span>: <span class="string">flex-end</span>;
+}
+
+<span class="tag">.modal.show</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+}
+
+<span class="tag">.modal__content</span> {
+  <span class="attr">background</span>: <span class="string">white</span>;
+  <span class="attr">border-radius</span>: <span class="number">48rpx 48rpx 0 0</span>;
+  <span class="attr">width</span>: <span class="number">100%</span>;
+  <span class="attr">max-height</span>: <span class="number">70vh</span>;
+  <span class="attr">overflow</span>: <span class="string">hidden</span>;
+}
+
+<span class="tag">.modal__header</span> {
+  <span class="attr">padding</span>: <span class="number">40rpx 48rpx 32rpx</span>;
+  <span class="attr">border-bottom</span>: <span class="number">2rpx</span> <span class="string">solid #f0f0f0</span>;
+  <span class="attr">text-align</span>: <span class="string">center</span>;
+  <span class="attr">position</span>: <span class="string">relative</span>;
+}
+
+<span class="tag">.modal__title</span> {
+  <span class="attr">font-size</span>: <span class="number">36rpx</span>;
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-primary)</span>;
+}
+
+<span class="tag">.modal__close</span> {
+  <span class="attr">position</span>: <span class="string">absolute</span>;
+  <span class="attr">right</span>: <span class="number">40rpx</span>;
+  <span class="attr">top</span>: <span class="number">50%</span>;
+  <span class="attr">transform</span>: <span class="string">translateY(-50%)</span>;
+  <span class="attr">width</span>: <span class="number">40rpx</span>;
+  <span class="attr">height</span>: <span class="number">40rpx</span>;
+  <span class="attr">opacity</span>: <span class="number">0.6</span>;
+}
+
+<span class="tag">.modal__body</span> {
+  <span class="attr">padding</span>: <span class="number">40rpx 48rpx</span>;
+  <span class="attr">max-height</span>: <span class="number">50vh</span>;
+  <span class="attr">overflow-y</span>: <span class="string">auto</span>;
+}
+
+<span class="comment">/* 城市列表 */</span>
+<span class="tag">.city-list</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="string">column</span>;
+  <span class="attr">gap</span>: <span class="number">24rpx</span>;
+}
+
+<span class="tag">.city-list__item</span> {
+  <span class="attr">padding</span>: <span class="number">24rpx 32rpx</span>;
+  <span class="attr">border-radius</span>: <span class="number">24rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">space-between</span>;
+}
+
+<span class="tag">.city-list__item.selected</span> {
+  <span class="attr">background</span>: <span class="string">rgba(16, 82, 134, 0.1)</span>;
+  <span class="attr">color</span>: <span class="string">var(--color-secondary)</span>;
+}
+
+<span class="tag">.city-list__info</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="string">column</span>;
+  <span class="attr">gap</span>: <span class="number">4rpx</span>;
+}
+
+<span class="tag">.city-list__name</span> {
+  <span class="attr">font-weight</span>: <span class="number">600</span>;
+  <span class="attr">font-size</span>: <span class="number">32rpx</span>;
+}
+
+<span class="tag">.city-list__desc</span> {
+  <span class="attr">font-size</span>: <span class="number">24rpx</span>;
+  <span class="attr">color</span>: <span class="string">#999</span>;
+}
+
+<span class="tag">.city-check</span> {
+  <span class="attr">width</span>: <span class="number">32rpx</span>;
+  <span class="attr">height</span>: <span class="number">32rpx</span>;
+}
+
+<span class="comment">/* 加载状态 */</span>
+<span class="tag">.loading</span> {
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="string">column</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">center</span>;
+  <span class="attr">padding</span>: <span class="number">120rpx 40rpx</span>;
+}
+
+<span class="tag">.loading.hidden</span> {
+  <span class="attr">display</span>: <span class="string">none</span>;
+}
+
+<span class="tag">.loading__spinner</span> {
+  <span class="attr">width</span>: <span class="number">80rpx</span>;
+  <span class="attr">height</span>: <span class="number">80rpx</span>;
+  <span class="attr">border</span>: <span class="number">8rpx</span> <span class="string">solid #f0f0f0</span>;
+  <span class="attr">border-top</span>: <span class="number">8rpx</span> <span class="string">solid var(--color-secondary)</span>;
+  <span class="attr">border-radius</span>: <span class="number">50%</span>;
+  <span class="attr">animation</span>: <span class="string">spin 1s linear infinite</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">24rpx</span>;
+}
+
+<span class="tag">@keyframes</span> <span class="keyword">spin</span> {
+  <span class="tag">0%</span> { <span class="attr">transform</span>: <span class="string">rotate(0deg)</span>; }
+  <span class="tag">100%</span> { <span class="attr">transform</span>: <span class="string">rotate(360deg)</span>; }
+}
+
+<span class="tag">.loading__text</span> {
+  <span class="attr">color</span>: <span class="string">#999</span>;
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+}
+
+<span class="comment">/* 加载完成 */</span>
+<span class="tag">.load-complete</span> {
+  <span class="attr">text-align</span>: <span class="string">center</span>;
+  <span class="attr">padding</span>: <span class="number">40rpx</span>;
+  <span class="attr">color</span>: <span class="string">#999</span>;
+  <span class="attr">font-size</span>: <span class="number">28rpx</span>;
+  <span class="attr">display</span>: <span class="string">flex</span>;
+  <span class="attr">align-items</span>: <span class="string">center</span>;
+  <span class="attr">justify-content</span>: <span class="string">center</span>;
+  <span class="attr">gap</span>: <span class="number">16rpx</span>;
+}
+
+<span class="tag">.load-complete.hidden</span> {
+  <span class="attr">display</span>: <span class="string">none</span>;
+}
+
+<span class="tag">.complete-icon</span> {
+  <span class="attr">width</span>: <span class="number">32rpx</span>;
+  <span class="attr">height</span>: <span class="number">32rpx</span>;
+}
+
+<span class="comment">/* 工具类 */</span>
+<span class="tag">.hidden</span> {
+  <span class="attr">display</span>: <span class="string">none</span> !<span class="keyword">important</span>;
+}
+            </code>
+        </div>
+    </div>
+
+    <!-- JS 文件 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon js">JS</div>
+            <div>
+                <div class="file-title">index.js</div>
+                <div class="file-path">pages/venue-explorer/index.js</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+<span class="comment">// MobiLiF拓练 - 场馆探索页面逻辑</span>
+
+<span class="keyword">const</span> app = <span class="keyword">getApp</span>();
+
+<span class="comment">// 静态数据配置</span>
+<span class="keyword">const</span> CITIES_DATA = [
+  { id: <span class="string">'beijing'</span>, name: <span class="string">'北京市'</span>, venueCount: <span class="number">12</span> },
+  { id: <span class="string">'shanghai'</span>, name: <span class="string">'上海市'</span>, venueCount: <span class="number">18</span> },
+  { id: <span class="string">'guangzhou'</span>, name: <span class="string">'广州市'</span>, venueCount: <span class="number">8</span> },
+  { id: <span class="string">'shenzhen'</span>, name: <span class="string">'深圳市'</span>, venueCount: <span class="number">15</span> },
+  { id: <span class="string">'hangzhou'</span>, name: <span class="string">'杭州市'</span>, venueCount: <span class="number">6</span> },
+  { id: <span class="string">'chengdu'</span>, name: <span class="string">'成都市'</span>, venueCount: <span class="number">9</span> }
+];
+
+<span class="keyword">const</span> INITIAL_GYMS = [
+  {
+    id: <span class="string">'terminal-station'</span>,
+    name: <span class="string">'CrossFit Terminal Station'</span>,
+    image: <span class="string">'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop'</span>,
+    badge: { type: <span class="string">'crossfit'</span>, text: <span class="string">'CrossFit认证'</span> },
+    location: <span class="string">'北京市朝阳区建国门外大街1号 · 2.3km'</span>,
+    status: { open: <span class="keyword">true</span>, hours: <span class="string">'06:00-22:00'</span> },
+    courses: [<span class="string">'crossfit'</span>, <span class="string">'weightlifting'</span>, <span class="string">'gymnastics'</span>],
+    distance: <span class="number">2.3</span>
+  },
+  {
+    id: <span class="string">'galaxy-hub'</span>,
+    name: <span class="string">'Galaxy Fitness Hub'</span>,
+    image: <span class="string">'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400&h=200&fit=crop'</span>,
+    badge: { type: <span class="string">'comprehensive'</span>, text: <span class="string">'综合训练馆'</span> },
+    location: <span class="string">'北京市海淀区中关村大街1号 · 4.7km'</span>,
+    status: { open: <span class="keyword">true</span>, hours: <span class="string">'05:30-23:00'</span> },
+    courses: [<span class="string">'crossfit'</span>, <span class="string">'weightlifting'</span>, <span class="string">'stretching'</span>, <span class="string">'yoga'</span>],
+    distance: <span class="number">4.7</span>
+  },
+  {
+    id: <span class="string">'stellar-lab'</span>,
+    name: <span class="string">'Stellar Movement Lab'</span>,
+    image: <span class="string">'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=200&fit=crop'</span>,
+    badge: { type: <span class="string">'crossfit'</span>, text: <span class="string">'CrossFit认证'</span> },
+    location: <span class="string">'北京市朝阳区三里屯太古里 · 3.1km'</span>,
+    status: { open: <span class="keyword">true</span>, hours: <span class="string">'07:00-21:30'</span> },
+    courses: [<span class="string">'crossfit'</span>, <span class="string">'weightlifting'</span>, <span class="string">'gymnastics'</span>],
+    distance: <span class="number">3.1</span>
+  },
+  {
+    id: <span class="string">'cosmic-training'</span>,
+    name: <span class="string">'Cosmic Training Center'</span>,
+    image: <span class="string">'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=400&h=200&fit=crop'</span>,
+    badge: { type: <span class="string">'comprehensive'</span>, text: <span class="string">'综合训练馆'</span> },
+    location: <span class="string">'北京市西城区金融街 · 6.2km'</span>,
+    status: { open: <span class="keyword">true</span>, hours: <span class="string">'24小时营业'</span> },
+    courses: [<span class="string">'hyrox'</span>, <span class="string">'crossfit'</span>, <span class="string">'weightlifting'</span>],
+    distance: <span class="number">6.2</span>
+  },
+  {
+    id: <span class="string">'orbit-fitness'</span>,
+    name: <span class="string">'Orbit Fitness Studio'</span>,
+    image: <span class="string">'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=200&fit=crop'</span>,
+    badge: { type: <span class="string">'comprehensive'</span>, text: <span class="string">'综合训练馆'</span> },
+    location: <span class="string">'北京市东城区王府井大街 · 5.8km'</span>,
+    status: { open: <span class="keyword">false</span>, hours: <span class="string">'明日06:00营业'</span> },
+    courses: [<span class="string">'yoga'</span>, <span class="string">'stretching'</span>],
+    distance: <span class="number">5.8</span>
+  }
+];
+
+<span class="keyword">const</span> COURSE_TYPE_MAP = {
+  <span class="string">'crossfit'</span>: <span class="string">'CrossFit'</span>,
+  <span class="string">'weightlifting'</span>: <span class="string">'举重'</span>,
+  <span class="string">'gymnastics'</span>: <span class="string">'体操'</span>,
+  <span class="string">'stretching'</span>: <span class="string">'拉伸'</span>,
+  <span class="string">'yoga'</span>: <span class="string">'瑜伽'</span>,
+  <span class="string">'hyrox'</span>: <span class="string">'Hyrox'</span>
+};
+
+<span class="keyword">Page</span>({
+  <span class="comment">/**
+   * 页面的初始数据
+   */</span>
+  data: {
+    <span class="comment">// 城市相关</span>
+    cities: CITIES_DATA,
+    currentCity: CITIES_DATA[<span class="number">0</span>],
+    cityDescription: <span class="string">'已发现 12 个训练场馆'</span>,
+    isCityModalVisible: <span class="keyword">false</span>,
+
+    <span class="comment">// 搜索筛选相关</span>
+    searchTerm: <span class="string">''</span>,
+    isFilterVisible: <span class="keyword">false</span>,
+    isFilterContentExpanded: <span class="keyword">false</span>,
+    
+    <span class="comment">// 筛选选项</span>
+    gymTypeOptions: [
+      { value: <span class="string">'crossfit'</span>, label: <span class="string">'CrossFit认证'</span> },
+      { value: <span class="string">'comprehensive'</span>, label: <span class="string">'综合训练馆'</span> }
+    ],
+    courseTypeOptions: [
+      { value: <span class="string">'crossfit'</span>, label: <span class="string">'CrossFit'</span> },
+      { value: <span class="string">'weightlifting'</span>, label: <span class="string">'举重'</span> },
+      { value: <span class="string">'gymnastics'</span>, label: <span class="string">'体操'</span> },
+      { value: <span class="string">'stretching'</span>, label: <span class="string">'拉伸'</span> },
+      { value: <span class="string">'yoga'</span>, label: <span class="string">'瑜伽'</span> },
+      { value: <span class="string">'hyrox'</span>, label: <span class="string">'Hyrox'</span> }
+    ],
+    
+    <span class="comment">// 筛选状态</span>
+    filters: {
+      gymType: [],
+      courseType: []
+    },
+    tempFilters: {
+      gymType: [],
+      courseType: []
+    },
+    tempFilterCount: <span class="number">0</span>,
+
+    <span class="comment">// 场馆数据</span>
+    allGyms: [],
+    filteredGyms: [],
+    
+    <span class="comment">// 加载状态</span>
+    isLoading: <span class="keyword">false</span>,
+    hasMoreData: <span class="keyword">true</span>,
+    currentPage: <span class="number">1</span>
+  },
+
+  <span class="comment">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  <span class="keyword">onLoad</span>(<span class="keyword">options</span>) {
+    <span class="keyword">this</span>.initData();
+  },
+
+  <span class="comment">/**
+   * 初始化数据
+   */</span>
+  <span class="keyword">initData</span>() {
+    <span class="keyword">const</span> processedGyms = INITIAL_GYMS.<span class="keyword">map</span>(<span class="keyword">gym</span> => ({
+      ...<span class="keyword">gym</span>,
+      courseLabels: <span class="keyword">gym</span>.courses.<span class="keyword">map</span>(<span class="keyword">course</span> => COURSE_TYPE_MAP[<span class="keyword">course</span>])
+    }));
+
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      allGyms: processedGyms,
+      filteredGyms: processedGyms
+    });
+  },
+
+  <span class="comment">/**
+   * 搜索输入处理
+   */</span>
+  <span class="keyword">onSearchInput</span>(<span class="keyword">e</span>) {
+    <span class="keyword">const</span> searchTerm = <span class="keyword">e</span>.detail.value;
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      searchTerm
+    });
+    <span class="keyword">this</span>.applyFilters();
+  },
+
+  <span class="comment">/**
+   * 切换筛选器显示
+   */</span>
+  <span class="keyword">toggleFilter</span>() {
+    <span class="keyword">const</span> isFilterVisible = !<span class="keyword">this</span>.data.isFilterVisible;
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isFilterVisible,
+      isFilterContentExpanded: isFilterVisible
+    });
+    
+    <span class="keyword">if</span> (isFilterVisible) {
+      <span class="keyword">this</span>.initTempFilters();
+    }
+  },
+
+  <span class="comment">/**
+   * 切换筛选器内容展开
+   */</span>
+  <span class="keyword">toggleFilterContent</span>() {
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isFilterContentExpanded: !<span class="keyword">this</span>.data.isFilterContentExpanded
+    });
+  },
+
+  <span class="comment">/**
+   * 初始化临时筛选器
+   */</span>
+  <span class="keyword">initTempFilters</span>() {
+    <span class="keyword">const</span> { filters } = <span class="keyword">this</span>.data;
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      tempFilters: {
+        gymType: [...filters.gymType],
+        courseType: [...filters.courseType]
+      }
+    });
+    <span class="keyword">this</span>.updateTempFilterCount();
+  },
+
+  <span class="comment">/**
+   * 筛选选项点击处理
+   */</span>
+  <span class="keyword">onFilterOptionTap</span>(<span class="keyword">e</span>) {
+    <span class="keyword">const</span> { type, value } = <span class="keyword">e</span>.currentTarget.dataset;
+    <span class="keyword">const</span> { tempFilters } = <span class="keyword">this</span>.data;
+    
+    <span class="keyword">const</span> currentArray = tempFilters[type];
+    <span class="keyword">const</span> index = currentArray.indexOf(value);
+    
+    <span class="keyword">if</span> (index > -<span class="number">1</span>) {
+      currentArray.splice(index, <span class="number">1</span>);
+    } <span class="keyword">else</span> {
+      currentArray.push(value);
+    }
+    
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      tempFilters
+    });
+    <span class="keyword">this</span>.updateTempFilterCount();
+  },
+
+  <span class="comment">/**
+   * 更新临时筛选计数
+   */</span>
+  <span class="keyword">updateTempFilterCount</span>() {
+    <span class="keyword">const</span> { tempFilters } = <span class="keyword">this</span>.data;
+    <span class="keyword">const</span> count = tempFilters.gymType.length + tempFilters.courseType.length;
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      tempFilterCount: count
+    });
+  },
+
+  <span class="comment">/**
+   * 确认筛选
+   */</span>
+  <span class="keyword">confirmFilters</span>() {
+    <span class="keyword">const</span> { tempFilters } = <span class="keyword">this</span>.data;
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      filters: {
+        gymType: [...tempFilters.gymType],
+        courseType: [...tempFilters.courseType]
+      },
+      isFilterVisible: <span class="keyword">false</span>,
+      isFilterContentExpanded: <span class="keyword">false</span>
+    });
+    <span class="keyword">this</span>.applyFilters();
+    
+    wx.showToast({
+      title: <span class="string">'筛选已应用'</span>,
+      icon: <span class="string">'success'</span>
+    });
+  },
+
+  <span class="comment">/**
+   * 重置筛选
+   */</span>
+  <span class="keyword">resetFilters</span>() {
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      filters: {
+        gymType: [],
+        courseType: []
+      },
+      tempFilters: {
+        gymType: [],
+        courseType: []
+      },
+      tempFilterCount: <span class="number">0</span>,
+      isFilterVisible: <span class="keyword">false</span>,
+      isFilterContentExpanded: <span class="keyword">false</span>
+    });
+    <span class="keyword">this</span>.applyFilters();
+    
+    wx.showToast({
+      title: <span class="string">'筛选已重置'</span>,
+      icon: <span class="string">'success'</span>
+    });
+  },
+
+  <span class="comment">/**
+   * 应用筛选器
+   */</span>
+  <span class="keyword">applyFilters</span>() {
+    <span class="keyword">const</span> { allGyms, searchTerm, filters } = <span class="keyword">this</span>.data;
+    
+    <span class="keyword">let</span> filteredGyms = allGyms.filter(<span class="keyword">gym</span> => {
+      <span class="comment">// 搜索词筛选</span>
+      <span class="keyword">if</span> (searchTerm) {
+        <span class="keyword">const</span> searchLower = searchTerm.toLowerCase();
+        <span class="keyword">const</span> matchesSearch = 
+          <span class="keyword">gym</span>.name.toLowerCase().includes(searchLower) ||
+          <span class="keyword">gym</span>.location.toLowerCase().includes(searchLower) ||
+          <span class="keyword">gym</span>.courses.some(<span class="keyword">course</span> => 
+            COURSE_TYPE_MAP[<span class="keyword">course</span>].toLowerCase().includes(searchLower)
+          );
+        <span class="keyword">if</span> (!matchesSearch) <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+      
+      <span class="comment">// 场馆类型筛选</span>
+      <span class="keyword">if</span> (filters.gymType.length > <span class="number">0</span>) {
+        <span class="keyword">if</span> (!filters.gymType.includes(<span class="keyword">gym</span>.badge.type)) {
+          <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+      }
+      
+      <span class="comment">// 课程类型筛选</span>
+      <span class="keyword">if</span> (filters.courseType.length > <span class="number">0</span>) {
+        <span class="keyword">const</span> hasMatchingCourse = filters.courseType.some(<span class="keyword">type</span> => 
+          <span class="keyword">gym</span>.courses.includes(<span class="keyword">type</span>)
+        );
+        <span class="keyword">if</span> (!hasMatchingCourse) <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+      
+      <span class="keyword">return</span> <span class="keyword">true</span>;
+    });
+
+    <span class="comment">// 按距离排序</span>
+    filteredGyms = filteredGyms.sort((<span class="keyword">a</span>, <span class="keyword">b</span>) => <span class="keyword">a</span>.distance - <span class="keyword">b</span>.distance);
+
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      filteredGyms
+    });
+    
+    <span class="keyword">this</span>.updateCityDescription();
+  },
+
+  <span class="comment">/**
+   * 更新城市描述
+   */</span>
+  <span class="keyword">updateCityDescription</span>() {
+    <span class="keyword">const</span> { filteredGyms, searchTerm, filters } = <span class="keyword">this</span>.data;
+    <span class="keyword">const</span> count = filteredGyms.length;
+    
+    <span class="keyword">let</span> cityDescription;
+    <span class="keyword">if</span> (searchTerm || filters.gymType.length > <span class="number">0</span> || filters.courseType.length > <span class="number">0</span>) {
+      cityDescription = `筛选结果: ${count} 个训练场馆`;
+    } <span class="keyword">else</span> {
+      cityDescription = `已发现 ${count} 个训练场馆`;
+    }
+    
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      cityDescription
+    });
+  },
+
+  <span class="comment">/**
+   * 显示城市选择模态框
+   */</span>
+  <span class="keyword">showCityModal</span>() {
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isCityModalVisible: <span class="keyword">true</span>
+    });
+  },
+
+  <span class="comment">/**
+   * 隐藏城市选择模态框
+   */</span>
+  <span class="keyword">hideCityModal</span>() {
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isCityModalVisible: <span class="keyword">false</span>
+    });
+  },
+
+  <span class="comment">/**
+   * 防止模态框关闭
+   */</span>
+  <span class="keyword">preventModalClose</span>() {
+    <span class="comment">// 阻止事件冒泡</span>
+  },
+
+  <span class="comment">/**
+   * 选择城市
+   */</span>
+  <span class="keyword">selectCity</span>(<span class="keyword">e</span>) {
+    <span class="keyword">const</span> { cityId } = <span class="keyword">e</span>.currentTarget.dataset;
+    <span class="keyword">const</span> city = <span class="keyword">this</span>.data.cities.find(<span class="keyword">c</span> => <span class="keyword">c</span>.id === cityId);
+    
+    <span class="keyword">if</span> (<span class="keyword">city</span> && <span class="keyword">city</span>.id !== <span class="keyword">this</span>.data.currentCity.id) {
+      <span class="keyword">this</span>.<span class="keyword">setData</span>({
+        currentCity: <span class="keyword">city</span>,
+        isCityModalVisible: <span class="keyword">false</span>
+      });
+      
+      <span class="comment">// 模拟切换城市后重新加载数据</span>
+      <span class="keyword">this</span>.loadCityGyms(cityId);
+      
+      wx.showToast({
+        title: `已切换到${<span class="keyword">city</span>.name}`,
+        icon: <span class="string">'success'</span>
+      });
+    } <span class="keyword">else</span> {
+      <span class="keyword">this</span>.<span class="keyword">setData</span>({
+        isCityModalVisible: <span class="keyword">false</span>
+      });
+    }
+  },
+
+  <span class="comment">/**
+   * 加载城市场馆数据
+   */</span>
+  <span class="keyword">loadCityGyms</span>(<span class="keyword">cityId</span>) {
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isLoading: <span class="keyword">true</span>
+    });
+    
+    <span class="comment">// 模拟API调用</span>
+    <span class="keyword">setTimeout</span>(() => {
+      <span class="comment">// 重置数据</span>
+      <span class="keyword">this</span>.initData();
+      <span class="keyword">this</span>.<span class="keyword">setData</span>({
+        isLoading: <span class="keyword">false</span>,
+        hasMoreData: <span class="keyword">true</span>,
+        currentPage: <span class="number">1</span>
+      });
+    }, <span class="number">500</span>);
+  },
+
+  <span class="comment">/**
+   * 场馆卡片点击
+   */</span>
+  <span class="keyword">onGymCardTap</span>(<span class="keyword">e</span>) {
+    <span class="keyword">const</span> { gymId } = <span class="keyword">e</span>.currentTarget.dataset;
+    
+    <span class="comment">// 跳转到场馆详情页</span>
+    wx.navigateTo({
+      url: `/pages/gym-detail/index?id=${gymId}`
+    });
+  },
+
+  <span class="comment">/**
+   * 底部导航切换
+   */</span>
+  <span class="keyword">switchTab</span>(<span class="keyword">e</span>) {
+    <span class="keyword">const</span> { tab } = <span class="keyword">e</span>.currentTarget.dataset;
+    
+    <span class="keyword">switch</span> (tab) {
+      <span class="keyword">case</span> <span class="string">'map'</span>:
+        wx.navigateTo({
+          url: <span class="string">'/pages/map/index'</span>
+        });
+        <span class="keyword">break</span>;
+      <span class="keyword">case</span> <span class="string">'profile'</span>:
+        wx.switchTab({
+          url: <span class="string">'/pages/profile/index'</span>
+        });
+        <span class="keyword">break</span>;
+    }
+  },
+
+  <span class="comment">/**
+   * 滚动到底部加载更多
+   */</span>
+  <span class="keyword">onLoadMore</span>() {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.data.isLoading || !<span class="keyword">this</span>.data.hasMoreData) {
+      <span class="keyword">return</span>;
+    }
+    
+    <span class="keyword">this</span>.<span class="keyword">setData</span>({
+      isLoading: <span class="keyword">true</span>
+    });
+    
+    <span class="comment">// 模拟加载更多数据</span>
+    <span class="keyword">setTimeout</span>(() => {
+      <span class="keyword">const</span> { allGyms, currentPage } = <span class="keyword">this</span>.data;
+      
+      <span class="comment">// 模拟没有更多数据</span>
+      <span class="keyword">if</span> (currentPage >= <span class="number">2</span>) {
+        <span class="keyword">this</span>.<span class="keyword">setData</span>({
+          isLoading: <span class="keyword">false</span>,
+          hasMoreData: <span class="keyword">false</span>
+        });
+        <span class="keyword">return</span>;
+      }
+      
+      <span class="comment">// 这里可以添加更多场馆数据</span>
+      <span class="keyword">this</span>.<span class="keyword">setData</span>({
+        isLoading: <span class="keyword">false</span>,
+        currentPage: currentPage + <span class="number">1</span>
+      });
+    }, <span class="number">1500</span>);
+  },
+
+  <span class="comment">/**
+   * 生命周期函数--监听页面显示
+   */</span>
+  <span class="keyword">onShow</span>() {
+    <span class="comment">// 页面显示时的逻辑</span>
+  },
+
+  <span class="comment">/**
+   * 生命周期函数--监听页面隐藏
+   */</span>
+  <span class="keyword">onHide</span>() {
+    <span class="comment">// 页面隐藏时的逻辑</span>
+  },
+
+  <span class="comment">/**
+   * 生命周期函数--监听页面卸载
+   */</span>
+  <span class="keyword">onUnload</span>() {
+    <span class="comment">// 页面卸载时的逻辑</span>
+  },
+
+  <span class="comment">/**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */</span>
+  <span class="keyword">onPullDownRefresh</span>() {
+    <span class="comment">// 重新加载数据</span>
+    <span class="keyword">this</span>.initData();
+    wx.stopPullDownRefresh();
+  },
+
+  <span class="comment">/**
+   * 页面上拉触底事件的处理函数
+   */</span>
+  <span class="keyword">onReachBottom</span>() {
+    <span class="keyword">this</span>.onLoadMore();
+  },
+
+  <span class="comment">/**
+   * 用户点击右上角分享
+   */</span>
+  <span class="keyword">onShareAppMessage</span>() {
+    <span class="keyword">return</span> {
+      title: <span class="string">'MobiLiF拓练 - 发现你身边的训练场馆'</span>,
+      path: <span class="string">'/pages/venue-explorer/index'</span>
+    };
+  }
+});
+            </code>
+        </div>
+    </div>
+
+    <!-- JSON 配置文件 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon json">JSON</div>
+            <div>
+                <div class="file-title">index.json</div>
+                <div class="file-path">pages/venue-explorer/index.json</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+{
+  <span class="string">"navigationBarTitleText"</span>: <span class="string">"探索场馆"</span>,
+  <span class="string">"navigationBarBackgroundColor"</span>: <span class="string">"#ffffff"</span>,
+  <span class="string">"navigationBarTextStyle"</span>: <span class="string">"black"</span>,
+  <span class="string">"backgroundColor"</span>: <span class="string">"#f1f2f4"</span>,
+  <span class="string">"backgroundTextStyle"</span>: <span class="string">"dark"</span>,
+  <span class="string">"enablePullDownRefresh"</span>: <span class="keyword">true</span>,
+  <span class="string">"onReachBottomDistance"</span>: <span class="number">50</span>
+}
+            </code>
+        </div>
+    </div>
+
+    <!-- 图标资源 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #9c27b0;">SVG</div>
+            <div>
+                <div class="file-title">图标资源文件</div>
+                <div class="file-path">images/icons/</div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">🎨 图标说明</div>
+            <div class="tips-content">
+                所有Font Awesome图标已转换为SVG格式，保证在小程序中的显示效果。以下是需要的图标文件列表：
+            </div>
+        </div>
+        
+        <div class="icon-grid">
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <div class="icon-name">search.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <div class="icon-name">location.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h8v-2h-8V9h8V7h-8V5h8V3h-8a2 2 0 00-2 2v14a2 2 0 002 2h8v-2h-8z"/>
+                </svg>
+                <div class="icon-name">filter.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                <div class="icon-name">check.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                </svg>
+                <div class="icon-name">arrow-right.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+                <div class="icon-name">arrow-down.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V7h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/>
+                </svg>
+                <div class="icon-name">building.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/>
+                </svg>
+                <div class="icon-name">dumbbell.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+                <div class="icon-name">close.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
+                </svg>
+                <div class="icon-name">reset.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+                </svg>
+                <div class="icon-name">map.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <div class="icon-name">user.svg</div>
+            </div>
+            
+            <div class="icon-item">
+                <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M15.67 4H14V2c0-1.1-.9-2-2-2s-2 .9-2 2v2H8.33C7.6 4 7 4.6 7 5.33v13.33C7 19.4 7.6 20 8.33 20h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 2c.55 0 1 .45 1 1v1h-2V3c0-.55.45-1 1-1zm4 16H9V6h6v12z"/>
+                </svg>
+                <div class="icon-name">battery.svg</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 开发使用指南 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #4caf50;">📚</div>
+            <div>
+                <div class="file-title">开发使用指南</div>
+                <div class="file-path">完整的小程序集成说明</div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">🚀 快速集成步骤</div>
+            <div class="tips-content">
+                <strong>1. 创建页面文件</strong><br>
+                • 在小程序项目的 pages/ 目录下创建 venue-explorer 文件夹<br>
+                • 将上述四个文件（index.wxml, index.wxss, index.js, index.json）分别复制到对应位置<br><br>
+                
+                <strong>2. 添加图标资源</strong><br>
+                • 在项目根目录创建 images/icons/ 文件夹<br>
+                • 将所有SVG图标文件放入该文件夹<br>
+                • 图标文件大小建议控制在2KB以内<br><br>
+                
+                <strong>3. 配置页面路由</strong><br>
+                • 在 app.json 的 pages 数组中添加 "pages/venue-explorer/index"<br>
+                • 如需作为tabBar页面，在 tabBar 配置中添加相应设置<br><br>
+                
+                <strong>4. API接口集成</strong><br>
+                • 修改 index.js 中的静态数据为实际API调用<br>
+                • 建议使用 wx.request 或封装的网络请求库<br>
+                • 注意处理网络异常和加载状态
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">⚡ 性能优化建议</div>
+            <div class="tips-content">
+                <strong>图片优化</strong><br>
+                • 场馆图片使用 webp 格式，压缩率更高<br>
+                • 设置 lazy-load 属性进行懒加载<br>
+                • 使用小程序云存储CDN加速图片加载<br><br>
+                
+                <strong>数据优化</strong><br>
+                • 实现分页加载，每页建议10-20条数据<br>
+                • 使用 setData 时只更新变化的数据<br>
+                • 筛选和搜索结果进行防抖处理<br><br>
+                
+                <strong>渲染优化</strong><br>
+                • 使用 wx:key 为列表项设置唯一标识<br>
+                • 长列表使用虚拟滚动或分页加载<br>
+                • 避免在 wxml 中使用复杂的表达式计算
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">🔧 自定义配置</div>
+            <div class="tips-content">
+                <strong>主题色彩</strong><br>
+                • 在 index.wxss 的 :root 中修改CSS变量<br>
+                • 品牌色：--color-primary 和 --color-secondary<br>
+                • 强调色：--color-accent 用于突出显示<br><br>
+                
+                <strong>筛选选项</strong><br>
+                • 在 index.js 的 data 中修改 gymTypeOptions 和 courseTypeOptions<br>
+                • 可根据实际业务需求增加或删除筛选项<br>
+                • 支持多级筛选和标签组合<br><br>
+                
+                <strong>交互行为</strong><br>
+                • onGymCardTap：点击场馆卡片的跳转逻辑<br>
+                • switchTab：底部导航的切换逻辑<br>
+                • 可根据项目路由结构调整跳转路径
+            </div>
+        </div>
+    </div>
+
+    <!-- API接口规范 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #ff5722;">API</div>
+            <div>
+                <div class="file-title">API接口规范</div>
+                <div class="file-path">后端接口对接说明</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+<span class="comment">// 1. 获取城市列表接口</span>
+<span class="keyword">GET</span> <span class="string">/api/v1/cities</span>
+
+<span class="comment">// 响应格式</span>
+{
+  <span class="string">"code"</span>: <span class="number">200</span>,
+  <span class="string">"data"</span>: [
+    {
+      <span class="string">"id"</span>: <span class="string">"beijing"</span>,
+      <span class="string">"name"</span>: <span class="string">"北京市"</span>,
+      <span class="string">"venueCount"</span>: <span class="number">12</span>,
+      <span class="string">"province"</span>: <span class="string">"北京"</span>,
+      <span class="string">"country"</span>: <span class="string">"中国"</span>
+    }
+  ]
+}
+
+<span class="comment">// 2. 获取场馆列表接口</span>
+<span class="keyword">GET</span> <span class="string">/api/v1/gyms</span>
+
+<span class="comment">// 请求参数</span>
+{
+  <span class="string">"cityId"</span>: <span class="string">"beijing"</span>,        <span class="comment">// 城市ID</span>
+  <span class="string">"page"</span>: <span class="number">1</span>,                 <span class="comment">// 页码</span>
+  <span class="string">"limit"</span>: <span class="number">10</span>,               <span class="comment">// 每页数量</span>
+  <span class="string">"search"</span>: <span class="string">""</span>,              <span class="comment">// 搜索关键词</span>
+  <span class="string">"gymTypes"</span>: [<span class="string">"crossfit"</span>],    <span class="comment">// 场馆类型筛选</span>
+  <span class="string">"courseTypes"</span>: [<span class="string">"yoga"</span>],     <span class="comment">// 课程类型筛选</span>
+  <span class="string">"sortBy"</span>: <span class="string">"distance"</span>,       <span class="comment">// 排序方式</span>
+  <span class="string">"latitude"</span>: <span class="number">39.9042</span>,       <span class="comment">// 用户纬度</span>
+  <span class="string">"longitude"</span>: <span class="number">116.4074</span>      <span class="comment">// 用户经度</span>
+}
+
+<span class="comment">// 响应格式</span>
+{
+  <span class="string">"code"</span>: <span class="number">200</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"list"</span>: [
+      {
+        <span class="string">"id"</span>: <span class="string">"terminal-station"</span>,
+        <span class="string">"name"</span>: <span class="string">"CrossFit Terminal Station"</span>,
+        <span class="string">"image"</span>: <span class="string">"https://cdn.example.com/gym1.jpg"</span>,
+        <span class="string">"badge"</span>: {
+          <span class="string">"type"</span>: <span class="string">"crossfit"</span>,
+          <span class="string">"text"</span>: <span class="string">"CrossFit认证"</span>
+        },
+        <span class="string">"location"</span>: <span class="string">"北京市朝阳区建国门外大街1号"</span>,
+        <span class="string">"district"</span>: <span class="string">"朝阳区"</span>,
+        <span class="string">"distance"</span>: <span class="number">2.3</span>,
+        <span class="string">"status"</span>: {
+          <span class="string">"open"</span>: <span class="keyword">true</span>,
+          <span class="string">"hours"</span>: <span class="string">"06:00-22:00"</span>
+        },
+        <span class="string">"courses"</span>: [<span class="string">"crossfit"</span>, <span class="string">"weightlifting"</span>, <span class="string">"gymnastics"</span>],
+        <span class="string">"rating"</span>: <span class="number">4.8</span>,
+        <span class="string">"price"</span>: <span class="number">80</span>,
+        <span class="string">"latitude"</span>: <span class="number">39.9042</span>,
+        <span class="string">"longitude"</span>: <span class="number">116.4074</span>
+      }
+    ],
+    <span class="string">"pagination"</span>: {
+      <span class="string">"page"</span>: <span class="number">1</span>,
+      <span class="string">"limit"</span>: <span class="number">10</span>,
+      <span class="string">"total"</span>: <span class="number">25</span>,
+      <span class="string">"hasMore"</span>: <span class="keyword">true</span>
+    }
+  }
+}
+
+<span class="comment">// 3. 获取场馆详情接口</span>
+<span class="keyword">GET</span> <span class="string">/api/v1/gyms/{gymId}</span>
+
+<span class="comment">// 响应格式</span>
+{
+  <span class="string">"code"</span>: <span class="number">200</span>,
+  <span class="string">"data"</span>: {
+    <span class="comment">// 完整的场馆信息，包含详细描述、设施、教练团队等</span>
+    <span class="string">"id"</span>: <span class="string">"terminal-station"</span>,
+    <span class="string">"name"</span>: <span class="string">"CrossFit Terminal Station"</span>,
+    <span class="string">"description"</span>: <span class="string">"专业的CrossFit训练场馆..."</span>,
+    <span class="string">"images"</span>: [<span class="string">"url1"</span>, <span class="string">"url2"</span>],
+    <span class="string">"facilities"</span>: [<span class="string">"停车场"</span>, <span class="string">"淋浴间"</span>, <span class="string">"储物柜"</span>],
+    <span class="string">"coaches"</span>: [...],
+    <span class="string">"schedule"</span>: [...],
+    <span class="comment">// ... 其他详细信息</span>
+  }
+}
+
+<span class="comment">// 4. 错误响应格式</span>
+{
+  <span class="string">"code"</span>: <span class="number">400</span>,
+  <span class="string">"message"</span>: <span class="string">"参数错误"</span>,
+  <span class="string">"data"</span>: <span class="keyword">null</span>
+}
+            </code>
+        </div>
+    </div>
+
+    <!-- 图标SVG文件内容 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #e91e63;">SVG</div>
+            <div>
+                <div class="file-title">完整SVG图标文件</div>
+                <div class="file-path">复制以下SVG代码到对应文件</div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">📋 图标文件清单</div>
+            <div class="tips-content">
+                以下是所有需要的SVG图标文件，建议保存为单独的.svg文件：
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <code>
+<span class="comment">&lt;!-- search.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- location.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- filter.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h8v-2h-8V9h8V7h-8V5h8V3h-8a2 2 0 00-2 2v14a2 2 0 002 2h8v-2h-8z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- check.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- arrow-right.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- arrow-down.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M7 10l5 5 5-5z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- building.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V7h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- dumbbell.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- close.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- reset.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- map.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- user.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+
+<span class="comment">&lt;!-- battery.svg --&gt;</span>
+<span class="tag">&lt;svg</span> <span class="attr">viewBox</span>=<span class="string">"0 0 24 24"</span> <span class="attr">fill</span>=<span class="string">"currentColor"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">d</span>=<span class="string">"M15.67 4H14V2c0-1.1-.9-2-2-2s-2 .9-2 2v2H8.33C7.6 4 7 4.6 7 5.33v13.33C7 19.4 7.6 20 8.33 20h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM11 2c.55 0 1 .45 1 1v1h-2V3c0-.55.45-1 1-1zm4 16H9V6h6v12z"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+            </code>
+        </div>
+    </div>
+
+    <!-- 扩展功能建议 -->
+    <div class="file-section">
+        <div class="file-header">
+            <div class="file-icon" style="background: #607d8b;">🔮</div>
+            <div>
+                <div class="file-title">功能扩展建议</div>
+                <div class="file-path">后续开发方向</div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">🎯 近期功能优化</div>
+            <div class="tips-content">
+                <strong>用户体验优化</strong><br>
+                • 添加骨架屏加载效果，提升感知性能<br>
+                • 实现下拉刷新和上拉加载的视觉反馈<br>
+                • 增加搜索历史和热门搜索词<br>
+                • 支持语音搜索功能<br><br>
+                
+                <strong>数据缓存策略</strong><br>
+                • 实现场馆列表的本地缓存<br>
+                • 添加离线数据支持<br>
+                • 图片懒加载和预加载优化<br>
+                • 搜索结果缓存机制<br><br>
+                
+                <strong>交互增强</strong><br>
+                • 添加场馆收藏功能<br>
+                • 实现场馆对比功能<br>
+                • 增加用户评价和评分显示<br>
+                • 支持分享场馆信息到微信
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">🚀 高级功能规划</div>
+            <div class="tips-content">
+                <strong>地图集成</strong><br>
+                • 集成腾讯地图或百度地图<br>
+                • 显示场馆在地图上的位置<br>
+                • 提供导航和路线规划<br>
+                • 支持AR导航模式<br><br>
+                
+                <strong>智能推荐</strong><br>
+                • 基于用户偏好的场馆推荐<br>
+                • 根据时间和位置的智能推荐<br>
+                • 相似用户的场馆推荐<br>
+                • 新场馆和热门场馆推荐<br><br>
+                
+                <strong>社交功能</strong><br>
+                • 用户打卡和签到功能<br>
+                • 场馆评价和图片分享<br>
+                • 好友场馆推荐<br>
+                • 训练伙伴匹配
+            </div>
+        </div>
+        
+        <div class="tips">
+            <div class="tips-title">📊 数据分析集成</div>
+            <div class="tips-content">
+                <strong>用户行为分析</strong><br>
+                • 搜索关键词统计<br>
+                • 场馆点击率分析<br>
+                • 用户偏好标签分析<br>
+                • 转化漏斗分析<br><br>
+                
+                <strong>运营数据支持</strong><br>
+                • 热门场馆排行榜<br>
+                • 用户活跃度统计<br>
+                • 地域分布分析<br>
+                • 使用时段分析
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 40px; color: #666; font-size: 14px;">
+        <p>✨ MobiLiF拓练 微信小程序版本 - 场馆探索页面 ✨</p>
+        <p>已完成从Font Awesome到本地SVG图标的完整适配</p>
+        <p>可直接用于小程序开发，支持完整的交互和数据绑定</p>
+    </div>

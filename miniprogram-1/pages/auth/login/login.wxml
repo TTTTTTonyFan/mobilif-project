@@ -1,0 +1,5 @@
+<!-- pages/auth/login/login.wxml -->
+<view class="container">
+  <text>登录页面</text>
+  <button bindtap="onLogin">登录</button>
+</view>

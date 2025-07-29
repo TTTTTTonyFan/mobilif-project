@@ -1,0 +1,46 @@
+<!--components/gym-card/gym-card.wxml-->
+<view class="gym-card fade-in" bindtap="onCardTap">
+  <view class="gym-card__image">
+    <image 
+      class="gym-card__img" 
+      src="{{gym.images[0] || '/assets/images/gym-placeholder.jpg'}}" 
+      mode="aspectFill"
+    />
+    <view class="gym-card__badge {{getBadgeClass(gym.type)}}">
+      {{getBadgeText(gym.type)}}
+    </view>
+  </view>
+  
+  <view class="gym-card__content">
+    <view class="gym-card__header">
+      <text class="gym-card__name">{{gym.name}}</text>
+      <view class="gym-card__rating">
+        <text class="gym-card__rating-star">★</text>
+        <text class="gym-card__rating-score">{{gym.rating}}</text>
+        <text class="gym-card__rating-count">({{gym.reviewCount}})</text>
+      </view>
+    </view>
+    
+    <view class="gym-card__location">
+      <text class="gym-card__location-icon">📍</text>
+      <text class="gym-card__location-text">{{gym.address}}</text>
+      <text class="gym-card__distance">{{gym.distanceText}}</text>
+    </view>
+    
+    <view class="gym-card__status {{getStatusClass(gym.businessStatus)}}">
+      <view class="gym-card__status-dot"></view>
+      <text class="gym-card__status-text">{{gym.businessStatus}}</text>
+      <text class="gym-card__hours"> · {{gym.todayHours}}</text>
+    </view>
+    
+    <view class="gym-card__tags" wx:if="{{gym.supportedPrograms && gym.supportedPrograms.length > 0}}">
+      <text 
+        wx:for="{{gym.supportedPrograms}}" 
+        wx:key="*this"
+        class="gym-card__tag {{getTagClass(item)}}"
+      >
+        {{item}}
+      </text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,78 @@
+/* components/search-bar/search-bar.wxss */
+/* 搜索栏组件样式 - 基于UI设计 */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.search-bar__container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.search-bar--focused .search-bar__container {
+  box-shadow: var(--shadow-md);
+  border: 2rpx solid var(--color-secondary);
+}
+
+.search-bar__icon {
+  margin-right: var(--spacing-md);
+  font-size: 32rpx;
+  color: var(--color-gray-400);
+}
+
+.search-bar__input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--color-gray-700);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.search-bar__input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.search-bar__clear {
+  margin-left: var(--spacing-sm);
+  font-size: 24rpx;
+  color: var(--color-gray-400);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-full);
+  background: var(--color-gray-100);
+  transition: all var(--transition-base);
+}
+
+.search-bar__clear:active {
+  background: var(--color-gray-200);
+  transform: scale(0.95);
+}
+
+.search-bar__filter {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-secondary);
+  border-radius: var(--radius-xl);
+  font-size: 32rpx;
+  color: white;
+  transition: all var(--transition-base);
+}
+
+.search-bar__filter:active {
+  background: var(--color-primary);
+  transform: scale(0.95);
+}

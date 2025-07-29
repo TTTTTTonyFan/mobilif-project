@@ -1,0 +1,16 @@
+<!--components/city-selector/city-selector.wxml-->
+<view class="city-selector" bindtap="onCityTap">
+  <view class="city-selector__background"></view>
+  <view class="city-selector__content">
+    <view class="city-selector__icon">
+      <text class="city-selector__location-icon">📍</text>
+    </view>
+    <view class="city-selector__info">
+      <text class="city-selector__title">{{currentCity}}</text>
+      <text class="city-selector__subtitle">{{venueCount}}个场馆</text>
+    </view>
+    <view class="city-selector__chevron">
+      <text>❯</text>
+    </view>
+  </view>
+</view>

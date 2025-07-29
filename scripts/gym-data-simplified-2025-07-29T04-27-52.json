@@ -1,0 +1,86 @@
+[
+  {
+    "name": "CrossFit Sanlitun",
+    "city": "北京",
+    "district": "朝阳区",
+    "address": "北京市朝阳区三里屯路19号院",
+    "latitude": 39.9348,
+    "longitude": 116.4579,
+    "phone": "+86-10-8532-1234",
+    "rating": 4.7,
+    "crossfitCertified": true,
+    "priceRange": "200-500 CNY"
+  },
+  {
+    "name": "Beast Mode CrossFit",
+    "city": "北京",
+    "district": "朝阳区",
+    "address": "北京市朝阳区望京街10号楼B1",
+    "latitude": 40.0025,
+    "longitude": 116.4709,
+    "phone": "+86-10-6435-5678",
+    "rating": 4.8,
+    "crossfitCertified": true,
+    "priceRange": "300-800 CNY"
+  },
+  {
+    "name": "Iron Temple CrossFit",
+    "city": "北京",
+    "district": "朝阳区",
+    "address": "北京市朝阳区朝阳公园南路8号",
+    "latitude": 39.9236,
+    "longitude": 116.4582,
+    "phone": "+86-10-5987-4321",
+    "rating": 4.5,
+    "crossfitCertified": false,
+    "priceRange": "180-400 CNY"
+  },
+  {
+    "name": "CrossFit Lujiazui",
+    "city": "上海",
+    "district": "浦东新区",
+    "address": "上海市浦东新区陆家嘴环路1000号",
+    "latitude": 31.2397,
+    "longitude": 121.499,
+    "phone": "+86-21-6841-2345",
+    "rating": 4.9,
+    "crossfitCertified": true,
+    "priceRange": "400-1200 CNY"
+  },
+  {
+    "name": "Forge CrossFit Shanghai",
+    "city": "上海",
+    "district": "徐汇区",
+    "address": "上海市徐汇区淮海中路1337号",
+    "latitude": 31.2165,
+    "longitude": 121.4365,
+    "phone": "+86-21-5467-8901",
+    "rating": 4.6,
+    "crossfitCertified": true,
+    "priceRange": "250-600 CNY"
+  },
+  {
+    "name": "Warrior Fitness Studio",
+    "city": "上海",
+    "district": "静安区",
+    "address": "上海市静安区南京西路1601号",
+    "latitude": 31.2304,
+    "longitude": 121.4478,
+    "phone": "+86-21-3214-5679",
+    "rating": 4.4,
+    "crossfitCertified": false,
+    "priceRange": "200-450 CNY"
+  },
+  {
+    "name": "Elite Performance CrossFit",
+    "city": "上海",
+    "district": "浦东新区",
+    "address": "上海市浦东新区张江高科技园区达尔文路88号",
+    "latitude": 31.2077,
+    "longitude": 121.6056,
+    "phone": "+86-21-2896-1234",
+    "rating": 4.8,
+    "crossfitCertified": true,
+    "priceRange": "500-1500 CNY"
+  }
+]

@@ -1,0 +1,432 @@
+[
+  {
+    "id": "25001506-6f62-46b5-9910-7d891454c74e",
+    "name": "CrossFit Sanlitun",
+    "name_en": "CrossFit Sanlitun",
+    "description": "北京首家CrossFit官方认证场馆，位于三里屯核心区域，提供正宗的CrossFit训练课程。拥有经验丰富的L1、L2认证教练团队。",
+    "short_description": "北京首家CrossFit官方认证场馆",
+    "address": "北京市朝阳区三里屯SOHO 5号商场B1-532",
+    "district": "朝阳区",
+    "city": "北京",
+    "province": "北京市",
+    "country": "China",
+    "postal_code": "100027",
+    "latitude": 39.9348,
+    "longitude": 116.4579,
+    "phone": "+86-10-6417-6554",
+    "email": "info@crossfitsanlitun.com",
+    "website": "https://crossfitsanlitun.com",
+    "social_media": {
+      "wechat": "CrossFitSanlitun",
+      "weibo": "@CrossFitSanlitun官方",
+      "instagram": "@crossfitsanlitun"
+    },
+    "images": [
+      "https://images.crossfitsanlitun.com/gym-main.jpg",
+      "https://images.crossfitsanlitun.com/equipment.jpg",
+      "https://images.crossfitsanlitun.com/classes.jpg"
+    ],
+    "logo": "https://images.crossfitsanlitun.com/logo.png",
+    "facilities": [
+      "Olympic Lifting Platforms (4个)",
+      "Pull-up Stations",
+      "Concept2 Rowers",
+      "Assault Bikes",
+      "Complete Kettlebell Set",
+      "Battle Ropes",
+      "Climbing Rope",
+      "Gymnastics Rings"
+    ],
+    "equipment": {
+      "barbells": "Olympic Barbells (男女杠)",
+      "plates": "Bumper Plates全套",
+      "kettlebells": "8kg-48kg全套",
+      "dumbbells": "5kg-50kg",
+      "cardio": "Concept2 Rowers, Assault Bikes",
+      "gymnastics": "Rings, Parallettes, Jump Boxes"
+    },
+    "amenities": [
+      "更衣室",
+      "淋浴间",
+      "储物柜",
+      "免费WiFi",
+      "空调",
+      "饮水机",
+      "会员休息区"
+    ],
+    "opening_hours": {
+      "monday": "06:00-22:00",
+      "tuesday": "06:00-22:00",
+      "wednesday": "06:00-22:00",
+      "thursday": "06:00-22:00",
+      "friday": "06:00-22:00",
+      "saturday": "08:00-20:00",
+      "sunday": "08:00-20:00"
+    },
+    "holiday_hours": {
+      "spring_festival": "10:00-18:00",
+      "national_day": "08:00-20:00"
+    },
+    "price_range": "200-600 CNY",
+    "pricing_info": {
+      "drop_in": 150,
+      "week_pass": 400,
+      "monthly": 1200,
+      "quarterly": 3200,
+      "semi_annual": 5800,
+      "annual": 10800,
+      "student_discount": 0.8,
+      "currency": "CNY"
+    },
+    "capacity": 60,
+    "area_size": 400,
+    "parking_info": {
+      "available": true,
+      "spaces": 30,
+      "fee": "SOHO停车场，10元/小时"
+    },
+    "transport_info": {
+      "subway": "团结湖站(10号线) 步行5分钟",
+      "bus": "113, 115, 118路等多条线路",
+      "parking": "三里屯SOHO地下停车场"
+    },
+    "rating": 4.8,
+    "review_count": 156,
+    "view_count": 2580,
+    "favorite_count": 89,
+    "checkin_count": 1247,
+    "status": 1,
+    "verified": true,
+    "featured": true,
+    "gym_type": "crossfit_certified",
+    "crossfit_certified": true,
+    "supported_programs": [
+      "CrossFit",
+      "Olympic Weightlifting",
+      "Gymnastics",
+      "Endurance Training",
+      "Personal Training"
+    ],
+    "tags": [
+      "CrossFit官方认证",
+      "L1/L2教练",
+      "三里屯地标",
+      "专业设备",
+      "小班教学"
+    ],
+    "business_license": "91110105MA01234567",
+    "insurance_info": {
+      "provider": "中国人保",
+      "coverage": "场馆责任险",
+      "amount": 1000000
+    },
+    "safety_certifications": [
+      "消防安全合格证",
+      "体育场所安全认证"
+    ]
+  },
+  {
+    "id": "3cf22e0b-8f61-40d4-80d4-e316b96d105c",
+    "name": "CrossFit Wangjing",
+    "name_en": "CrossFit Wangjing",
+    "description": "望京地区专业CrossFit训练中心，专注于竞技级训练和个人能力提升。拥有完整的CrossFit Games标准设备。",
+    "short_description": "望京专业CrossFit竞技训练中心",
+    "address": "北京市朝阳区望京街10号院1号楼B1层",
+    "district": "朝阳区",
+    "city": "北京",
+    "province": "北京市",
+    "country": "China",
+    "postal_code": "100102",
+    "latitude": 40.0025,
+    "longitude": 116.4709,
+    "phone": "+86-10-8470-2588",
+    "email": "info@crossfitwangjing.cn",
+    "website": "https://crossfitwangjing.cn",
+    "social_media": {
+      "wechat": "CrossFitWangjing",
+      "weibo": "@CrossFit望京"
+    },
+    "images": [
+      "https://images.crossfitwangjing.cn/facility-1.jpg",
+      "https://images.crossfitwangjing.cn/training.jpg"
+    ],
+    "logo": "https://images.crossfitwangjing.cn/logo.png",
+    "facilities": [
+      "Competition Standard Platforms (6个)",
+      "Specialized Bars (SSB, Trap Bar)",
+      "Concept2 BikeErg & RowErg",
+      "Assault AirRunner",
+      "Gymnastics Training Area",
+      "Recovery Zone"
+    ],
+    "equipment": {
+      "barbells": "Competition Grade Barbells",
+      "specialty_bars": "Safety Squat, Trap, Swiss Bar",
+      "kettlebells": "Competition Kettlebells 8-48kg",
+      "cardio": "BikeErg, RowErg, AirRunner",
+      "recovery": "Foam Rollers, Mobility Tools"
+    },
+    "amenities": [
+      "专业更衣室",
+      "桑拿房",
+      "蛋白质吧",
+      "装备商店",
+      "会员储物区",
+      "营养咨询"
+    ],
+    "opening_hours": {
+      "monday": "05:30-22:30",
+      "tuesday": "05:30-22:30",
+      "wednesday": "05:30-22:30",
+      "thursday": "05:30-22:30",
+      "friday": "05:30-22:30",
+      "saturday": "07:00-21:00",
+      "sunday": "08:00-20:00"
+    },
+    "price_range": "300-800 CNY",
+    "pricing_info": {
+      "drop_in": 180,
+      "monthly": 1500,
+      "quarterly": 4200,
+      "annual": 15000,
+      "personal_training": 400,
+      "competition_prep": 500,
+      "currency": "CNY"
+    },
+    "capacity": 50,
+    "area_size": 500,
+    "parking_info": {
+      "available": true,
+      "spaces": 40,
+      "fee": "会员免费停车2小时"
+    },
+    "transport_info": {
+      "subway": "望京站(14号线/15号线) 步行8分钟",
+      "bus": "418, 621, 696路等",
+      "parking": "商务楼地下停车场"
+    },
+    "rating": 4.9,
+    "review_count": 124,
+    "view_count": 1890,
+    "favorite_count": 67,
+    "checkin_count": 987,
+    "status": 1,
+    "verified": true,
+    "featured": true,
+    "gym_type": "crossfit_certified",
+    "crossfit_certified": true,
+    "supported_programs": [
+      "CrossFit",
+      "Competition Training",
+      "Olympic Lifting",
+      "Powerlifting",
+      "Mobility & Recovery"
+    ],
+    "tags": [
+      "竞技训练",
+      "比赛准备",
+      "专业设备",
+      "高级教练",
+      "恢复中心"
+    ]
+  },
+  {
+    "id": "e064ad3a-0b33-4c5d-a8cc-cbcd5071621f",
+    "name": "CrossFit CBD",
+    "name_en": "CrossFit CBD",
+    "description": "位于北京CBD核心区域的精品CrossFit工作室，为商务人士提供高效便捷的健身解决方案。",
+    "short_description": "CBD商务区精品CrossFit工作室",
+    "address": "北京市朝阳区建国门外大街1号国贸大厦3期B2层",
+    "district": "朝阳区",
+    "city": "北京",
+    "province": "北京市",
+    "country": "China",
+    "postal_code": "100004",
+    "latitude": 39.9085,
+    "longitude": 116.4575,
+    "phone": "+86-10-6505-8899",
+    "email": "hello@crossfitcbd.com",
+    "website": "https://crossfitcbd.com",
+    "social_media": {
+      "wechat": "CrossFitCBD",
+      "linkedin": "CrossFit CBD Beijing"
+    },
+    "images": [
+      "https://images.crossfitcbd.com/executive-gym.jpg"
+    ],
+    "logo": "https://images.crossfitcbd.com/logo.png",
+    "facilities": [
+      "Executive Training Area",
+      "Premium Equipment Zone",
+      "Business Lounge",
+      "Quick Shower Facilities"
+    ],
+    "equipment": {
+      "barbells": "Premium Olympic Bars",
+      "kettlebells": "8-40kg Professional Set",
+      "cardio": "High-end Cardio Equipment",
+      "functional": "TRX, Battle Ropes, Sleds"
+    },
+    "amenities": [
+      "行政更衣室",
+      "快速淋浴",
+      "商务休息区",
+      "毛巾服务",
+      "代客泊车",
+      "营养简餐"
+    ],
+    "opening_hours": {
+      "monday": "06:00-22:00",
+      "tuesday": "06:00-22:00",
+      "wednesday": "06:00-22:00",
+      "thursday": "06:00-22:00",
+      "friday": "06:00-22:00",
+      "saturday": "08:00-18:00",
+      "sunday": "09:00-17:00"
+    },
+    "price_range": "400-1000 CNY",
+    "pricing_info": {
+      "drop_in": 200,
+      "monthly": 1800,
+      "quarterly": 4800,
+      "annual": 16800,
+      "executive_package": 2500,
+      "currency": "CNY"
+    },
+    "capacity": 35,
+    "area_size": 280,
+    "parking_info": {
+      "available": true,
+      "spaces": 25,
+      "fee": "代客泊车服务"
+    },
+    "transport_info": {
+      "subway": "国贸站(1号线/10号线) 直达",
+      "bus": "多条公交线路",
+      "parking": "国贸大厦停车场"
+    },
+    "rating": 4.7,
+    "review_count": 78,
+    "view_count": 1456,
+    "favorite_count": 45,
+    "checkin_count": 654,
+    "status": 1,
+    "verified": true,
+    "featured": false,
+    "gym_type": "crossfit_certified",
+    "crossfit_certified": true,
+    "supported_programs": [
+      "Executive CrossFit",
+      "Business Lunch Workouts",
+      "Corporate Wellness",
+      "Personal Training"
+    ],
+    "tags": [
+      "商务健身",
+      "CBD地段",
+      "高端服务",
+      "快速训练",
+      "企业服务"
+    ]
+  },
+  {
+    "id": "154ad432-e292-47f9-aeac-43f9aeaeb056",
+    "name": "Functional Fitness Beijing",
+    "name_en": "Functional Fitness Beijing",
+    "description": "专注于功能性训练的现代化健身中心，结合CrossFit理念与传统训练方法。",
+    "short_description": "现代化功能性训练中心",
+    "address": "北京市海淀区中关村大街27号中关村村大厦12层",
+    "district": "海淀区",
+    "city": "北京",
+    "province": "北京市",
+    "country": "China",
+    "postal_code": "100080",
+    "latitude": 39.9897,
+    "longitude": 116.3062,
+    "phone": "+86-10-6259-7788",
+    "email": "info@ffbeijing.com",
+    "website": "https://functionalfitnessbeijing.com",
+    "social_media": {
+      "wechat": "FFBeijing"
+    },
+    "images": [
+      "https://images.ffbeijing.com/modern-gym.jpg"
+    ],
+    "logo": "https://images.ffbeijing.com/logo.png",
+    "facilities": [
+      "Multi-functional Training Zone",
+      "Strength Training Area",
+      "Cardio Section",
+      "Group Class Studio",
+      "Recovery Corner"
+    ],
+    "equipment": {
+      "functional": "Functional Trainers, Cable Machines",
+      "free_weights": "Complete Dumbbell & Barbell Set",
+      "kettlebells": "8-32kg Range",
+      "cardio": "Treadmills, Bikes, Rowers"
+    },
+    "amenities": [
+      "现代更衣室",
+      "淋浴设施",
+      "储物柜",
+      "WiFi",
+      "空调",
+      "饮品吧"
+    ],
+    "opening_hours": {
+      "monday": "06:30-21:30",
+      "tuesday": "06:30-21:30",
+      "wednesday": "06:30-21:30",
+      "thursday": "06:30-21:30",
+      "friday": "06:30-21:30",
+      "saturday": "08:00-19:00",
+      "sunday": "09:00-18:00"
+    },
+    "price_range": "180-450 CNY",
+    "pricing_info": {
+      "drop_in": 100,
+      "monthly": 800,
+      "quarterly": 2200,
+      "annual": 7800,
+      "student_rate": 600,
+      "currency": "CNY"
+    },
+    "capacity": 40,
+    "area_size": 350,
+    "parking_info": {
+      "available": true,
+      "spaces": 20,
+      "fee": "前2小时免费"
+    },
+    "transport_info": {
+      "subway": "中关村站(4号线) 步行3分钟",
+      "bus": "多条公交线路经过",
+      "parking": "大厦地下停车场"
+    },
+    "rating": 4.5,
+    "review_count": 92,
+    "view_count": 1234,
+    "favorite_count": 56,
+    "checkin_count": 789,
+    "status": 1,
+    "verified": true,
+    "featured": false,
+    "gym_type": "specialty",
+    "crossfit_certified": false,
+    "supported_programs": [
+      "功能性训练",
+      "HIIT训练",
+      "力量训练",
+      "团体课程",
+      "个人训练"
+    ],
+    "tags": [
+      "功能性训练",
+      "学生友好",
+      "中关村",
+      "科技园区",
+      "现代设施"
+    ]
+  }
+]

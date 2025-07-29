@@ -1,0 +1,226 @@
+<!-- MobiLiF拓练 - 探索场馆页面 - 完全按照venues_explorer_miniprogram.html实现 -->
+<view class="app" id="app">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-header__title">探索场馆</text>
+  </view>
+  
+  <!-- 页面内容 -->
+  <scroll-view class="page-content" id="pageContent" scroll-y="true" bindscrolltolower="loadMoreGyms">
+    <!-- 城市选择器 -->
+    <view class="city-selector" id="citySelector" bindtap="onCityTap">
+      <view class="city-selector__content">
+        <view class="city-selector__icon">
+          <image src="/images/icons/location.svg" class="icon-xl icon-accent" mode="aspectFit"></image>
+        </view>
+        <view class="city-selector__text">
+          <view class="city-selector__name">
+            <text id="currentCityName" data-city-id="{{currentCityId}}">{{currentCityName}}</text>
+          </view>
+          <view class="city-selector__desc" id="cityDescription">{{cityDescription}}</view>
+        </view>
+        <image src="/images/icons/arrow-right.svg" class="city-selector__chevron icon-lg icon-white" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <image src="/images/icons/search.svg" class="search-bar__search-icon icon-lg icon-gray" mode="aspectFit"></image>
+      <input 
+        type="text" 
+        class="search-bar__input" 
+        placeholder="搜索场馆名称..." 
+        value="{{searchTerm}}"
+        bindinput="onSearchInput"
+      />
+      <view class="search-bar__filter-button" id="filterToggle" bindtap="toggleFilter">
+        <image src="/images/icons/filter.svg" class="icon-lg icon-gray" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <!-- 筛选器 -->
+    <view class="filter {{filterVisible ? '' : 'hidden'}}" id="filterSection">
+      <view class="filter__header" id="filterHeader" bindtap="toggleFilterContent">
+        <view class="filter__title">
+          <image src="/images/icons/filter.svg" class="icon-md icon-gray" mode="aspectFit"></image>
+          <text>筛选条件</text>
+          <text class="filter__count {{filterCount > 0 ? '' : 'hidden'}}" id="filterCount">{{filterCount}}</text>
+        </view>
+        <image src="/images/icons/arrow-down.svg" class="filter__chevron {{filterContentExpanded ? 'filter__chevron--expanded' : ''}} icon-lg icon-gray" id="filterChevron" mode="aspectFit"></image>
+      </view>
+      <view class="filter__content {{filterContentExpanded ? 'filter__content--expanded' : ''}}" id="filterContent">
+        <!-- 场馆类型筛选 -->
+        <view class="filter__group">
+          <view class="filter__group-title">
+            <image src="/images/icons/building.svg" class="icon-md icon-gray" mode="aspectFit"></image>
+            <text>场馆类型</text>
+          </view>
+          <view class="filter__options" id="gymTypeFilters">
+            <view 
+              wx:for="{{gymTypeOptions}}" 
+              wx:key="value"
+              class="filter-option {{tempFilters.gymType.includes(item.value) ? 'filter-option--selected' : ''}}" 
+              data-value="{{item.value}}"
+              data-type="gymType"
+              bindtap="onFilterOptionTap"
+            >
+              <view class="filter-option__icon">
+                <image src="/images/icons/check.svg" class="icon-xs" mode="aspectFit"></image>
+              </view>
+              <text>{{item.label}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 课程类型筛选 -->
+        <view class="filter__group">
+          <view class="filter__group-title">
+            <image src="/images/icons/dumbbell.svg" class="icon-md icon-gray" mode="aspectFit"></image>
+            <text>课程类型</text>
+          </view>
+          <view class="filter__options" id="courseTypeFilters">
+            <view 
+              wx:for="{{courseTypeOptions}}" 
+              wx:key="*this"
+              class="filter-option {{tempFilters.courseType.includes(item) ? 'filter-option--selected' : ''}}" 
+              data-value="{{item}}"
+              data-type="courseType"
+              bindtap="onFilterOptionTap"
+            >
+              <view class="filter-option__icon">
+                <image src="/images/icons/check.svg" class="icon-xs" mode="aspectFit"></image>
+              </view>
+              <text>{{courseTypeMap[item]}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 筛选器操作按钮 -->
+        <view class="filter__actions">
+          <button class="filter__btn filter__btn--secondary" id="resetFilters" bindtap="resetFilters">
+            <image src="/images/icons/reset.svg" class="icon-sm icon-gray" mode="aspectFit"></image>
+            <text>重置</text>
+          </button>
+          <button class="filter__btn filter__btn--primary" id="confirmFilters" bindtap="confirmFilters">
+            <image src="/images/icons/check.svg" class="icon-sm icon-white" mode="aspectFit"></image>
+            <text>确认</text>
+          </button>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 场馆列表容器 -->
+    <view style="padding: 0 var(--space-4);" id="gymListContainer">
+      <view 
+        wx:for="{{filteredGyms}}" 
+        wx:key="id"
+        class="gym-card fade-in" 
+        data-gym-id="{{item.id}}"
+        data-gym-type="{{item.badge.type}}" 
+        data-course-types="{{item.courses.join(',')}}"
+        bindtap="viewGymDetail"
+      >
+        <view class="gym-card__image">
+          <image src="{{item.image}}" alt="{{item.name}}" mode="aspectFill" lazy-load="true"></image>
+          <text class="gym-card__badge gym-card__badge--{{item.badge.type}}">{{item.badge.text}}</text>
+        </view>
+        <view class="gym-card__content">
+          <view class="gym-card__name">{{item.name}}</view>
+          <view class="gym-card__location">
+            <image src="/images/icons/location.svg" class="icon-sm" mode="aspectFit"></image> 
+            <text>{{item.location}}</text>
+          </view>
+          <view class="gym-card__status">
+            <view class="gym-card__status-dot {{item.status.open ? '' : 'gym-card__status-dot--closed'}}"></view>
+            <text>{{item.status.open ? '营业中' : '已闭店'}} · {{item.status.hours}}</text>
+          </view>
+          <view class="gym-card__tags">
+            <view 
+              wx:for="{{item.courses}}" 
+              wx:for-item="course"
+              wx:key="*this"
+              class="tag tag--{{course}}"
+            >
+              {{courseTypeMap[course]}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 加载状态 -->
+    <view class="loading {{loading ? '' : 'hidden'}}" id="loadingIndicator">
+      <view class="loading__spinner"></view>
+      <text class="loading__text">正在加载更多场馆...</text>
+    </view>
+    
+    <!-- 加载完成提示 -->
+    <view class="text-center {{!hasMoreData && !loading ? '' : 'hidden'}}" id="loadComplete" style="padding: var(--space-5);">
+      <text style="color: var(--color-gray-500); font-size: 14px;">
+        <image src="/images/icons/check.svg" class="icon-sm" mode="aspectFit" style="filter: invert(70%) sepia(56%) saturate(2618%) hue-rotate(97deg) brightness(89%) contrast(81%); margin-right: var(--space-2);"></image>
+        已显示所有附近的训练场馆
+      </text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state {{filteredGyms.length === 0 && !loading ? '' : 'hidden'}}" id="emptyState">
+      <image src="/images/icons/search.svg" class="empty-state__icon" mode="aspectFit"></image>
+      <text class="empty-state__title">未找到匹配的场馆</text>
+      <text class="empty-state__desc">尝试调整搜索关键词或筛选条件</text>
+    </view>
+  </scroll-view>
+  
+  <!-- 底部导航 -->
+  <view class="bottom-nav">
+    <view 
+      wx:for="{{navItems}}" 
+      wx:key="tab"
+      class="bottom-nav__item {{item.tab === currentTab ? 'bottom-nav__item--active' : ''}}" 
+      data-tab="{{item.tab}}" 
+      bindtap="switchTab"
+    >
+      <image src="/images/icons/{{item.tab === 'discover' ? 'location' : item.tab === 'map' ? 'map' : 'user'}}.svg" class="icon-xl" mode="aspectFit"></image>
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 城市选择模态框 -->
+<view class="modal {{cityModalVisible ? 'modal--visible' : ''}}" id="cityModal" wx:if="{{cityModalVisible}}">
+  <view class="modal__backdrop" bindtap="hideCityModal"></view>
+  <view class="modal__content">
+    <view class="modal__header">
+      <text class="modal__title" id="cityModalTitle">选择城市</text>
+      <button class="modal__close" bindtap="hideCityModal">
+        <image src="/images/icons/close.svg" class="icon-lg" mode="aspectFit"></image>
+      </button>
+    </view>
+    <view class="modal__body">
+      <view class="location-breadcrumb" wx:if="{{citySelectionLevel !== 'country'}}">
+        <text wx:if="{{selectedCountry}}" class="breadcrumb-item">{{selectedCountry}}</text>
+        <text wx:if="{{selectedCountry && selectedProvince}}" class="breadcrumb-separator"> > </text>
+        <text wx:if="{{selectedProvince}}" class="breadcrumb-item">{{selectedProvince}}</text>
+      </view>
+      <view class="city-list" id="cityList">
+        <view 
+          wx:for="{{currentLocationOptions}}" 
+          wx:key="key"
+          class="city-list__item {{item.key === currentCityId ? 'city-list__item--selected' : ''}}"
+          data-type="{{item.type}}"
+          data-name="{{item.name}}"
+          data-key="{{item.key}}"
+          bindtap="onLocationOptionTap"
+        >
+          <view class="city-list__info">
+            <view class="city-list__name">{{item.name}}</view>
+            <view wx:if="{{item.venueCount}}" class="city-list__desc">{{item.venueCount}}个训练场馆</view>
+          </view>
+          <image wx:if="{{item.type !== 'city'}}" src="/images/icons/arrow-right.svg" class="icon-lg" mode="aspectFit"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 提示toast -->
+<view class="toast {{toastVisible ? 'toast--visible' : ''}}" id="toast">{{toastMessage}}</view>

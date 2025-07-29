@@ -1,0 +1,213 @@
+/* pages/profile/profile.wxss */
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 40px;
+}
+
+/* 用户信息头部 */
+.user-header {
+  background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+  padding: 40px 20px 20px;
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  margin-right: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-details {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 18px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.level {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* 用户统计 */
+.user-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 20px;
+}
+
+/* 快捷功能区 */
+.quick-actions {
+  display: flex;
+  background: white;
+  margin: 20px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.quick-action {
+  flex: 1;
+  text-align: center;
+}
+
+.action-icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.action-text {
+  font-size: 12px;
+  color: #666;
+}
+
+/* 菜单区域 */
+.menu-section {
+  margin: 0 20px 20px;
+}
+
+.menu-title {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.menu-list {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  active-class: menu-item-active;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item-active {
+  background-color: #f8f9fa;
+}
+
+.menu-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.menu-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 24px;
+  text-align: center;
+}
+
+.menu-text {
+  flex: 1;
+}
+
+.menu-title-text {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.menu-desc {
+  font-size: 12px;
+  color: #999;
+}
+
+.menu-arrow {
+  color: #c0c0c0;
+  font-size: 14px;
+}
+
+/* 版本信息 */
+.version-info {
+  text-align: center;
+  margin: 40px 20px 20px;
+  padding: 20px;
+}
+
+.version-text {
+  font-size: 13px;
+  color: #999;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.copyright {
+  font-size: 12px;
+  color: #ccc;
+}
+
+/* 退出登录 */
+.logout-section {
+  margin: 20px;
+}
+
+.logout-button {
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  color: #ff4d4f;
+  border: 1px solid #ff4d4f;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.logout-button:active {
+  background: #fff2f0;
+}

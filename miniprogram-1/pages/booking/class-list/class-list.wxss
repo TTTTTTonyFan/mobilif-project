@@ -1,0 +1,4 @@
+/* pages/booking/class-list/class-list.wxss */
+.container {
+  padding: 40rpx;
+}

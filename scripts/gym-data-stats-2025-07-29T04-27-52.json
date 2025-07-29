@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "totalGyms": 7,
+    "beijingGyms": 3,
+    "shanghaiGyms": 4,
+    "crossfitCertified": 5,
+    "featured": 3,
+    "averageRating": "4.67"
+  },
+  "byCity": {
+    "北京": [
+      {
+        "name": "CrossFit Sanlitun",
+        "rating": 4.7,
+        "certified": true
+      },
+      {
+        "name": "Beast Mode CrossFit",
+        "rating": 4.8,
+        "certified": true
+      },
+      {
+        "name": "Iron Temple CrossFit",
+        "rating": 4.5,
+        "certified": false
+      }
+    ],
+    "上海": [
+      {
+        "name": "CrossFit Lujiazui",
+        "rating": 4.9,
+        "certified": true
+      },
+      {
+        "name": "Forge CrossFit Shanghai",
+        "rating": 4.6,
+        "certified": true
+      },
+      {
+        "name": "Warrior Fitness Studio",
+        "rating": 4.4,
+        "certified": false
+      },
+      {
+        "name": "Elite Performance CrossFit",
+        "rating": 4.8,
+        "certified": true
+      }
+    ]
+  },
+  "ratingDistribution": {
+    "4.0-4.4": 1,
+    "4.5-4.7": 3,
+    "4.8-5.0": 3
+  }
+}

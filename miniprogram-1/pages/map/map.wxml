@@ -1,0 +1,4 @@
+<!--pages/map/map.wxml-->
+<view class="map-page">
+  <text>足迹地图</text>
+</view>

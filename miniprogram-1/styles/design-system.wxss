@@ -1,0 +1,309 @@
+/* styles/design-system.wxss */
+/* MobiLiF拓练 - 设计系统 - 完全按照venues_explorer_miniprogram.html实现 */
+
+/* CSS自定义属性 - 设计系统 */
+page {
+  /* 品牌色彩系统 - 完全按照HTML设计文件 */
+  --color-primary: #082b41;
+  --color-secondary: #105286;
+  --color-accent: #fdb338;
+  --color-accent-light: #fbbf24;
+  --color-background: #f1f2f4;
+  --color-dark: #171d1d;
+  
+  /* 语义化色彩 */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* 中性色阶 */
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  
+  /* 间距系统 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  
+  /* 圆角系统 */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+  
+  /* 阴影系统 */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* 动画系统 - 使用cubic-bezier */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* 字体系统 */
+  --font-sans: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-brand: 'Barlow', system-ui, sans-serif;
+  --font-mono: 'Rajdhani', ui-monospace, monospace;
+  
+  /* Z-index层级 */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* 布局断点 */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+}
+
+/* 基础样式 */
+page {
+  font-family: var(--font-sans);
+  background: var(--color-background);
+  color: var(--color-gray-900);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remixicon 图标系统 - 完全按照HTML设计文件 */
+/* 图标尺寸工具类 */
+.icon-xs { font-size: 12px; line-height: 1; vertical-align: middle; }
+.icon-sm { font-size: 14px; line-height: 1; vertical-align: middle; }
+.icon-md { font-size: 16px; line-height: 1; vertical-align: middle; }
+.icon-lg { font-size: 20px; line-height: 1; vertical-align: middle; }
+.icon-xl { font-size: 24px; line-height: 1; vertical-align: middle; }
+.icon-2xl { font-size: 32px; line-height: 1; vertical-align: middle; }
+
+/* Remixicon图标系统 - 直接在text元素中显示 */
+/* 图标基础样式 */
+[class^="ri-"],
+[class*=" ri-"] {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+  font-style: normal;
+}
+
+/* 图标内容 - 直接设置content */
+.ri-map-pin-line { font-size: inherit; }
+.ri-map-pin-line::after { content: '📍'; }
+
+.ri-checkbox-circle-line { font-size: inherit; }
+.ri-checkbox-circle-line::after { content: '✓'; }
+
+.ri-arrow-right-s-line { font-size: inherit; }
+.ri-arrow-right-s-line::after { content: '▶'; }
+
+.ri-search-line { font-size: inherit; }
+.ri-search-line::after { content: '🔍'; }
+
+.ri-filter-line { font-size: inherit; }
+.ri-filter-line::after { content: '⚙'; }
+
+.ri-arrow-down-s-line { font-size: inherit; }
+.ri-arrow-down-s-line::after { content: '▼'; }
+
+.ri-building-line { font-size: inherit; }
+.ri-building-line::after { content: '🏢'; }
+
+.ri-fitness-line { font-size: inherit; }
+.ri-fitness-line::after { content: '💪'; }
+
+.ri-check-line { font-size: inherit; }
+.ri-check-line::after { content: '✓'; }
+
+.ri-restart-line { font-size: inherit; }
+.ri-restart-line::after { content: '↻'; }
+
+.ri-close-line { font-size: inherit; }
+.ri-close-line::after { content: '✕'; }
+
+.ri-check-circle-line { font-size: inherit; }
+.ri-check-circle-line::after { content: '✓'; }
+
+.ri-search-2-line { font-size: inherit; }
+.ri-search-2-line::after { content: '🔍'; }
+
+/* 动画工具类 */
+.fade-in {
+  animation: fadeIn 0.4s var(--transition-base);
+}
+
+.slide-up {
+  animation: slideUp 0.3s var(--transition-base);
+}
+
+.scale-in {
+  animation: scaleIn 0.3s var(--transition-base);
+}
+
+/* 动画定义 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* 通用工具类 */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+/* 间距工具类 */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.px-xs { padding-left: var(--spacing-xs); padding-right: var(--spacing-xs); }
+.px-sm { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+.px-md { padding-left: var(--spacing-md); padding-right: var(--spacing-md); }
+.px-lg { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
+.px-xl { padding-left: var(--spacing-xl); padding-right: var(--spacing-xl); }
+
+.py-xs { padding-top: var(--spacing-xs); padding-bottom: var(--spacing-xs); }
+.py-sm { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
+.py-md { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+.py-lg { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
+.py-xl { padding-top: var(--spacing-xl); padding-bottom: var(--spacing-xl); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+/* 色彩工具类 */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-accent { color: var(--color-accent); }
+.text-gray-400 { color: var(--color-gray-400); }
+.text-gray-500 { color: var(--color-gray-500); }
+.text-gray-600 { color: var(--color-gray-600); }
+.text-gray-700 { color: var(--color-gray-700); }
+.text-gray-900 { color: var(--color-gray-900); }
+
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-white { background-color: white; }
+.bg-gray-50 { background-color: var(--color-gray-50); }
+.bg-gray-100 { background-color: var(--color-gray-100); }
+
+/* 圆角工具类 */
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-2xl { border-radius: var(--radius-2xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* 阴影工具类 */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }

@@ -1,0 +1,75 @@
+{
+  "title": "北京CrossFit场馆对比分析",
+  "comparison": [
+    {
+      "name": "CrossFit Sanlitun",
+      "district": "朝阳区",
+      "rating": 4.8,
+      "priceLevel": "中高端",
+      "capacity": 60,
+      "crossfitCertified": "官方认证",
+      "specialties": [
+        "CrossFit官方认证",
+        "L1/L2教练"
+      ],
+      "contact": {
+        "phone": "+86-10-6417-6554",
+        "wechat": "CrossFitSanlitun"
+      }
+    },
+    {
+      "name": "CrossFit Wangjing",
+      "district": "朝阳区",
+      "rating": 4.9,
+      "priceLevel": "高端",
+      "capacity": 50,
+      "crossfitCertified": "官方认证",
+      "specialties": [
+        "竞技训练",
+        "比赛准备"
+      ],
+      "contact": {
+        "phone": "+86-10-8470-2588",
+        "wechat": "CrossFitWangjing"
+      }
+    },
+    {
+      "name": "CrossFit CBD",
+      "district": "朝阳区",
+      "rating": 4.7,
+      "priceLevel": "高端",
+      "capacity": 35,
+      "crossfitCertified": "官方认证",
+      "specialties": [
+        "商务健身",
+        "CBD地段"
+      ],
+      "contact": {
+        "phone": "+86-10-6505-8899",
+        "wechat": "CrossFitCBD"
+      }
+    },
+    {
+      "name": "Functional Fitness Beijing",
+      "district": "海淀区",
+      "rating": 4.5,
+      "priceLevel": "大众",
+      "capacity": 40,
+      "crossfitCertified": "功能训练",
+      "specialties": [
+        "功能性训练",
+        "学生友好"
+      ],
+      "contact": {
+        "phone": "+86-10-6259-7788",
+        "wechat": "FFBeijing"
+      }
+    }
+  ],
+  "recommendations": {
+    "beginners": "Functional Fitness Beijing - 学生友好，价格适中",
+    "professionals": "CrossFit Sanlitun - 官方认证，专业教练",
+    "business": "CrossFit CBD - 商务便利，高端服务",
+    "athletes": "CrossFit Wangjing - 竞技训练，专业设备"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-07-29T06:19:18.759Z",
+  "privateKeyExists": true,
+  "privateKeySize": 1679,
+  "configExists": true,
+  "projectExists": true,
+  "networkTest": {
+    "success": true,
+    "stdout": "{\n  \"origin\": \"115.171.9.126\"\n}",
+    "stderr": ""
+  },
+  "environmentVariables": {}
+}

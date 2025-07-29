@@ -1,0 +1,23 @@
+<!--components/search-bar/search-bar.wxml-->
+<view class="search-bar {{focused ? 'search-bar--focused' : ''}}">
+  <view class="search-bar__container">
+    <view class="search-bar__icon">
+      <text>🔍</text>
+    </view>
+    <input 
+      class="search-bar__input"
+      type="text"
+      placeholder="{{placeholder}}"
+      value="{{value}}"
+      bindinput="onInput"
+      bindfocus="onFocus"
+      bindblur="onBlur"
+    />
+    <view wx:if="{{value}}" class="search-bar__clear" bindtap="onClear">
+      <text>✕</text>
+    </view>
+  </view>
+  <view class="search-bar__filter" bindtap="onFilterTap">
+    <text>📋</text>
+  </view>
+</view>

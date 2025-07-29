@@ -1,0 +1,244 @@
+name: Miniprogram Sync Workflow
+
+on:
+  repository_dispatch:
+    types: [testing-complete]
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: '版本类型'
+        required: false
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+      upload_desc:
+        description: '上传描述'
+        required: false
+        type: string
+        default: 'Auto-generated from workflow'
+
+env:
+  NODE_VERSION: '18'
+  MINIPROGRAM_APP_ID: 'wx0a950fd30b3c2146'
+
+jobs:
+  # 构建小程序
+  build-miniprogram:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      build_path: ${{ steps.build.outputs.build_path }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate version
+        id: version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          VERSION_TYPE=${{ github.event.inputs.version_type || 'patch' }}
+          NEW_VERSION=$(npm version $VERSION_TYPE --no-git-tag-version --silent)
+          echo "Current version: $CURRENT_VERSION"
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+      - name: Update miniprogram config
+        id: config
+        run: |
+          # 更新小程序项目配置
+          node scripts/automation/update-miniprogram-config.js \
+            --version="${{ steps.version.outputs.version }}" \
+            --appid="${{ env.MINIPROGRAM_APP_ID }}"
+            
+      - name: Build miniprogram
+        id: build
+        run: |
+          echo "Building miniprogram..."
+          
+          # 构建后端API
+          npm run build
+          
+          # 如果有小程序前端代码，在这里构建
+          if [ -d "miniprogram" ]; then
+            cd miniprogram
+            if [ -f "package.json" ]; then
+              npm ci
+              npm run build
+            fi
+            cd ..
+          fi
+          
+          # 创建构建输出目录
+          BUILD_PATH="./miniprogram-build"
+          mkdir -p $BUILD_PATH
+          
+          # 复制小程序相关文件
+          if [ -d "miniprogram" ]; then
+            cp -r miniprogram/* $BUILD_PATH/
+          fi
+          
+          # 复制配置文件
+          cp config/miniprogram/* $BUILD_PATH/ 2>/dev/null || true
+          
+          echo "build_path=$BUILD_PATH" >> $GITHUB_OUTPUT
+          
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: miniprogram-build
+          path: ${{ steps.build.outputs.build_path }}
+          retention-days: 1
+
+  # 上传到微信开发助手
+  upload-to-wechat:
+    runs-on: ubuntu-latest
+    needs: [build-miniprogram]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: miniprogram-build
+          path: ./miniprogram-build
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install miniprogram-ci
+        run: npm install -g miniprogram-ci
+        
+      - name: Setup WeChat CI
+        run: |
+          # 创建微信CI配置文件
+          mkdir -p ~/.wechat-ci
+          echo "${{ secrets.WECHAT_CI_KEY }}" > ~/.wechat-ci/private.key
+          chmod 600 ~/.wechat-ci/private.key
+          
+      - name: Upload to WeChat
+        id: upload
+        run: |
+          node scripts/workflow/miniprogram-sync.js \
+            --appid="${{ env.MINIPROGRAM_APP_ID }}" \
+            --private-key="~/.wechat-ci/private.key" \
+            --project-path="./miniprogram-build" \
+            --version="${{ needs.build-miniprogram.outputs.version }}" \
+            --desc="${{ github.event.inputs.upload_desc || 'Auto-generated from workflow' }}"
+            
+      - name: Generate preview QR code
+        id: qr
+        run: |
+          # 生成预览二维码
+          QR_CODE_PATH="preview-qr-code.png"
+          node scripts/workflow/generate-preview-qr.js \
+            --appid="${{ env.MINIPROGRAM_APP_ID }}" \
+            --private-key="~/.wechat-ci/private.key" \
+            --project-path="./miniprogram-build" \
+            --output="$QR_CODE_PATH"
+          echo "qr_code_path=$QR_CODE_PATH" >> $GITHUB_OUTPUT
+          
+      - name: Upload QR code
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-qr-code
+          path: ${{ steps.qr.outputs.qr_code_path }}
+          retention-days: 7
+
+  # 生成测试报告
+  generate-test-report:
+    runs-on: ubuntu-latest
+    needs: [upload-to-wechat]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download QR code
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-qr-code
+          path: ./qr-code
+          
+      - name: Generate test instructions
+        run: |
+          echo "# 📱 微信小程序测试指南" > miniprogram-test-guide.md
+          echo "" >> miniprogram-test-guide.md
+          echo "## 版本信息" >> miniprogram-test-guide.md
+          echo "- **版本号**: ${{ needs.build-miniprogram.outputs.version }}" >> miniprogram-test-guide.md
+          echo "- **提交**: ${{ github.sha }}" >> miniprogram-test-guide.md
+          echo "- **分支**: ${{ github.ref_name }}" >> miniprogram-test-guide.md
+          echo "- **构建时间**: $(date)" >> miniprogram-test-guide.md
+          echo "" >> miniprogram-test-guide.md
+          echo "## 测试步骤" >> miniprogram-test-guide.md
+          echo "1. 使用微信扫描下方二维码" >> miniprogram-test-guide.md
+          echo "2. 在微信开发助手中查看预览版本" >> miniprogram-test-guide.md
+          echo "3. 进行功能测试验证" >> miniprogram-test-guide.md
+          echo "4. 确认无问题后回复确认信息" >> miniprogram-test-guide.md
+          echo "" >> miniprogram-test-guide.md
+          echo "## 预览二维码" >> miniprogram-test-guide.md
+          echo "![Preview QR Code](./qr-code/preview-qr-code.png)" >> miniprogram-test-guide.md
+          echo "" >> miniprogram-test-guide.md
+          echo "## 测试重点" >> miniprogram-test-guide.md
+          echo "- 新功能是否正常工作" >> miniprogram-test-guide.md
+          echo "- 用户界面是否显示正确" >> miniprogram-test-guide.md
+          echo "- API接口调用是否成功" >> miniprogram-test-guide.md
+          echo "- 数据交互是否正常" >> miniprogram-test-guide.md
+          echo "" >> miniprogram-test-guide.md
+          echo "## 反馈方式" >> miniprogram-test-guide.md
+          echo "测试完成后，请在GitHub Issue中反馈测试结果。" >> miniprogram-test-guide.md
+          
+      - name: Upload test guide
+        uses: actions/upload-artifact@v4
+        with:
+          name: miniprogram-test-guide
+          path: miniprogram-test-guide.md
+          retention-days: 7
+          
+      - name: Create test issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: '📱 小程序测试 - v${{ needs.build-miniprogram.outputs.version }}'
+          content-filepath: miniprogram-test-guide.md
+          labels: |
+            testing
+            miniprogram
+            user-testing
+
+  # 通知用户测试
+  notify-user-testing:
+    runs-on: ubuntu-latest
+    needs: [generate-test-report]
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# 🚀 小程序已准备就绪" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "版本 **${{ needs.build-miniprogram.outputs.version }}** 已成功上传到微信开发助手。" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 下一步操作" >> $GITHUB_STEP_SUMMARY
+          echo "1. 📱 扫描预览二维码进行用户测试" >> $GITHUB_STEP_SUMMARY
+          echo "2. ✅ 确认测试通过后，回复 GitHub Issue" >> $GITHUB_STEP_SUMMARY
+          echo "3. 🚀 自动触发生产环境部署" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "预览二维码和测试指南已上传到 Artifacts 中。" >> $GITHUB_STEP_SUMMARY
+          
+      - name: Wait for user confirmation
+        run: |
+          echo "⏳ 等待用户测试确认..."
+          echo "请在相关的GitHub Issue中确认测试结果"
+          echo "确认后将自动触发生产环境部署流程"

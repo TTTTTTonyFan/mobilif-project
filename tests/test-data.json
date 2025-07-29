@@ -1,0 +1,764 @@
+{
+  "testSuites": {
+    "gymListAPI": {
+      "baseURL": "http://localhost:3000",
+      "headers": {
+        "Authorization": "Bearer test-token",
+        "Content-Type": "application/json"
+      },
+      "testCases": {
+        "basicQuery": [
+          {
+            "name": "获取默认场馆列表",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {},
+            "expectedStatus": 200,
+            "expectedFields": ["code", "message", "data"],
+            "expectedDataFields": ["list", "pagination"],
+            "description": "验证基础场馆列表获取功能"
+          },
+          {
+            "name": "分页查询测试",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "page": 1,
+              "pageSize": 5
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 5,
+              "paginationPage": 1,
+              "paginationPageSize": 5
+            }
+          },
+          {
+            "name": "边界分页测试",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "page": -1,
+              "pageSize": 0
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "paginationPage": 1,
+              "paginationPageSize": 20
+            }
+          }
+        ],
+        "cityFilter": [
+          {
+            "name": "北京城市筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": "北京"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsInCity": "北京"
+            }
+          },
+          {
+            "name": "上海城市筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": "上海"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsInCity": "上海"
+            }
+          },
+          {
+            "name": "不存在城市筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": "不存在的城市xyz"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 0
+            }
+          },
+          {
+            "name": "空城市参数",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": ""
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasResults": true
+            }
+          }
+        ],
+        "keywordSearch": [
+          {
+            "name": "CrossFit关键词搜索",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "keyword": "CrossFit"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "containsKeyword": "CrossFit"
+            }
+          },
+          {
+            "name": "地址关键词搜索",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "keyword": "三里屯"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "containsKeyword": "三里屯"
+            }
+          },
+          {
+            "name": "中文关键词搜索",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "keyword": "力量"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "containsKeyword": "力量"
+            }
+          },
+          {
+            "name": "无结果关键词搜索",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "keyword": "不存在的场馆xyz123"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 0
+            }
+          },
+          {
+            "name": "空关键词搜索",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "keyword": ""
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasResults": true
+            }
+          }
+        ],
+        "typeFilter": [
+          {
+            "name": "CrossFit认证场馆筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "gymType": "crossfit_certified"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsOfType": "crossfit_certified"
+            }
+          },
+          {
+            "name": "综合训练馆筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "gymType": "comprehensive"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsOfType": "comprehensive"
+            }
+          },
+          {
+            "name": "专项训练馆筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "gymType": "specialty"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsOfType": "specialty"
+            }
+          },
+          {
+            "name": "无效类型筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "gymType": "invalid_type"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 0
+            }
+          }
+        ],
+        "programFilter": [
+          {
+            "name": "CrossFit课程筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "programs": "CrossFit"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allSupportProgram": "CrossFit"
+            }
+          },
+          {
+            "name": "Olympic Lifting课程筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "programs": "Olympic Lifting"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allSupportProgram": "Olympic Lifting"
+            }
+          },
+          {
+            "name": "多课程筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "programs": "CrossFit,Olympic Lifting"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "supportAnyProgram": ["CrossFit", "Olympic Lifting"]
+            }
+          },
+          {
+            "name": "不存在课程筛选",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "programs": "不存在的课程"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 0
+            }
+          }
+        ],
+        "locationQuery": [
+          {
+            "name": "北京位置查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "radius": 10
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasDistance": true,
+              "sortedByDistance": true
+            }
+          },
+          {
+            "name": "上海位置查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 31.2304,
+              "lng": 121.4737,
+              "radius": 10
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasDistance": true,
+              "sortedByDistance": true
+            }
+          },
+          {
+            "name": "小范围位置查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "radius": 1
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "maxDistance": 1
+            }
+          },
+          {
+            "name": "大范围位置查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "radius": 100
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasDistance": true
+            }
+          },
+          {
+            "name": "无效坐标查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 999,
+              "lng": 999,
+              "radius": 10
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "listLength": 0
+            }
+          },
+          {
+            "name": "负数半径查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "radius": -5
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasResults": true
+            }
+          }
+        ],
+        "sorting": [
+          {
+            "name": "按距离排序",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "sortBy": "distance"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "sortedByDistance": true
+            }
+          },
+          {
+            "name": "按评分排序",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "sortBy": "rating"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "sortedByRating": true
+            }
+          },
+          {
+            "name": "按名称排序",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "sortBy": "name"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "sortedByName": true
+            }
+          },
+          {
+            "name": "无效排序类型",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "sortBy": "invalid"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasResults": true
+            }
+          }
+        ],
+        "combinedQuery": [
+          {
+            "name": "城市+关键词查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": "北京",
+              "keyword": "CrossFit"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsInCity": "北京",
+              "containsKeyword": "CrossFit"
+            }
+          },
+          {
+            "name": "位置+类型查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "lat": 39.9042,
+              "lng": 116.4074,
+              "gymType": "crossfit_certified"
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "hasDistance": true,
+              "allGymsOfType": "crossfit_certified"
+            }
+          },
+          {
+            "name": "全参数组合查询",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "city": "上海",
+              "keyword": "CrossFit",
+              "gymType": "crossfit_certified",
+              "programs": "CrossFit",
+              "sortBy": "rating",
+              "page": 1,
+              "pageSize": 10
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "allGymsInCity": "上海",
+              "containsKeyword": "CrossFit",
+              "allGymsOfType": "crossfit_certified",
+              "allSupportProgram": "CrossFit"
+            }
+          }
+        ],
+        "errorCases": [
+          {
+            "name": "无Token访问",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "headers": {},
+            "params": {},
+            "expectedStatus": [200, 401, 403],
+            "description": "测试无认证访问"
+          },
+          {
+            "name": "无效Token访问",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "headers": {
+              "Authorization": "Bearer invalid-token"
+            },
+            "params": {},
+            "expectedStatus": [200, 401, 403],
+            "description": "测试无效Token访问"
+          },
+          {
+            "name": "超大页面大小",
+            "endpoint": "/api/gyms",
+            "method": "GET",
+            "params": {
+              "pageSize": 10000
+            },
+            "expectedStatus": 200,
+            "validation": {
+              "maxPageSize": 100
+            }
+          }
+        ],
+        "auxiliaryEndpoints": [
+          {
+            "name": "获取城市列表",
+            "endpoint": "/api/gyms/cities",
+            "method": "GET",
+            "expectedStatus": 200,
+            "expectedFields": ["code", "message", "data"],
+            "validation": {
+              "hasResults": true
+            }
+          },
+          {
+            "name": "获取国家列表",
+            "endpoint": "/api/gyms/countries",
+            "method": "GET",
+            "expectedStatus": 200,
+            "expectedFields": ["code", "message", "data"],
+            "validation": {
+              "hasResults": true
+            }
+          }
+        ]
+      }
+    },
+    "performanceTests": {
+      "responseTimeTests": [
+        {
+          "name": "基础查询性能",
+          "endpoint": "/api/gyms?city=北京",
+          "maxResponseTime": 200,
+          "iterations": 10
+        },
+        {
+          "name": "地理位置查询性能",
+          "endpoint": "/api/gyms?lat=39.9042&lng=116.4074&radius=10",
+          "maxResponseTime": 200,
+          "iterations": 10
+        },
+        {
+          "name": "复合查询性能",
+          "endpoint": "/api/gyms?keyword=CrossFit&gymType=crossfit_certified&programs=CrossFit",
+          "maxResponseTime": 200,
+          "iterations": 10
+        }
+      ],
+      "concurrencyTests": [
+        {
+          "name": "并发基础查询",
+          "endpoint": "/api/gyms",
+          "concurrentUsers": 10,
+          "iterations": 5,
+          "maxResponseTime": 500
+        },
+        {
+          "name": "并发复合查询",
+          "endpoint": "/api/gyms?city=北京&keyword=CrossFit",
+          "concurrentUsers": 5,
+          "iterations": 3,
+          "maxResponseTime": 800
+        }
+      ]
+    }
+  },
+  "mockData": {
+    "validTokens": [
+      "test-token",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test",
+      "valid-jwt-token-example"
+    ],
+    "invalidTokens": [
+      "invalid-token",
+      "expired-token",
+      "malformed-token"
+    ],
+    "testLocations": {
+      "beijing": {
+        "name": "北京市中心",
+        "lat": 39.9042,
+        "lng": 116.4074
+      },
+      "shanghai": {
+        "name": "上海市中心",
+        "lat": 31.2304,
+        "lng": 121.4737
+      },
+      "guangzhou": {
+        "name": "广州市中心",
+        "lat": 23.1291,
+        "lng": 113.2644
+      },
+      "shenzhen": {
+        "name": "深圳市中心",
+        "lat": 22.5431,
+        "lng": 114.0579
+      }
+    },
+    "searchKeywords": [
+      "CrossFit",
+      "力量训练",
+      "健身房",
+      "瑜伽",
+      "搏击",
+      "游泳",
+      "三里屯",
+      "中关村",
+      "陆家嘴",
+      "不存在abc123"
+    ],
+    "gymTypes": [
+      "crossfit_certified",
+      "comprehensive", 
+      "specialty",
+      "invalid_type"
+    ],
+    "programs": [
+      "CrossFit",
+      "Olympic Lifting",
+      "Hyrox",
+      "Gymnastics",
+      "Powerlifting",
+      "Functional Fitness",
+      "Yoga",
+      "Boxing",
+      "不存在的课程"
+    ],
+    "cities": [
+      "北京",
+      "上海",
+      "广州",
+      "深圳",
+      "杭州",
+      "成都",
+      "武汉",
+      "西安",
+      "不存在的城市xyz"
+    ],
+    "sortTypes": [
+      "distance",
+      "rating",
+      "name",
+      "default",
+      "invalid"
+    ]
+  },
+  "expectedResponses": {
+    "successResponse": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "list": [
+          {
+            "id": "string",
+            "name": "string",
+            "address": "string", 
+            "city": "string",
+            "district": "string",
+            "lat": "number",
+            "lng": "number",
+            "distance": "number|null",
+            "rating": "number",
+            "reviewCount": "number",
+            "businessStatus": "string",
+            "todayHours": "string",
+            "gymType": "string",
+            "crossfitCertified": "boolean",
+            "supportedPrograms": "array",
+            "tags": "array",
+            "verified": "boolean",
+            "featured": "boolean",
+            "images": "array",
+            "phone": "string",
+            "website": "string|null",
+            "description": "string|null",
+            "facilities": "array",
+            "openingHours": "object"
+          }
+        ],
+        "pagination": {
+          "page": "number",
+          "pageSize": "number", 
+          "total": "number",
+          "totalPages": "number",
+          "hasNext": "boolean",
+          "hasPrev": "boolean"
+        },
+        "currentCity": "string|null"
+      }
+    },
+    "errorResponse": {
+      "code": "number",
+      "message": "string",
+      "error": "string|null"
+    },
+    "emptyResponse": {
+      "code": 0,
+      "message": "success",
+      "data": {
+        "list": [],
+        "pagination": {
+          "page": 1,
+          "pageSize": 20,
+          "total": 0,
+          "totalPages": 0,
+          "hasNext": false,
+          "hasPrev": false
+        }
+      }
+    }
+  },
+  "validationRules": {
+    "gym": {
+      "id": {
+        "type": "string",
+        "required": true
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "minLength": 1
+      },
+      "address": {
+        "type": "string", 
+        "required": true
+      },
+      "city": {
+        "type": "string",
+        "required": true
+      },
+      "lat": {
+        "type": "number",
+        "min": -90,
+        "max": 90
+      },
+      "lng": {
+        "type": "number",
+        "min": -180,
+        "max": 180
+      },
+      "rating": {
+        "type": "number",
+        "min": 0,
+        "max": 5
+      },
+      "reviewCount": {
+        "type": "number",
+        "min": 0
+      },
+      "businessStatus": {
+        "type": "string",
+        "enum": ["营业中", "休息中", "歇业", "未知"]
+      },
+      "gymType": {
+        "type": "string",
+        "enum": ["crossfit_certified", "comprehensive", "specialty"]
+      },
+      "crossfitCertified": {
+        "type": "boolean"
+      }
+    },
+    "pagination": {
+      "page": {
+        "type": "number",
+        "min": 1
+      },
+      "pageSize": {
+        "type": "number",
+        "min": 1,
+        "max": 100
+      },
+      "total": {
+        "type": "number",
+        "min": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+<!-- pages/booking/class-list/class-list.wxml -->
+<view class="container">
+  <text>课程预约页面 - gymId: {{gymId}}</text>
+</view>

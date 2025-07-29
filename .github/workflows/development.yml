@@ -1,0 +1,187 @@
+name: Development Workflow
+
+on:
+  push:
+    branches: [ development, feature/* ]
+  pull_request:
+    branches: [ development ]
+  workflow_dispatch:
+    inputs:
+      user_story:
+        description: '用户故事输入'
+        required: true
+        type: string
+      force_rebuild:
+        description: '强制重新构建'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  NODE_VERSION: '18'
+  MYSQL_VERSION: '8.0'
+  REDIS_VERSION: '7'
+
+jobs:
+  # 解析用户故事并生成代码
+  story-analysis:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.user_story != ''
+    outputs:
+      features: ${{ steps.parse.outputs.features }}
+      api_changes: ${{ steps.parse.outputs.api_changes }}
+      db_changes: ${{ steps.parse.outputs.db_changes }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Parse user story
+        id: parse
+        run: |
+          echo "Parsing user story: ${{ github.event.inputs.user_story }}"
+          node scripts/automation/story-parser.js "${{ github.event.inputs.user_story }}"
+          
+      - name: Generate code
+        run: |
+          node scripts/automation/code-generator.js \
+            --features="${{ steps.parse.outputs.features }}" \
+            --api-changes="${{ steps.parse.outputs.api_changes }}" \
+            --db-changes="${{ steps.parse.outputs.db_changes }}"
+            
+      - name: Commit generated code
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --staged --quiet || git commit -m "feat: Auto-generated code for user story
+
+          User Story: ${{ github.event.inputs.user_story }}
+          
+          🤖 Generated with Claude Code Workflow
+          "
+
+  # 代码质量检查
+  code-quality:
+    runs-on: ubuntu-latest
+    needs: [story-analysis]
+    if: always() && !cancelled()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint check
+        run: npm run lint
+        
+      - name: Type check
+        run: npx tsc --noEmit
+        
+      - name: Prettier check
+        run: npm run format -- --check
+
+  # 构建应用
+  build:
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build application
+        run: npm run build
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+          retention-days: 1
+
+  # 数据库迁移检查
+  database-check:
+    runs-on: ubuntu-latest
+    needs: [build]
+    services:
+      mysql:
+        image: mysql:${{ env.MYSQL_VERSION }}
+        env:
+          MYSQL_ROOT_PASSWORD: test_password
+          MYSQL_DATABASE: mobilif_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        
+      redis:
+        image: redis:${{ env.REDIS_VERSION }}
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Setup test database
+        env:
+          DATABASE_URL: mysql://root:test_password@localhost:3306/mobilif_test
+          REDIS_URL: redis://localhost:6379
+        run: |
+          node scripts/test-db-connection.js
+          
+      - name: Run database migrations
+        env:
+          DATABASE_URL: mysql://root:test_password@localhost:3306/mobilif_test
+        run: |
+          npm run migration:run
+
+  # 通知下一阶段
+  notify-testing:
+    runs-on: ubuntu-latest
+    needs: [database-check]
+    steps:
+      - name: Notify testing workflow
+        run: |
+          echo "Development workflow completed successfully"  
+          echo "Ready for testing phase"
+          
+      - name: Trigger testing workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: development-complete
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

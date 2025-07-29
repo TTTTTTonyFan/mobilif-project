@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MobiLiF 移动端模拟器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .simulator-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .app-container {
+            height: calc(100% - 44px);
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .app-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 14px;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            color: #FF6B6B;
+            border-bottom: 2px solid #FF6B6B;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .gym-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .gym-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .gym-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .gym-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .gym-info {
+            flex: 1;
+        }
+
+        .gym-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .gym-type {
+            font-size: 12px;
+            color: #FF6B6B;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .gym-location {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+
+        .gym-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .rating {
+            color: #ffc107;
+        }
+
+        .status-open {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .status-closed {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 359px;
+            height: 80px;
+            background: #fff;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6c757d;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #FF6B6B;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            background: currentColor;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #FF6B6B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .device-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .control-group {
+            margin-bottom: 10px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .control-select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 4px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .simulator-container {
+                padding: 10px;
+            }
+            
+            .phone-frame {
+                width: 100%;
+                max-width: 375px;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .phone-screen {
+                border-radius: 0;
+            }
+
+            .device-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="simulator-container">
+        <div class="phone-frame">
+            <div class="phone-screen">
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>MobiLiF</span>
+                    <span>●●●● 100%</span>
+                </div>
+                
+                <div class="app-container">
+                    <div class="app-header">
+                        <div class="app-title">MobiLiF 拓练</div>
+                        <div class="app-subtitle">发现附近优质CrossFit场馆</div>
+                    </div>
+
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" onclick="switchTab('nearby')">附近</button>
+                        <button class="nav-tab" onclick="switchTab('discover')">发现</button>
+                        <button class="nav-tab" onclick="switchTab('booking')">预约</button>
+                    </div>
+
+                    <div class="content" id="content">
+                        <div class="loading" id="loading">
+                            <div class="spinner"></div>
+                            <div>正在加载附近场馆...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <div class="nav-icon"></div>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <span>技能</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <span>社区</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-icon"></div>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="device-controls">
+            <div class="control-group">
+                <label class="control-label">设备型号</label>
+                <select class="control-select" onchange="changeDevice(this.value)">
+                    <option value="iphone14">iPhone 14</option>
+                    <option value="iphone14pro">iPhone 14 Pro</option>
+                    <option value="iphonese">iPhone SE</option>
+                    <option value="android">Android (Pixel)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">网络状态</label>
+                <select class="control-select" onchange="changeNetwork(this.value)">
+                    <option value="online">在线</option>
+                    <option value="offline">离线</option>
+                    <option value="slow">慢速网络</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">位置模拟</label>
+                <select class="control-select" onchange="changeLocation(this.value)">
+                    <option value="beijing">北京</option>
+                    <option value="shanghai">上海</option>
+                    <option value="guangzhou">广州</option>
+                    <option value="shenzhen">深圳</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const mockGymData = {
+            beijing: [
+                {
+                    id: 1,
+                    name: "CrossFit Beijing Box",
+                    type: "CrossFit认证场馆",
+                    location: "朝阳区三里屯",
+                    distance: "0.8km",
+                    rating: 4.8,
+                    reviewCount: 156,
+                    status: "营业中",
+                    isOpen: true
+                },
+                {
+                    id: 2,
+                    name: "金融街健身中心",
+                    type: "综合训练馆",
+                    location: "西城区金融街",
+                    distance: "1.2km",
+                    rating: 4.6,
+                    reviewCount: 89,
+                    status: "营业中",
+                    isOpen: true
+                },
+                {
+                    id: 3,
+                    name: "国贸CrossFit",
+                    type: "CrossFit认证场馆",
+                    location: "朝阳区国贸",
+                    distance: "2.1km",
+                    rating: 4.9,
+                    reviewCount: 203,
+                    status: "未营业",
+                    isOpen: false
+                }
+            ],
+            shanghai: [
+                {
+                    id: 4,
+                    name: "上海CrossFit浦东",
+                    type: "CrossFit认证场馆",
+                    location: "浦东新区陆家嘴",
+                    distance: "0.5km",
+                    rating: 4.7,
+                    reviewCount: 134,
+                    status: "营业中",
+                    isOpen: true
+                }
+            ]
+        };
+
+        let currentTab = 'nearby';
+        let currentLocation = 'beijing';
+        let networkStatus = 'online';
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                loadGymList();
+            }, 2000); // 模拟加载时间
+        });
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // 更新导航状态
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 加载对应内容
+            if (tab === 'nearby') {
+                loadGymList();
+            } else if (tab === 'discover') {
+                loadDiscoverContent();
+            } else if (tab === 'booking') {
+                loadBookingContent();
+            }
+        }
+
+        function loadGymList() {
+            const content = document.getElementById('content');
+            const gyms = mockGymData[currentLocation] || [];
+            
+            if (networkStatus === 'offline') {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #6c757d;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📡</div>
+                        <div>网络连接失败</div>
+                        <div style="font-size: 12px; margin-top: 8px;">请检查网络连接后重试</div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            gyms.forEach(gym => {
+                html += `
+                    <div class="gym-card" onclick="selectGym(${gym.id})">
+                        <div class="gym-header">
+                            <div class="gym-logo">${gym.name.charAt(0)}</div>
+                            <div class="gym-info">
+                                <div class="gym-name">${gym.name}</div>
+                                <div class="gym-type">${gym.type}</div>
+                                <div class="gym-location">📍 ${gym.location} · ${gym.distance}</div>
+                            </div>
+                        </div>
+                        <div class="gym-stats">
+                            <span class="rating">⭐ ${gym.rating} (${gym.reviewCount}条评价)</span>
+                            <span class="${gym.isOpen ? 'status-open' : 'status-closed'}">${gym.status}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html || '<div style="text-align: center; padding: 40px; color: #6c757d;">暂无数据</div>';
+        }
+
+        function loadDiscoverContent() {
+            document.getElementById('content').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
+                    <div style="color: #6c757d;">发现功能开发中...</div>
+                    <div style="font-size: 12px; color: #6c757d; margin-top: 8px;">敬请期待更多精彩内容</div>
+                </div>
+            `;
+        }
+
+        function loadBookingContent() {
+            document.getElementById('content').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">📅</div>
+                    <div style="color: #6c757d;">预约功能开发中...</div>
+                    <div style="font-size: 12px; color: #6c757d; margin-top: 8px;">即将支持在线预约课程</div>
+                </div>
+            `;
+        }
+
+        function selectGym(gymId) {
+            alert(`选择了场馆 ID: ${gymId}\n(实际项目中会跳转到场馆详情页)`);
+        }
+
+        function changeDevice(device) {
+            const phoneFrame = document.querySelector('.phone-frame');
+            
+            switch(device) {
+                case 'iphone14':
+                    phoneFrame.style.width = '375px';
+                    phoneFrame.style.height = '812px';
+                    break;
+                case 'iphone14pro':
+                    phoneFrame.style.width = '393px';
+                    phoneFrame.style.height = '852px';
+                    break;
+                case 'iphonese':
+                    phoneFrame.style.width = '320px';
+                    phoneFrame.style.height = '568px';
+                    break;
+                case 'android':
+                    phoneFrame.style.width = '360px';
+                    phoneFrame.style.height = '640px';
+                    break;
+            }
+        }
+
+        function changeNetwork(status) {
+            networkStatus = status;
+            if (currentTab === 'nearby') {
+                if (status === 'slow') {
+                    document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div><div>网络较慢，加载中...</div></div>';
+                    setTimeout(loadGymList, 5000);
+                } else {
+                    loadGymList();
+                }
+            }
+        }
+
+        function changeLocation(location) {
+            currentLocation = location;
+            if (currentTab === 'nearby') {
+                document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div><div>正在切换位置...</div></div>';
+                setTimeout(loadGymList, 1500);
+            }
+        }
+
+        // 触摸事件模拟
+        document.addEventListener('touchstart', function(e) {
+            // 模拟触摸反馈
+        });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'r' || e.key === 'R') {
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+{
+  "timestamp": "2025-07-28T05:29:43.632Z",
+  "summary": {
+    "total": 48,
+    "passed": 47,
+    "failed": 0,
+    "warnings": 1,
+    "startTime": "2025-07-28T05:29:42.875Z",
+    "endTime": "2025-07-28T05:29:43.631Z",
+    "duration": 756
+  },
+  "overallStatus": "WARNING",
+  "results": [
+    {
+      "category": "文件结构",
+      "name": "基础文件: package.json",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "基础文件: README.md",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "基础文件: .gitignore",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "基础文件: .env.example",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "基础文件: docker-compose.yml",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "基础文件: Dockerfile",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.904Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "目录结构: scripts",
+      "status": "pass",
+      "message": "目录存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.907Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "目录结构: config",
+      "status": "pass",
+      "message": "目录存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.907Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "目录结构: docs",
+      "status": "pass",
+      "message": "目录存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.907Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "目录结构: scripts/deployment",
+      "status": "pass",
+      "message": "目录存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.907Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/server-manager.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.907Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/test-remote-api.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/quick-test.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/setup.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/verify-setup.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/deployment/deploy.sh",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/deployment/server-init.sh",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "脚本文件: scripts/deployment/database-setup.sh",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "配置文件: config/api.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "配置文件: config/api-client.js",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "配置文件: .env.production",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.908Z"
+    },
+    {
+      "category": "文件结构",
+      "name": "文档文件: docs/local-development.md",
+      "status": "pass",
+      "message": "文件存在且可访问",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.909Z"
+    },
+    {
+      "category": "文件权限",
+      "name": "scripts/deployment/deploy.sh",
+      "status": "pass",
+      "message": "脚本文件具有执行权限",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.909Z"
+    },
+    {
+      "category": "文件权限",
+      "name": "scripts/deployment/server-init.sh",
+      "status": "pass",
+      "message": "脚本文件具有执行权限",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.909Z"
+    },
+    {
+      "category": "文件权限",
+      "name": "scripts/deployment/database-setup.sh",
+      "status": "pass",
+      "message": "脚本文件具有执行权限",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:42.909Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "api.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.003Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "api-client.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.087Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "server-manager.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.172Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "test-remote-api.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.256Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "quick-test.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.345Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "setup.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.429Z"
+    },
+    {
+      "category": "JavaScript语法",
+      "name": "verify-setup.js",
+      "status": "pass",
+      "message": "语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.516Z"
+    },
+    {
+      "category": "JSON格式",
+      "name": "package.json",
+      "status": "pass",
+      "message": "JSON格式正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.516Z"
+    },
+    {
+      "category": "Shell语法",
+      "name": "deploy.sh",
+      "status": "pass",
+      "message": "Shell语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.527Z"
+    },
+    {
+      "category": "Shell语法",
+      "name": "server-init.sh",
+      "status": "pass",
+      "message": "Shell语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.538Z"
+    },
+    {
+      "category": "Shell语法",
+      "name": "database-setup.sh",
+      "status": "pass",
+      "message": "Shell语法正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.549Z"
+    },
+    {
+      "category": "模块导入",
+      "name": "API配置",
+      "status": "pass",
+      "message": "模块导入成功",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.560Z"
+    },
+    {
+      "category": "模块导入",
+      "name": "API客户端",
+      "status": "pass",
+      "message": "模块导入成功",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.627Z"
+    },
+    {
+      "category": "模块导入",
+      "name": "服务器管理器",
+      "status": "warning",
+      "message": "模块导入成功但结构可能不正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.628Z"
+    },
+    {
+      "category": "配置验证",
+      "name": "package.json",
+      "status": "pass",
+      "message": "包含所有必需字段",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.629Z"
+    },
+    {
+      "category": "配置验证",
+      "name": "package.json scripts",
+      "status": "pass",
+      "message": "包含所有预期脚本",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.629Z"
+    },
+    {
+      "category": "环境配置",
+      "name": ".env.example",
+      "status": "pass",
+      "message": "格式正确，包含 98 个变量",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.630Z"
+    },
+    {
+      "category": "环境配置",
+      "name": ".env.production",
+      "status": "pass",
+      "message": "格式正确，包含 133 个变量",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.630Z"
+    },
+    {
+      "category": "环境配置",
+      "name": ".env",
+      "status": "pass",
+      "message": "格式正确，包含 6 个变量",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.630Z"
+    },
+    {
+      "category": "Docker配置",
+      "name": "Dockerfile",
+      "status": "pass",
+      "message": "Docker配置文件存在且不为空",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.630Z"
+    },
+    {
+      "category": "Docker配置",
+      "name": "docker-compose.yml",
+      "status": "pass",
+      "message": "Docker配置文件存在且不为空",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.630Z"
+    },
+    {
+      "category": "API配置",
+      "name": "config/api.js",
+      "status": "pass",
+      "message": "API配置结构正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.631Z"
+    },
+    {
+      "category": "API配置",
+      "name": "config/api.js 环境配置",
+      "status": "pass",
+      "message": "环境配置完整",
+      "details": null,
+      "timestamp": "2025-07-28T05:29:43.631Z"
+    }
+  ],
+  "environment": {
+    "nodeVersion": "v18.20.8",
+    "platform": "darwin",
+    "arch": "x64",
+    "cwd": "/Users/tonyfan/mobilif-project"
+  }
+}

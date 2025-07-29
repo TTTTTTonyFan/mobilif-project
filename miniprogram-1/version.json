@@ -1,0 +1,22 @@
+{
+  "version": "1.0.1",
+  "description": "新增场馆列表功能",
+  "timestamp": "2025-07-28T12:35:27.022Z",
+  "features": [
+    "新增场馆列表功能",
+    "支持地理位置搜索",
+    "支持关键词搜索",
+    "支持场馆类型筛选",
+    "支持课程类型筛选",
+    "支持城市切换",
+    "支持下拉刷新和上拉加载",
+    "营业状态实时显示"
+  ],
+  "changes": [
+    "app.json - 添加场馆列表页面和tabBar配置",
+    "pages/gyms/gym-list/ - 新增场馆列表页面",
+    "utils/api.js - 新增API服务",
+    "utils/location.js - 新增位置服务",
+    "project.config.json - 更新项目配置"
+  ]
+}

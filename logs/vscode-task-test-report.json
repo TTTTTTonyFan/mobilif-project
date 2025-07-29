@@ -1,0 +1,1176 @@
+{
+  "title": "VSCode任务配置测试报告",
+  "timestamp": "2025-07-28T05:49:13.722Z",
+  "project": "mobilif-project",
+  "summary": {
+    "total": 144,
+    "passed": 143,
+    "failed": 1,
+    "warnings": 0
+  },
+  "results": [
+    {
+      "type": "file",
+      "test": "文件存在性检查: tasks.json",
+      "status": "PASSED",
+      "message": "文件存在: .vscode/tasks.json",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.438Z"
+    },
+    {
+      "type": "file",
+      "test": "文件存在性检查: launch.json",
+      "status": "PASSED",
+      "message": "文件存在: .vscode/launch.json",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.440Z"
+    },
+    {
+      "type": "file",
+      "test": "文件存在性检查: settings.json",
+      "status": "PASSED",
+      "message": "文件存在: .vscode/settings.json",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.440Z"
+    },
+    {
+      "type": "file",
+      "test": "文件存在性检查: package.json",
+      "status": "PASSED",
+      "message": "文件存在: package.json",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.440Z"
+    },
+    {
+      "type": "json",
+      "test": "JSON格式验证: tasks.json",
+      "status": "PASSED",
+      "message": "JSON格式正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.441Z"
+    },
+    {
+      "type": "json",
+      "test": "JSON格式验证: launch.json",
+      "status": "PASSED",
+      "message": "JSON格式正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.442Z"
+    },
+    {
+      "type": "json",
+      "test": "JSON格式验证: settings.json",
+      "status": "PASSED",
+      "message": "JSON格式正确",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.442Z"
+    },
+    {
+      "type": "config",
+      "test": "Tasks版本检查",
+      "status": "PASSED",
+      "message": "版本号正确: 2.0.0",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.442Z"
+    },
+    {
+      "type": "config",
+      "test": "Tasks数组检查",
+      "status": "PASSED",
+      "message": "发现 15 个任务",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.443Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🚀 启动开发服务器.label",
+      "status": "PASSED",
+      "message": "字段值: 🚀 启动开发服务器",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.443Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🚀 启动开发服务器.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.443Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🚀 启动开发服务器",
+      "status": "PASSED",
+      "message": "脚本存在: start:dev -> nest start --watch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🚀 启动开发服务器",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🚀 启动开发服务器",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🚀 启动开发服务器",
+      "status": "PASSED",
+      "message": "panel配置: new",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "config",
+      "test": "问题匹配器检查: 🚀 启动开发服务器",
+      "status": "PASSED",
+      "message": "使用预定义匹配器: $tsc-watch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔨 构建项目.label",
+      "status": "PASSED",
+      "message": "字段值: 🔨 构建项目",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔨 构建项目.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🔨 构建项目",
+      "status": "PASSED",
+      "message": "脚本存在: build -> nest build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.444Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🔨 构建项目",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔨 构建项目",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔨 构建项目",
+      "status": "PASSED",
+      "message": "panel配置: shared",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "问题匹配器检查: 🔨 构建项目",
+      "status": "PASSED",
+      "message": "使用预定义匹配器: $tsc",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🧪 运行测试.label",
+      "status": "PASSED",
+      "message": "字段值: 🧪 运行测试",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🧪 运行测试.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🧪 运行测试",
+      "status": "PASSED",
+      "message": "脚本存在: test -> jest",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🧪 运行测试",
+      "status": "PASSED",
+      "message": "任务组: test",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🧪 运行测试",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🧪 运行测试",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: ⚡ 快速验证.label",
+      "status": "PASSED",
+      "message": "字段值: ⚡ 快速验证",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: ⚡ 快速验证.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: ⚡ 快速验证",
+      "status": "PASSED",
+      "message": "脚本存在: quick-validate -> node scripts/quick-validate.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: ⚡ 快速验证",
+      "status": "PASSED",
+      "message": "任务组: test",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: ⚡ 快速验证",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: ⚡ 快速验证",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.445Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔍 完整验证.label",
+      "status": "PASSED",
+      "message": "字段值: 🔍 完整验证",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔍 完整验证.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🔍 完整验证",
+      "status": "PASSED",
+      "message": "脚本存在: validate -> node scripts/comprehensive-validation.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🔍 完整验证",
+      "status": "PASSED",
+      "message": "任务组: test",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔍 完整验证",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔍 完整验证",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🌐 API测试.label",
+      "status": "PASSED",
+      "message": "字段值: 🌐 API测试",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🌐 API测试.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🌐 API测试",
+      "status": "PASSED",
+      "message": "脚本存在: test:api -> node scripts/test-remote-api.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🌐 API测试",
+      "status": "PASSED",
+      "message": "任务组: test",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🌐 API测试",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.446Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🌐 API测试",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🛠️ 代码检查.label",
+      "status": "PASSED",
+      "message": "字段值: 🛠️ 代码检查",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🛠️ 代码检查.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🛠️ 代码检查",
+      "status": "PASSED",
+      "message": "脚本存在: lint -> eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🛠️ 代码检查",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🛠️ 代码检查",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🛠️ 代码检查",
+      "status": "PASSED",
+      "message": "panel配置: shared",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "问题匹配器检查: 🛠️ 代码检查",
+      "status": "PASSED",
+      "message": "使用预定义匹配器: $eslint-stylish",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 💅 格式化代码.label",
+      "status": "PASSED",
+      "message": "字段值: 💅 格式化代码",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 💅 格式化代码.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 💅 格式化代码",
+      "status": "PASSED",
+      "message": "脚本存在: format -> prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 💅 格式化代码",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 💅 格式化代码",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 💅 格式化代码",
+      "status": "PASSED",
+      "message": "panel配置: shared",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🖥️ 服务器状态.label",
+      "status": "PASSED",
+      "message": "字段值: 🖥️ 服务器状态",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🖥️ 服务器状态.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.447Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🖥️ 服务器状态",
+      "status": "PASSED",
+      "message": "脚本存在: server:status -> node scripts/server-status.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🖥️ 服务器状态",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🖥️ 服务器状态",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🖥️ 服务器状态",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔄 重启服务.label",
+      "status": "PASSED",
+      "message": "字段值: 🔄 重启服务",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🔄 重启服务.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🔄 重启服务",
+      "status": "PASSED",
+      "message": "脚本存在: server:restart -> node scripts/server-restart.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🔄 重启服务",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.448Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔄 重启服务",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🔄 重启服务",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 📦 安装依赖.label",
+      "status": "PASSED",
+      "message": "字段值: 📦 安装依赖",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 📦 安装依赖.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 📦 安装依赖",
+      "status": "FAILED",
+      "message": "package.json中不存在脚本: install",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 📦 安装依赖",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 📦 安装依赖",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 📦 安装依赖",
+      "status": "PASSED",
+      "message": "panel配置: shared",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🚀 部署项目.label",
+      "status": "PASSED",
+      "message": "字段值: 🚀 部署项目",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🚀 部署项目.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🚀 部署项目",
+      "status": "PASSED",
+      "message": "脚本存在: server:deploy -> bash scripts/deployment/deploy.sh",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🚀 部署项目",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🚀 部署项目",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🚀 部署项目",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "任务依赖检查: 🚀 部署项目",
+      "status": "PASSED",
+      "message": "依赖任务: 🔨 构建项目",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 📚 功能示例.label",
+      "status": "PASSED",
+      "message": "字段值: 📚 功能示例",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 📚 功能示例.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 📚 功能示例",
+      "status": "PASSED",
+      "message": "脚本存在: examples -> node examples/usage-examples.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 📚 功能示例",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 📚 功能示例",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 📚 功能示例",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: ⚙️ 项目设置.label",
+      "status": "PASSED",
+      "message": "字段值: ⚙️ 项目设置",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: ⚙️ 项目设置.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.450Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: ⚙️ 项目设置",
+      "status": "PASSED",
+      "message": "脚本存在: setup -> node scripts/setup.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: ⚙️ 项目设置",
+      "status": "PASSED",
+      "message": "任务组: build",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: ⚙️ 项目设置",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: ⚙️ 项目设置",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🏥 环境验证.label",
+      "status": "PASSED",
+      "message": "字段值: 🏥 环境验证",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "task",
+      "test": "任务字段检查: 🏥 环境验证.type",
+      "status": "PASSED",
+      "message": "字段值: npm",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.451Z"
+    },
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 🏥 环境验证",
+      "status": "PASSED",
+      "message": "脚本存在: verify -> node scripts/verify-setup.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "config",
+      "test": "任务组检查: 🏥 环境验证",
+      "status": "PASSED",
+      "message": "任务组: test",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🏥 环境验证",
+      "status": "PASSED",
+      "message": "reveal配置: always",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "config",
+      "test": "展示配置检查: 🏥 环境验证",
+      "status": "PASSED",
+      "message": "panel配置: dedicated",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "config",
+      "test": "Launch版本检查",
+      "status": "PASSED",
+      "message": "版本号: 0.2.0",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "config",
+      "test": "Launch配置数组检查",
+      "status": "PASSED",
+      "message": "发现 6 个调试配置",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🚀 启动/调试应用.name",
+      "status": "PASSED",
+      "message": "字段值: 🚀 启动/调试应用",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🚀 启动/调试应用.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🚀 启动/调试应用.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: 🚀 启动/调试应用",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/dist/main.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "预启动任务检查: 🚀 启动/调试应用",
+      "status": "PASSED",
+      "message": "预启动任务: 🔨 构建项目",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "环境文件检查: 🚀 启动/调试应用",
+      "status": "PASSED",
+      "message": "环境文件存在: ${workspaceFolder}/.env",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🧪 调试测试.name",
+      "status": "PASSED",
+      "message": "字段值: 🧪 调试测试",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🧪 调试测试.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.452Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🧪 调试测试.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: 🧪 调试测试",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/node_modules/.bin/jest",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "环境文件检查: 🧪 调试测试",
+      "status": "PASSED",
+      "message": "环境文件存在: ${workspaceFolder}/.env",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🔍 调试当前测试文件.name",
+      "status": "PASSED",
+      "message": "字段值: 🔍 调试当前测试文件",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🔍 调试当前测试文件.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🔍 调试当前测试文件.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: 🔍 调试当前测试文件",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/node_modules/.bin/jest",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🌐 调试API客户端.name",
+      "status": "PASSED",
+      "message": "字段值: 🌐 调试API客户端",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🌐 调试API客户端.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🌐 调试API客户端.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: 🌐 调试API客户端",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/examples/usage-examples.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "环境文件检查: 🌐 调试API客户端",
+      "status": "PASSED",
+      "message": "环境文件存在: ${workspaceFolder}/.env",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: ⚡ 调试快速验证.name",
+      "status": "PASSED",
+      "message": "字段值: ⚡ 调试快速验证",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: ⚡ 调试快速验证.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: ⚡ 调试快速验证.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: ⚡ 调试快速验证",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/scripts/quick-validate.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "环境文件检查: ⚡ 调试快速验证",
+      "status": "PASSED",
+      "message": "环境文件存在: ${workspaceFolder}/.env",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🖥️ 调试服务器管理.name",
+      "status": "PASSED",
+      "message": "字段值: 🖥️ 调试服务器管理",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🖥️ 调试服务器管理.type",
+      "status": "PASSED",
+      "message": "字段值: node",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试配置字段检查: 🖥️ 调试服务器管理.request",
+      "status": "PASSED",
+      "message": "字段值: launch",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "调试程序路径检查: 🖥️ 调试服务器管理",
+      "status": "PASSED",
+      "message": "程序路径: ${workspaceFolder}/examples/usage-examples.js",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "debug",
+      "test": "环境文件检查: 🖥️ 调试服务器管理",
+      "status": "PASSED",
+      "message": "环境文件存在: ${workspaceFolder}/.env",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.453Z"
+    },
+    {
+      "type": "config",
+      "test": "设置项检查: editor.formatOnSave",
+      "status": "PASSED",
+      "message": "设置值: true",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "设置项检查: editor.tabSize",
+      "status": "PASSED",
+      "message": "设置值: 2",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "设置项检查: typescript.preferences.importModuleSpecifier",
+      "status": "PASSED",
+      "message": "设置值: \"relative\"",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "设置项检查: files.exclude",
+      "status": "PASSED",
+      "message": "设置值: {\"**/node_modules\":true,\"**/dist\":true,\"**/.git\":true,\"**/.DS_Store\":true,\"**/coverage\":true,\"**/*.log\":true}",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "设置项检查: search.exclude",
+      "status": "PASSED",
+      "message": "设置值: {\"**/node_modules\":true,\"**/dist\":true,\"**/coverage\":true,\"**/*.log\":true}",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "文件嵌套设置检查",
+      "status": "PASSED",
+      "message": "文件嵌套功能已启用",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "config",
+      "test": "终端配置检查",
+      "status": "PASSED",
+      "message": "默认终端: zsh",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.454Z"
+    },
+    {
+      "type": "execution",
+      "test": "NPM可用性检查",
+      "status": "PASSED",
+      "message": "npm命令可用",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.720Z"
+    },
+    {
+      "type": "execution",
+      "test": "Package.json脚本检查",
+      "status": "PASSED",
+      "message": "发现 36 个npm脚本",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.721Z"
+    }
+  ],
+  "warnings": [],
+  "errors": [
+    {
+      "type": "script",
+      "test": "NPM脚本检查: 📦 安装依赖",
+      "status": "FAILED",
+      "message": "package.json中不存在脚本: install",
+      "details": null,
+      "timestamp": "2025-07-28T05:49:13.449Z"
+    }
+  ]
+}

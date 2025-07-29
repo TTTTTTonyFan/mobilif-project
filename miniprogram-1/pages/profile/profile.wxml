@@ -1,0 +1,75 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户信息头部 -->
+  <view class="user-header">
+    <view class="user-info" bindtap="onAvatarTap">
+      <image class="avatar" src="{{user.avatarUrl || '/assets/icons/default-avatar.png'}}" />
+      <view class="user-details">
+        <text class="nickname">{{user.nickName || '点击登录'}}</text>
+        <text class="level">{{user.level}} 会员</text>
+      </view>
+    </view>
+    
+    <!-- 用户统计 -->
+    <view class="user-stats">
+      <view class="stat-item">
+        <text class="stat-number">{{user.points || 0}}</text>
+        <text class="stat-label">积分</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-number">{{user.totalWorkouts || 0}}</text>
+        <text class="stat-label">锻炼次数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷功能区 -->
+  <view class="quick-actions">
+    <view class="quick-action" bindtap="onMenuTap" data-url="/pages/bookings/my-bookings">
+      <text class="action-icon">📅</text>
+      <text class="action-text">我的预约</text>
+    </view>
+    <view class="quick-action" bindtap="onMenuTap" data-url="/pages/points/points-mall">
+      <text class="action-icon">🎁</text>
+      <text class="action-text">积分商城</text>
+    </view>
+    <view class="quick-action" bindtap="onMenuTap" data-url="/pages/achievements/achievements">
+      <text class="action-icon">🏆</text>
+      <text class="action-text">成就中心</text>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-section">
+    <view class="menu-title">功能菜单</view>
+    <view class="menu-list">
+      <view wx:for="{{menuItems}}" 
+            wx:key="title" 
+            class="menu-item" 
+            bindtap="onMenuTap" 
+            data-url="{{item.url}}">
+        <view class="menu-content">
+          <text class="menu-icon">{{item.icon}}</text>
+          <view class="menu-text">
+            <text class="menu-title-text">{{item.title}}</text>
+            <text class="menu-desc">{{item.desc}}</text>
+          </view>
+        </view>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">MobiLiF v1.0.1</text>
+    <text class="copyright">© 2024 MobiLiF Team</text>
+  </view>
+
+  <!-- 退出登录按钮 -->
+  <view wx:if="{{user && user.nickName !== '未登录用户' && user.nickName !== '点击登录'}}" 
+        class="logout-section">
+    <button class="logout-button" bindtap="logout">退出登录</button>
+  </view>
+</view>

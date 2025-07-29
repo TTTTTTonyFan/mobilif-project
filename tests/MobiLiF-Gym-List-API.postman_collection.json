@@ -1,0 +1,1714 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "MobiLiF 场馆列表 API 测试集合",
+		"description": "MobiLiF场馆列表功能的完整API测试集合，包含所有接口的测试用例、数据验证和性能测试。",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "🏠 基础功能测试",
+			"item": [
+				{
+					"name": "获取默认场馆列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 基础响应验证",
+									"pm.test('响应状态码为200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('响应时间小于200ms', function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"// 数据结构验证",
+									"pm.test('响应数据结构正确', function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('code');",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData).to.have.property('data');",
+									"    ",
+									"    pm.expect(jsonData.data).to.have.property('list');",
+									"    pm.expect(jsonData.data).to.have.property('pagination');",
+									"    ",
+									"    pm.expect(jsonData.data.list).to.be.an('array');",
+									"});",
+									"",
+									"pm.test('业务响应码为0', function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"});",
+									"",
+									"// 场馆数据验证",
+									"pm.test('场馆数据字段完整', function () {",
+									"    const jsonData = pm.response.json();",
+									"    if (jsonData.data.list.length > 0) {",
+									"        const gym = jsonData.data.list[0];",
+									"        pm.expect(gym).to.have.property('id');",
+									"        pm.expect(gym).to.have.property('name');",
+									"        pm.expect(gym).to.have.property('address');",
+									"        pm.expect(gym).to.have.property('city');",
+									"        pm.expect(gym).to.have.property('rating');",
+									"        pm.expect(gym).to.have.property('businessStatus');",
+									"        pm.expect(gym).to.have.property('gymType');",
+									"        pm.expect(gym).to.have.property('supportedPrograms');",
+									"    }",
+									"});",
+									"",
+									"// 分页信息验证",
+									"pm.test('分页信息正确', function () {",
+									"    const jsonData = pm.response.json();",
+									"    const pagination = jsonData.data.pagination;",
+									"    ",
+									"    pm.expect(pagination).to.have.property('page');",
+									"    pm.expect(pagination).to.have.property('pageSize');",
+									"    pm.expect(pagination).to.have.property('total');",
+									"    pm.expect(pagination).to.have.property('hasNext');",
+									"    pm.expect(pagination).to.have.property('hasPrev');",
+									"    ",
+									"    pm.expect(pagination.page).to.be.a('number');",
+									"    pm.expect(pagination.pageSize).to.be.a('number');",
+									"    pm.expect(pagination.total).to.be.a('number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页功能测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('分页参数正确处理', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    const pagination = jsonData.data.pagination;",
+									"    ",
+									"    pm.expect(pagination.page).to.eql(1);",
+									"    pm.expect(pagination.pageSize).to.eql(5);",
+									"    pm.expect(jsonData.data.list.length).to.be.at.most(5);",
+									"});",
+									"",
+									"pm.test('响应时间合理', function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?page=1&pageSize=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "边界分页测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('边界分页参数处理', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json(); ",
+									"    const pagination = jsonData.data.pagination;",
+									"    ",
+									"    // 负数页码应该被重置为1",
+									"    pm.expect(pagination.page).to.be.at.least(1);",
+									"    // 0的pageSize应该使用默认值",
+									"    pm.expect(pagination.pageSize).to.be.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?page=-1&pageSize=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "-1"
+								},
+								{
+									"key": "pageSize",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🏙️ 城市筛选测试",
+			"item": [
+				{
+					"name": "北京城市筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('北京城市筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    ",
+									"    // 验证所有返回的场馆都在北京",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.city).to.include('北京');",
+									"    });",
+									"});",
+									"",
+									"pm.test('当前城市信息正确', function () {",
+									"    const jsonData = pm.response.json();",
+									"    if (jsonData.data.currentCity) {",
+									"        pm.expect(jsonData.data.currentCity).to.include('北京');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=北京",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "北京"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "上海城市筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('上海城市筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.city).to.include('上海');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=上海",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "上海"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "不存在城市测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('不存在城市返回空结果', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    pm.expect(jsonData.data.list).to.be.an('array').that.is.empty;",
+									"    pm.expect(jsonData.data.pagination.total).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=不存在的城市xyz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "不存在的城市xyz"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔍 搜索功能测试",
+			"item": [
+				{
+					"name": "CrossFit关键词搜索",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CrossFit关键词搜索结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    ",
+									"    // 验证搜索结果包含关键词",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        const containsKeyword = ",
+									"            gym.name.toLowerCase().includes('crossfit') ||",
+									"            gym.address.toLowerCase().includes('crossfit') ||",
+									"            (gym.description && gym.description.toLowerCase().includes('crossfit'));",
+									"        pm.expect(containsKeyword).to.be.true;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?keyword=CrossFit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "CrossFit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "地址关键词搜索",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('地址关键词搜索结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.address).to.include('三里屯');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?keyword=三里屯",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "三里屯"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "无结果搜索测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('无结果搜索正确处理', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    pm.expect(jsonData.data.list).to.be.an('array').that.is.empty;",
+									"    pm.expect(jsonData.data.pagination.total).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?keyword=不存在的场馆xyz123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "不存在的场馆xyz123"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🎯 筛选功能测试",
+			"item": [
+				{
+					"name": "CrossFit认证场馆筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('CrossFit认证场馆筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.gymType).to.include('crossfit_certified');",
+									"        pm.expect(gym.crossfitCertified).to.be.true;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?gymType=crossfit_certified",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "gymType",
+									"value": "crossfit_certified"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "综合训练馆筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('综合训练馆筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.gymType).to.include('comprehensive');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?gymType=comprehensive",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "gymType",
+									"value": "comprehensive"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "课程类型筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('课程类型筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.supportedPrograms).to.include('CrossFit');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?programs=CrossFit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "programs",
+									"value": "CrossFit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "多课程筛选",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('多课程筛选结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        const hasTargetProgram = ",
+									"            gym.supportedPrograms.includes('CrossFit') ||",
+									"            gym.supportedPrograms.includes('Olympic Lifting');",
+									"        pm.expect(hasTargetProgram).to.be.true;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?programs=CrossFit,Olympic Lifting",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "programs",
+									"value": "CrossFit,Olympic Lifting"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📍 地理位置测试",
+			"item": [
+				{
+					"name": "北京位置查询",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('北京位置查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    ",
+									"    // 验证距离信息存在",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym).to.have.property('distance');",
+									"        if (gym.distance !== null) {",
+									"            pm.expect(gym.distance).to.be.a('number');",
+									"            pm.expect(gym.distance).to.be.at.least(0);",
+									"        }",
+									"    });",
+									"});",
+									"",
+									"pm.test('结果按距离排序', function () {",
+									"    const jsonData = pm.response.json();",
+									"    let prevDistance = -1;",
+									"    ",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        if (gym.distance !== null && prevDistance !== -1) {",
+									"            pm.expect(gym.distance).to.be.at.least(prevDistance);",
+									"        }",
+									"        if (gym.distance !== null) {",
+									"            prevDistance = gym.distance;",
+									"        }",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=39.9042&lng=116.4074&radius=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "39.9042"
+								},
+								{
+									"key": "lng",
+									"value": "116.4074"
+								},
+								{
+									"key": "radius",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "上海位置查询",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('上海位置查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    ",
+									"    // 验证距离合理性（距离上海市中心）",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        if (gym.distance !== null) {",
+									"            pm.expect(gym.distance).to.be.at.most(20); // 20km内",
+									"        }",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=31.2304&lng=121.4737&radius=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "31.2304"
+								},
+								{
+									"key": "lng",
+									"value": "121.4737"
+								},
+								{
+									"key": "radius",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "无效坐标测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('无效坐标正确处理', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    // 应该返回空结果或使用默认逻辑",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=999&lng=999&radius=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "999"
+								},
+								{
+									"key": "lng",
+									"value": "999"
+								},
+								{
+									"key": "radius",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📊 排序功能测试",
+			"item": [
+				{
+					"name": "按距离排序",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('按距离排序结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    let prevDistance = -1;",
+									"    ",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        if (gym.distance !== null && prevDistance !== -1) {",
+									"            pm.expect(gym.distance).to.be.at.least(prevDistance);",
+									"        }",
+									"        if (gym.distance !== null) {",
+									"            prevDistance = gym.distance;",
+									"        }",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=39.9042&lng=116.4074&sortBy=distance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "39.9042"
+								},
+								{
+									"key": "lng",
+									"value": "116.4074"
+								},
+								{
+									"key": "sortBy",
+									"value": "distance"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "按评分排序",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('按评分排序结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    let prevRating = 6; // 最高评分是5，从6开始比较",
+									"    ",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        pm.expect(gym.rating).to.be.at.most(prevRating);",
+									"        prevRating = gym.rating;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?sortBy=rating",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "rating"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "按名称排序",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('按名称排序结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    let prevName = '';",
+									"    ",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        if (prevName !== '') {",
+									"            pm.expect(gym.name >= prevName).to.be.true;",
+									"        }",
+									"        prevName = gym.name;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?sortBy=name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔗 组合查询测试",
+			"item": [
+				{
+					"name": "城市+关键词组合查询",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('城市+关键词组合查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        // 验证城市筛选",
+									"        pm.expect(gym.city).to.include('北京');",
+									"        ",
+									"        // 验证关键词搜索",
+									"        const containsKeyword = ",
+									"            gym.name.toLowerCase().includes('crossfit') ||",
+									"            gym.address.toLowerCase().includes('crossfit');",
+									"        pm.expect(containsKeyword).to.be.true;",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=北京&keyword=CrossFit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "北京"
+								},
+								{
+									"key": "keyword",
+									"value": "CrossFit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "位置+类型组合查询",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('位置+类型组合查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        // 验证位置信息",
+									"        pm.expect(gym).to.have.property('distance');",
+									"        ",
+									"        // 验证场馆类型",
+									"        pm.expect(gym.gymType).to.include('crossfit_certified');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=39.9042&lng=116.4074&gymType=crossfit_certified",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "39.9042"
+								},
+								{
+									"key": "lng",
+									"value": "116.4074"
+								},
+								{
+									"key": "gymType",
+									"value": "crossfit_certified"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "全参数组合查询",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('全参数组合查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    jsonData.data.list.forEach(function(gym) {",
+									"        // 验证所有筛选条件",
+									"        pm.expect(gym.city).to.include('上海');",
+									"        pm.expect(gym.gymType).to.include('crossfit_certified');",
+									"        pm.expect(gym.supportedPrograms).to.include('CrossFit');",
+									"        ",
+									"        const containsKeyword = ",
+									"            gym.name.toLowerCase().includes('crossfit') ||",
+									"            gym.address.toLowerCase().includes('crossfit');",
+									"        pm.expect(containsKeyword).to.be.true;",
+									"    });",
+									"    ",
+									"    // 验证分页",
+									"    pm.expect(jsonData.data.pagination.pageSize).to.eql(10);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=上海&keyword=CrossFit&gymType=crossfit_certified&programs=CrossFit&sortBy=rating&page=1&pageSize=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "上海"
+								},
+								{
+									"key": "keyword",
+									"value": "CrossFit"
+								},
+								{
+									"key": "gymType",
+									"value": "crossfit_certified"
+								},
+								{
+									"key": "programs",
+									"value": "CrossFit"
+								},
+								{
+									"key": "sortBy",
+									"value": "rating"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔒 安全性测试",
+			"item": [
+				{
+					"name": "无Token访问测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('无Token访问处理正确', function () {",
+									"    // 可能返回401/403或允许匿名访问",
+									"    const statusCode = pm.response.code;",
+									"    pm.expect([200, 401, 403]).to.include(statusCode);",
+									"    ",
+									"    if (statusCode === 200) {",
+									"        console.log('API允许匿名访问');",
+									"    } else {",
+									"        console.log('API需要认证，状态码：' + statusCode);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "无效Token访问测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('无效Token访问处理正确', function () {",
+									"    const statusCode = pm.response.code;",
+									"    pm.expect([200, 401, 403]).to.include(statusCode);",
+									"    ",
+									"    if (statusCode !== 200) {",
+									"        const jsonData = pm.response.json();",
+									"        pm.expect(jsonData).to.have.property('code');",
+									"        pm.expect(jsonData.code).to.not.eql(0);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalid-token-12345",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🌍 辅助接口测试",
+			"item": [
+				{
+					"name": "获取城市列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('城市列表接口正常', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"    ",
+									"    if (jsonData.data.length > 0) {",
+									"        jsonData.data.forEach(function(city) {",
+									"            pm.expect(city).to.be.a('string');",
+									"            pm.expect(city.length).to.be.at.least(1);",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms/cities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms",
+								"cities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取国家和城市列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('国家城市列表接口正常', function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"    pm.expect(jsonData.data).to.be.an('object');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms/countries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "⚡ 性能测试",
+			"item": [
+				{
+					"name": "响应时间性能测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('API响应时间符合要求', function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test('响应状态正常', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// 记录性能数据",
+									"pm.test('记录性能数据', function () {",
+									"    const responseTime = pm.response.responseTime;",
+									"    const dataSize = pm.response.responseSize;",
+									"    ",
+									"    console.log(`响应时间: ${responseTime}ms`);",
+									"    console.log(`数据大小: ${dataSize} bytes`);",
+									"    ",
+									"    // 设置环境变量记录最大响应时间",
+									"    const maxTime = pm.environment.get('maxResponseTime') || 0;",
+									"    if (responseTime > maxTime) {",
+									"        pm.environment.set('maxResponseTime', responseTime);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?city=北京&page=1&pageSize=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "北京"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "复杂查询性能测试",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('复杂查询响应时间合理', function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test('复杂查询结果正确', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.code).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/gyms?lat=39.9042&lng=116.4074&city=北京&keyword=CrossFit&gymType=crossfit_certified&programs=CrossFit,Olympic Lifting&sortBy=distance&radius=15",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gyms"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "39.9042"
+								},
+								{
+									"key": "lng",
+									"value": "116.4074"
+								},
+								{
+									"key": "city",
+									"value": "北京"
+								},
+								{
+									"key": "keyword",
+									"value": "CrossFit"
+								},
+								{
+									"key": "gymType",
+									"value": "crossfit_certified"
+								},
+								{
+									"key": "programs",
+									"value": "CrossFit,Olympic Lifting"
+								},
+								{
+									"key": "sortBy",
+									"value": "distance"
+								},
+								{
+									"key": "radius",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// 全局前置脚本",
+					"console.log('开始执行API测试：' + pm.info.requestName);",
+					"",
+					"// 设置默认环境变量",
+					"if (!pm.environment.get('baseUrl')) {",
+					"    pm.environment.set('baseUrl', 'http://localhost:3000');",
+					"}",
+					"",
+					"if (!pm.environment.get('token')) {",
+					"    pm.environment.set('token', 'test-token');",
+					"}",
+					"",
+					"// 记录测试开始时间",
+					"pm.environment.set('testStartTime', new Date().toISOString());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// 全局后置脚本",
+					"console.log('测试完成：' + pm.info.requestName + ' - ' + pm.response.code);",
+					"",
+					"// 记录错误信息",
+					"if (pm.response.code >= 400) {",
+					"    console.error('请求失败：' + pm.response.status + ' - ' + pm.response.text());",
+					"}",
+					"",
+					"// 通用响应格式验证",
+					"if (pm.response.code === 200) {",
+					"    try {",
+					"        const jsonData = pm.response.json();",
+					"        if (jsonData.hasOwnProperty('code') && jsonData.hasOwnProperty('message')) {",
+					"            console.log('响应格式符合API规范');",
+					"        }",
+					"    } catch (e) {",
+					"        console.warn('响应不是有效JSON格式');",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string",
+			"description": "API基础URL"
+		},
+		{
+			"key": "token",
+			"value": "test-token",
+			"type": "string",
+			"description": "测试用Token"
+		}
+	]
+}

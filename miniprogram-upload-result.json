@@ -1,0 +1,19 @@
+{
+  "subPackageInfo": [
+    {
+      "name": "__FULL__",
+      "size": 630537
+    }
+  ],
+  "pluginInfo": [],
+  "uploadTime": "2025-07-29T16:02:35.122Z",
+  "config": {
+    "appid": "wx0a950fd30b3c2146",
+    "appSecret": "c55f8125dbe552f3af1fc0ee13b6fb8b",
+    "privateKeyPath": "/Users/tonyfan/Desktop/mobilif-project/config/keys/private.wx0a950fd30b3c2146.key",
+    "projectPath": "/Users/tonyfan/WeChatProjects/miniprogram-1",
+    "version": "1.0.0",
+    "desc": "Workflow自动上传 - 7/30/2025, 12:02:10 AM",
+    "robot": 1
+  }
+}

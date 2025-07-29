@@ -1,0 +1,82 @@
+[
+  {
+    "id": "25001506-6f62-46b5-9910-7d891454c74e",
+    "name": "CrossFit Sanlitun",
+    "address": "北京市朝阳区三里屯SOHO 5号商场B1-532",
+    "district": "朝阳区",
+    "phone": "+86-10-6417-6554",
+    "rating": 4.8,
+    "reviewCount": 156,
+    "priceRange": "200-600 CNY",
+    "crossfitCertified": true,
+    "featured": true,
+    "latitude": 39.9348,
+    "longitude": 116.4579,
+    "logo": "https://images.crossfitsanlitun.com/logo.png",
+    "tags": [
+      "CrossFit官方认证",
+      "L1/L2教练",
+      "三里屯地标"
+    ]
+  },
+  {
+    "id": "3cf22e0b-8f61-40d4-80d4-e316b96d105c",
+    "name": "CrossFit Wangjing",
+    "address": "北京市朝阳区望京街10号院1号楼B1层",
+    "district": "朝阳区",
+    "phone": "+86-10-8470-2588",
+    "rating": 4.9,
+    "reviewCount": 124,
+    "priceRange": "300-800 CNY",
+    "crossfitCertified": true,
+    "featured": true,
+    "latitude": 40.0025,
+    "longitude": 116.4709,
+    "logo": "https://images.crossfitwangjing.cn/logo.png",
+    "tags": [
+      "竞技训练",
+      "比赛准备",
+      "专业设备"
+    ]
+  },
+  {
+    "id": "e064ad3a-0b33-4c5d-a8cc-cbcd5071621f",
+    "name": "CrossFit CBD",
+    "address": "北京市朝阳区建国门外大街1号国贸大厦3期B2层",
+    "district": "朝阳区",
+    "phone": "+86-10-6505-8899",
+    "rating": 4.7,
+    "reviewCount": 78,
+    "priceRange": "400-1000 CNY",
+    "crossfitCertified": true,
+    "featured": false,
+    "latitude": 39.9085,
+    "longitude": 116.4575,
+    "logo": "https://images.crossfitcbd.com/logo.png",
+    "tags": [
+      "商务健身",
+      "CBD地段",
+      "高端服务"
+    ]
+  },
+  {
+    "id": "154ad432-e292-47f9-aeac-43f9aeaeb056",
+    "name": "Functional Fitness Beijing",
+    "address": "北京市海淀区中关村大街27号中关村村大厦12层",
+    "district": "海淀区",
+    "phone": "+86-10-6259-7788",
+    "rating": 4.5,
+    "reviewCount": 92,
+    "priceRange": "180-450 CNY",
+    "crossfitCertified": false,
+    "featured": false,
+    "latitude": 39.9897,
+    "longitude": 116.3062,
+    "logo": "https://images.ffbeijing.com/logo.png",
+    "tags": [
+      "功能性训练",
+      "学生友好",
+      "中关村"
+    ]
+  }
+]

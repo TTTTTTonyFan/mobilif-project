@@ -1,0 +1,342 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 启动开发服务器",
+      "type": "npm",
+      "script": "start:dev",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new",
+        "showReuseMessage": true
+      },
+      "problemMatcher": ["$tsc-watch"],
+      "options": {
+        "statusbar": {
+          "label": "$(play) 启动开发",
+          "tooltip": "启动 NestJS 开发服务器",
+          "color": "#22c55e"
+        }
+      },
+      "detail": "启动 NestJS 开发服务器，支持热重载"
+    },
+    {
+      "label": "🔨 构建项目",
+      "type": "npm",
+      "script": "build",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": ["$tsc"],
+      "options": {
+        "statusbar": {
+          "label": "$(tools) 构建",
+          "tooltip": "构建 TypeScript 项目",
+          "color": "#3b82f6"
+        }
+      },
+      "detail": "编译 TypeScript 代码到 JavaScript"
+    },
+    {
+      "label": "🧪 运行测试",
+      "type": "npm",
+      "script": "test",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(beaker) 测试",
+          "tooltip": "运行单元测试",
+          "color": "#f59e0b"
+        }
+      },
+      "detail": "运行 Jest 单元测试"
+    },
+    {
+      "label": "⚡ 快速验证",
+      "type": "npm",
+      "script": "quick-validate",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(check-all) 快速验证",
+          "tooltip": "运行快速项目验证",
+          "color": "#10b981"
+        }
+      },
+      "detail": "执行快速项目验证检查"
+    },
+    {
+      "label": "🔍 完整验证",
+      "type": "npm",
+      "script": "validate",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(search) 完整验证",
+          "tooltip": "运行完整项目验证",
+          "color": "#6366f1"
+        }
+      },
+      "detail": "执行完整的项目验证和检查"
+    },
+    {
+      "label": "🌐 API测试",
+      "type": "npm",
+      "script": "test:api",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(globe) API测试",
+          "tooltip": "测试 API 端点连接",
+          "color": "#06b6d4"
+        }
+      },
+      "detail": "测试远程 API 端点连接"
+    },
+    {
+      "label": "🛠️ 代码检查",
+      "type": "npm",
+      "script": "lint",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": ["$eslint-stylish"],
+      "options": {
+        "statusbar": {
+          "label": "$(checklist) 代码检查",
+          "tooltip": "运行 ESLint 代码检查",
+          "color": "#8b5cf6"
+        }
+      },
+      "detail": "运行 ESLint 检查代码规范"
+    },
+    {
+      "label": "💅 格式化代码",
+      "type": "npm",
+      "script": "format",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(paintcan) 格式化",
+          "tooltip": "使用 Prettier 格式化代码",
+          "color": "#ec4899"
+        }
+      },
+      "detail": "使用 Prettier 格式化所有代码文件"
+    },
+    {
+      "label": "🖥️ 服务器状态",
+      "type": "npm",
+      "script": "server:status",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(server) 服务器状态",
+          "tooltip": "检查远程服务器状态",
+          "color": "#f97316"
+        }
+      },
+      "detail": "检查远程服务器和服务状态"
+    },
+    {
+      "label": "🔄 重启服务",
+      "type": "npm",
+      "script": "server:restart",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(refresh) 重启服务",
+          "tooltip": "重启远程服务器服务",
+          "color": "#ef4444"
+        }
+      },
+      "detail": "重启远程服务器上的应用服务"
+    },
+    {
+      "label": "📦 安装依赖",
+      "type": "shell",
+      "command": "npm install",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(package) 安装依赖",
+          "tooltip": "安装 npm 依赖包",
+          "color": "#84cc16"
+        }
+      },
+      "detail": "安装 package.json 中定义的依赖包"
+    },
+    {
+      "label": "🚀 部署项目",
+      "type": "npm",
+      "script": "server:deploy",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(rocket) 部署",
+          "tooltip": "部署项目到远程服务器",
+          "color": "#dc2626"
+        }
+      },
+      "detail": "将项目部署到远程服务器",
+      "dependsOn": ["🔨 构建项目"]
+    },
+    {
+      "label": "📚 功能示例",
+      "type": "npm",
+      "script": "examples",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(book) 功能示例",
+          "tooltip": "运行功能使用示例",
+          "color": "#059669"
+        }
+      },
+      "detail": "运行所有功能使用示例"
+    },
+    {
+      "label": "⚙️ 项目设置",
+      "type": "npm",
+      "script": "setup",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(gear) 项目设置",
+          "tooltip": "一键设置项目环境",
+          "color": "#7c3aed"
+        }
+      },
+      "detail": "执行一键项目环境设置"
+    },
+    {
+      "label": "🏥 环境验证",
+      "type": "npm",
+      "script": "verify",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "label": "$(pulse) 环境验证",
+          "tooltip": "验证开发环境设置",
+          "color": "#0891b2"
+        }
+      },
+      "detail": "验证开发环境和依赖安装"
+    }
+  ]
+}

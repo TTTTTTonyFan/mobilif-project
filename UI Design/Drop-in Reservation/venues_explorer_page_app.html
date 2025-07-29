@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobiLiF拓练 - 探索场馆</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Rajdhani:wght@600&family=Source+Sans+Pro:wght@300;400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           MobiLiF拓练 - 探索场馆页面样式
+           开发说明：
+           1. 使用CSS自定义属性管理颜色和尺寸
+           2. 组件化设计，易于维护和复用
+           3. 响应式布局，支持多种屏幕尺寸
+           4. 遵循BEM命名规范
+           ========================================================================== */
+        
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* CSS自定义属性 - 设计系统 */
+        :root {
+            /* 品牌色彩 - 基于PRD设计规范 */
+            --color-primary: #082b41;          /* 深邃宇宙蓝 */
+            --color-secondary: #105286;        /* 终端蓝光 */
+            --color-accent: #fdb338;           /* 游戏厅橙 */
+            --color-accent-light: #fbbf24;     /* 浅橙色 */
+            --color-background: #f1f2f4;       /* 无重力白 */
+            --color-dark: #171d1d;             /* 星际黑 */
+            
+            /* 功能色彩 */
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-info: #3b82f6;
+            
+            /* 中性色彩 */
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            
+            /* 间距系统 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --spacing-xl: 20px;
+            --spacing-2xl: 24px;
+            --spacing-3xl: 32px;
+            --spacing-4xl: 48px;
+            
+            /* 圆角系统 */
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 20px;
+            --radius-3xl: 24px;
+            --radius-full: 9999px;
+            
+            /* 阴影系统 */
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            
+            /* 动画 */
+            --transition-fast: 150ms ease;
+            --transition-base: 200ms ease;
+            --transition-slow: 300ms ease;
+            
+            /* 字体系统 */
+            --font-family-primary: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-family-brand: 'Barlow', sans-serif;
+            --font-family-number: 'Rajdhani', sans-serif;
+            
+            /* Z-index层级 */
+            --z-dropdown: 1000;
+            --z-sticky: 1020;
+            --z-fixed: 1030;
+            --z-modal-backdrop: 1040;
+            --z-modal: 1050;
+            --z-popover: 1060;
+            --z-tooltip: 1070;
+        }
+        
+        /* 基础样式 */
+        body {
+            font-family: var(--font-family-primary);
+            background: #000;
+            color: var(--color-gray-900);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+        }
+        
+        /* 设备容器 - 开发时可移除 */
+        .device-container {
+            width: 430px;
+            height: 932px;
+            background: #000;
+            border-radius: 55px;
+            padding: 8px;
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 
+                0 0 0 2px #333,
+                0 20px 60px rgba(0,0,0,0.5),
+                inset 0 0 0 1px #555;
+        }
+        
+        /* 动态岛 - 开发时可移除 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 30px;
+            background: #000;
+            border-radius: 20px;
+            z-index: var(--z-tooltip);
+        }
+        
+        /* 主应用容器 */
+        .app {
+            width: 100%;
+            height: 100%;
+            background: var(--color-background);
+            border-radius: 47px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 状态栏组件 */
+        .status-bar {
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 var(--spacing-2xl) var(--spacing-sm);
+            background: transparent;
+            z-index: var(--z-sticky);
+        }
+        
+        .status-bar__item {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+        
+        /* 页面头部组件 */
+        .page-header {
+            background: white;
+            padding: var(--spacing-lg) var(--spacing-2xl);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            z-index: var(--z-sticky);
+        }
+        
+        .page-header__title {
+            font-family: var(--font-family-brand);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            text-align: center;
+            margin: 0;
+        }
+        
+        /* 页面内容区域 */
+        .page-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 80px;
+        }
+        
+        .page-content::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* 城市选择器组件 */
+        .city-selector {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            margin: var(--spacing-lg);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-xl);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .city-selector::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .city-selector:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .city-selector:active {
+            transform: scale(0.98);
+        }
+        
+        .city-selector__content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+        
+        .city-selector__icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .city-selector__icon i {
+            font-size: 24px;
+            color: var(--color-accent);
+        }
+        
+        .city-selector__text {
+            flex: 1;
+        }
+        
+        .city-selector__name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .city-selector__desc {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .city-selector__chevron {
+            font-size: 20px;
+            opacity: 0.7;
+            transition: transform var(--transition-base);
+        }
+        
+        .city-selector:hover .city-selector__chevron {
+            transform: translateX(4px);
+        }
+        
+        /* 搜索栏组件 */
+        .search-bar {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            margin: var(--spacing-lg);
+            border: 2px solid transparent;
+            transition: all var(--transition-base);
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(16, 82, 134, 0.1);
+        }
+        
+        .search-bar__input {
+            flex: 1;
+            border: none;
+            font-size: 16px;
+            background: none;
+            color: var(--color-gray-900);
+            outline: none;
+        }
+        
+        .search-bar__input::placeholder {
+            color: var(--color-gray-400);
+        }
+        
+        .search-bar__icon {
+            color: var(--color-gray-400);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color var(--transition-base);
+        }
+        
+        .search-bar__icon:hover {
+            color: var(--color-secondary);
+        }
+        
+        /* 筛选器组件 */
+        .filter {
+            background: white;
+            margin: 0 var(--spacing-lg) var(--spacing-lg);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+        
+        .filter__header {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-bottom: 1px solid var(--color-gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            background: var(--color-gray-50);
+        }
+        
+        .filter__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .filter__count {
+            background: var(--color-secondary);
+            color: white;
+            font-size: 12px;
+            padding: 2px var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .filter__chevron {
+            transition: transform var(--transition-base);
+            color: var(--color-gray-400);
+        }
+        
+        .filter__chevron--expanded {
+            transform: rotate(180deg);
+        }
+        
+        .filter__content {
+            padding: var(--spacing-xl);
+            display: none;
+        }
+        
+        .filter__content--expanded {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .filter__group {
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .filter__group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .filter__group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-gray-700);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .filter__options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        /* 筛选选项组件 */
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-size: 14px;
+            user-select: none;
+        }
+        
+        .filter-option:hover {
+            border-color: var(--color-secondary);
+            background: rgba(16, 82, 134, 0.05);
+        }
+        
+        .filter-option--selected {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            border-color: transparent;
+        }
+        
+        .filter-option__checkbox {
+            display: none;
+        }
+        
+        .filter-option__icon {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-gray-300);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-base);
+        }
+        
+        .filter-option--selected .filter-option__icon {
+            background: white;
+            border-color: white;
+        }
+        
+        .filter-option__icon i {
+            font-size: 10px;
+            color: var(--color-secondary);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+        
+        .filter-option--selected .filter-option__icon i {
+            opacity: 1;
+        }
+        
+        /* 筛选器操作按钮 */
+        .filter__actions {
+            padding: var(--spacing-lg) var(--spacing-xl) 0;
+            display: flex;
+            gap: var(--spacing-md);
+            border-top: 1px solid var(--color-gray-100);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .filter__btn {
+            flex: 1;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .filter__btn--secondary {
+            background: var(--color-gray-100);
+            color: var(--color-gray-600);
+            border: 2px solid var(--color-gray-200);
+        }
+        
+        .filter__btn--secondary:hover {
+            background: var(--color-gray-200);
+            transform: translateY(-1px);
+        }
+        
+        .filter__btn--primary {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            box-shadow: 0 2px 8px rgba(16, 82, 134, 0.3);
+        }
+        
+        .filter__btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 82, 134, 0.4);
+        }
+        
+        .filter__btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* 场馆卡片组件 */
+        .gym-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .gym-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .gym-card__image {
+            height: 160px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gym-card__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gym-card__badge {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            padding: 4px var(--spacing-md);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .gym-card__badge--crossfit {
+            background: var(--color-accent);
+        }
+        
+        .gym-card__badge--comprehensive {
+            background: var(--color-secondary);
+        }
+        
+        .gym-card__content {
+            padding: var(--spacing-xl);
+        }
+        
+        .gym-card__name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .gym-card__location {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--color-gray-600);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .gym-card__location i {
+            color: var(--color-secondary);
+        }
+        
+        .gym-card__status {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 13px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .gym-card__status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-success);
+        }
+        
+        .gym-card__status-dot--closed {
+            background: var(--color-danger);
+        }
+        
+        .gym-card__tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        /* 标签组件 */
+        .tag {
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 500;
+            transition: all var(--transition-base);
+        }
+        
+        .tag:hover {
+            background: var(--color-secondary);
+            color: white;
+        }
+        
+        .tag--crossfit {
+            background: rgba(253, 179, 56, 0.1);
+            color: var(--color-accent);
+        }
+        
+        .tag--weightlifting {
+            background: rgba(16, 82, 134, 0.1);
+            color: var(--color-secondary);
+        }
+        
+        .tag--gymnastics {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-success);
+        }
+        
+        .tag--stretching {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-warning);
+        }
+        
+        .tag--yoga {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .tag--hyrox {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-danger);
+        }
+        
+        /* 底部导航组件 */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--color-gray-200);
+            padding: var(--spacing-sm) 0 28px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            z-index: var(--z-fixed);
+        }
+        
+        .bottom-nav__item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: var(--spacing-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border-radius: var(--radius-md);
+        }
+        
+        .bottom-nav__item i {
+            font-size: 24px;
+            color: var(--color-gray-400);
+            transition: all var(--transition-base);
+        }
+        
+        .bottom-nav__item span {
+            font-size: 11px;
+            color: var(--color-gray-500);
+            font-weight: 500;
+            transition: all var(--transition-base);
+        }
+        
+        .bottom-nav__item--active {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+        }
+        
+        .bottom-nav__item--active i,
+        .bottom-nav__item--active span {
+            color: white;
+        }
+        
+        .bottom-nav__item:hover:not(.bottom-nav__item--active) {
+            background: var(--color-gray-50);
+        }
+        
+        /* 模态框组件 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: var(--z-modal);
+            display: none;
+        }
+        
+        .modal__backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal__content {
+            position: absolute;
+            bottom: 0;
+            left: 8px;
+            right: 8px;
+            background: white;
+            border-radius: var(--radius-3xl) var(--radius-3xl) 39px 39px;
+            max-height: 70vh;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        
+        .modal__header {
+            padding: var(--spacing-xl) var(--spacing-2xl) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-gray-100);
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal__title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+        
+        .modal__close {
+            position: absolute;
+            right: var(--spacing-xl);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .modal__body {
+            padding: var(--spacing-xl) var(--spacing-2xl);
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+        
+        /* 城市列表组件 */
+        .city-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .city-list__item {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .city-list__item:hover {
+            background: var(--color-gray-50);
+        }
+        
+        .city-list__item--selected {
+            background: rgba(16, 82, 134, 0.1);
+            color: var(--color-secondary);
+        }
+        
+        .city-list__info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .city-list__name {
+            font-weight: 600;
+        }
+        
+        .city-list__desc {
+            font-size: 12px;
+            color: var(--color-gray-500);
+        }
+        
+        /* 加载状态组件 */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px var(--spacing-xl);
+        }
+        
+        .loading__spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--color-gray-200);
+            border-top: 4px solid var(--color-secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading__text {
+            color: var(--color-gray-500);
+            font-size: 14px;
+        }
+        
+        /* 工具类 */
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .visible {
+            display: block !important;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .device-container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+            
+            .app {
+                border-radius: 0;
+            }
+        }
+        
+        /* 开发辅助样式 - 生产环境可移除 */
+        .dev-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            display: none; /* 默认隐藏，开发时显示 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 开发说明区域 -->
+    <div class="dev-note">
+        <strong>前端开发提示：</strong>
+        <ul>
+            <li>本页面已按组件化方式设计，可直接用于React/Vue开发</li>
+            <li>所有数据接口已在JavaScript中定义，见底部API说明</li>
+            <li>CSS使用自定义属性，便于主题切换</li>
+            <li>移动端适配完整，支持响应式设计</li>
+        </ul>
+    </div>
+    
+    <!-- 设备容器 - 开发时可移除此层 -->
+    <div class="device-container">
+        <div class="dynamic-island"></div>
+        
+        <!-- 主应用容器 -->
+        <div class="app">
+            <!-- 状态栏组件 -->
+            <div class="status-bar">
+                <span class="status-bar__item">9:41</span>
+                <span class="status-bar__item"></span>
+                <span class="status-bar__item">100% <i class="fas fa-battery-full"></i></span>
+            </div>
+            
+            <!-- 页面头部组件 -->
+            <header class="page-header">
+                <h1 class="page-header__title">探索场馆</h1>
+            </header>
+            
+            <!-- 页面内容区域 -->
+            <main class="page-content" id="pageContent">
+                <!-- 城市选择器组件 -->
+                <div class="city-selector" id="citySelector" data-action="select-city">
+                    <div class="city-selector__content">
+                        <div class="city-selector__icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="city-selector__text">
+                            <div class="city-selector__name">
+                                <span id="currentCityName" data-city-id="beijing">北京市</span>
+                                <i class="fas fa-check-circle" style="color: var(--color-accent); font-size: 14px;"></i>
+                            </div>
+                            <div class="city-selector__desc" id="cityDescription">已发现 12 个训练场馆</div>
+                        </div>
+                        <i class="fas fa-chevron-right city-selector__chevron"></i>
+                    </div>
+                </div>
+                
+                <!-- 搜索栏组件 -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-bar__icon"></i>
+                    <input 
+                        type="text" 
+                        class="search-bar__input" 
+                        placeholder="搜索场馆名称..." 
+                        id="searchInput"
+                        data-action="search"
+                    >
+                    <i class="fas fa-sliders-h search-bar__icon" id="filterToggle" data-action="toggle-filter"></i>
+                </div>
+                
+                <!-- 筛选器组件 -->
+                <div class="filter hidden" id="filterSection">
+                    <div class="filter__header" id="filterHeader" data-action="toggle-filter-content">
+                        <div class="filter__title">
+                            <i class="fas fa-filter"></i>
+                            筛选条件
+                            <span class="filter__count hidden" id="filterCount">0</span>
+                        </div>
+                        <i class="fas fa-chevron-down filter__chevron" id="filterChevron"></i>
+                    </div>
+                    <div class="filter__content" id="filterContent">
+                        <!-- 场馆类型筛选 -->
+                        <div class="filter__group">
+                            <h4 class="filter__group-title">
+                                <i class="fas fa-building"></i>
+                                场馆类型
+                            </h4>
+                            <div class="filter__options" id="gymTypeFilters" data-filter-type="gym-type">
+                                <label class="filter-option" data-value="crossfit">
+                                    <input type="checkbox" class="filter-option__checkbox" value="crossfit">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>CrossFit认证</span>
+                                </label>
+                                <label class="filter-option" data-value="comprehensive">
+                                    <input type="checkbox" class="filter-option__checkbox" value="comprehensive">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>综合训练馆</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- 课程类型筛选 -->
+                        <div class="filter__group">
+                            <h4 class="filter__group-title">
+                                <i class="fas fa-dumbbell"></i>
+                                课程类型
+                            </h4>
+                            <div class="filter__options" id="courseTypeFilters" data-filter-type="course-type">
+                                <label class="filter-option" data-value="crossfit">
+                                    <input type="checkbox" class="filter-option__checkbox" value="crossfit">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>CrossFit</span>
+                                </label>
+                                <label class="filter-option" data-value="weightlifting">
+                                    <input type="checkbox" class="filter-option__checkbox" value="weightlifting">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>举重</span>
+                                </label>
+                                <label class="filter-option" data-value="gymnastics">
+                                    <input type="checkbox" class="filter-option__checkbox" value="gymnastics">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>体操</span>
+                                </label>
+                                <label class="filter-option" data-value="stretching">
+                                    <input type="checkbox" class="filter-option__checkbox" value="stretching">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>拉伸</span>
+                                </label>
+                                <label class="filter-option" data-value="yoga">
+                                    <input type="checkbox" class="filter-option__checkbox" value="yoga">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>瑜伽</span>
+                                </label>
+                                <label class="filter-option" data-value="hyrox">
+                                    <input type="checkbox" class="filter-option__checkbox" value="hyrox">
+                                    <div class="filter-option__icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <span>Hyrox</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 筛选器操作按钮 -->
+                    <div class="filter__actions">
+                        <button class="filter__btn filter__btn--secondary" id="resetFilters" data-action="reset-filters">
+                            <i class="fas fa-undo"></i>
+                            重置
+                        </button>
+                        <button class="filter__btn filter__btn--primary" id="confirmFilters" data-action="confirm-filters">
+                            <i class="fas fa-check"></i>
+                            确认
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 场馆列表容器 -->
+                <div style="padding: 0 var(--spacing-lg);" id="gymListContainer">
+                    <!-- 场馆卡片将通过JavaScript动态渲染 -->
+                </div>
+                
+                <!-- 加载状态组件 -->
+                <div class="loading hidden" id="loadingIndicator">
+                    <div class="loading__spinner"></div>
+                    <p class="loading__text">正在加载更多场馆...</p>
+                </div>
+                
+                <!-- 加载完成提示 -->
+                <div class="text-center hidden" id="loadComplete" style="padding: var(--spacing-xl);">
+                    <p style="color: var(--color-gray-500); font-size: 14px;">
+                        <i class="fas fa-check-circle" style="color: var(--color-success); margin-right: var(--spacing-sm);"></i>
+                        已显示所有附近的训练场馆
+                    </p>
+                </div>
+            </main>
+            
+            <!-- 底部导航组件 -->
+            <nav class="bottom-nav">
+                <div class="bottom-nav__item bottom-nav__item--active" data-tab="discover">
+                    <i class="fas fa-search"></i>
+                    <span>发现场馆</span>
+                </div>
+                <div class="bottom-nav__item" data-tab="map" data-action="switch-tab">
+                    <i class="fas fa-map"></i>
+                    <span>足迹地图</span>
+                </div>
+                <div class="bottom-nav__item" data-tab="profile" data-action="switch-tab">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- 城市选择模态框 -->
+    <div class="modal" id="cityModal">
+        <div class="modal__backdrop" data-action="close-modal"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3 class="modal__title">选择城市</h3>
+                <button class="modal__close" data-action="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal__body">
+                <div class="city-list" id="cityList">
+                    <!-- 城市列表将通过JavaScript动态渲染 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * ==========================================================================
+         * MobiLiF拓练 - 探索场馆页面 JavaScript
+         * 
+         * 开发指南：
+         * 1. 所有数据结构已定义在顶部，便于API集成
+         * 2. 函数按功能模块划分，便于维护
+         * 3. 事件委托模式，性能优化
+         * 4. 支持ES6+语法，现代化开发
+         * ==========================================================================
+         */
+        
+        // ================================
+        // 数据结构定义 - API接口参考
+        // ================================
+        
+        /**
+         * 城市数据结构
+         * @typedef {Object} City
+         * @property {string} id - 城市ID
+         * @property {string} name - 城市名称
+         * @property {number} venueCount - 场馆数量
+         * @property {string} province - 省份
+         * @property {string} country - 国家
+         */
+        const CITIES_DATA = [
+            { id: 'beijing', name: '北京市', venueCount: 12, province: '北京', country: '中国' },
+            { id: 'shanghai', name: '上海市', venueCount: 18, province: '上海', country: '中国' },
+            { id: 'guangzhou', name: '广州市', venueCount: 8, province: '广东', country: '中国' },
+            { id: 'shenzhen', name: '深圳市', venueCount: 15, province: '广东', country: '中国' },
+            { id: 'hangzhou', name: '杭州市', venueCount: 6, province: '浙江', country: '中国' },
+            { id: 'chengdu', name: '成都市', venueCount: 9, province: '四川', country: '中国' },
+            { id: 'wuhan', name: '武汉市', venueCount: 5, province: '湖北', country: '中国' },
+            { id: 'xian', name: '西安市', venueCount: 4, province: '陕西', country: '中国' }
+        ];
+        
+        /**
+         * 场馆数据结构
+         * @typedef {Object} Gym
+         * @property {string} id - 场馆ID
+         * @property {string} name - 场馆名称
+         * @property {string} image - 场馆图片URL
+         * @property {Object} badge - 场馆标签 
+         * @property {string} badge.type - 标签类型 (crossfit|comprehensive)
+         * @property {string} badge.text - 标签文本
+         * @property {string} location - 位置信息
+         * @property {Object} status - 营业状态
+         * @property {boolean} status.open - 是否营业中
+         * @property {string} status.hours - 营业时间
+         * @property {string[]} courses - 课程类型数组
+         * @property {number} distance - 距离(km)
+         * @property {number} rating - 评分
+         * @property {number} price - 价格
+         */
+        const INITIAL_GYMS_DATA = [
+            {
+                id: 'terminal-station',
+                name: 'CrossFit Terminal Station',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop',
+                badge: { type: 'crossfit', text: 'CrossFit认证' },
+                location: '北京市朝阳区建国门外大街1号 · 2.3km',
+                status: { open: true, hours: '06:00-22:00' },
+                courses: ['crossfit', 'weightlifting', 'gymnastics'],
+                distance: 2.3,
+                rating: 4.8,
+                price: 80
+            },
+            {
+                id: 'galaxy-hub',
+                name: 'Galaxy Fitness Hub',
+                image: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400&h=200&fit=crop',
+                badge: { type: 'comprehensive', text: '综合训练馆' },
+                location: '北京市海淀区中关村大街1号 · 4.7km',
+                status: { open: true, hours: '05:30-23:00' },
+                courses: ['crossfit', 'weightlifting', 'stretching', 'yoga'],
+                distance: 4.7,
+                rating: 4.6,
+                price: 68
+            },
+            {
+                id: 'stellar-lab',
+                name: 'Stellar Movement Lab',
+                image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=200&fit=crop',
+                badge: { type: 'crossfit', text: 'CrossFit认证' },
+                location: '北京市朝阳区三里屯太古里 · 3.1km',
+                status: { open: true, hours: '07:00-21:30' },
+                courses: ['crossfit', 'weightlifting', 'gymnastics'],
+                distance: 3.1,
+                rating: 4.9,
+                price: 120
+            },
+            {
+                id: 'cosmic-training',
+                name: 'Cosmic Training Center',
+                image: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=400&h=200&fit=crop',
+                badge: { type: 'comprehensive', text: '综合训练馆' },
+                location: '北京市西城区金融街 · 6.2km',
+                status: { open: true, hours: '24小时营业' },
+                courses: ['hyrox', 'crossfit', 'weightlifting'],
+                distance: 6.2,
+                rating: 4.5,
+                price: 95
+            },
+            {
+                id: 'orbit-fitness',
+                name: 'Orbit Fitness Studio',
+                image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=200&fit=crop',
+                badge: { type: 'comprehensive', text: '综合训练馆' },
+                location: '北京市东城区王府井大街 · 5.8km',
+                status: { open: false, hours: '明日06:00营业' },
+                courses: ['yoga', 'stretching'],
+                distance: 5.8,
+                rating: 4.4,
+                price: 75
+            }
+        ];
+        
+        // 额外场馆数据 - 用于无限滚动
+        const ADDITIONAL_GYMS_DATA = [
+            {
+                id: 'power-station',
+                name: 'Power Station Gym',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop',
+                badge: { type: 'crossfit', text: 'CrossFit认证' },
+                location: '北京市丰台区丽泽商务区 · 7.8km',
+                status: { open: true, hours: '06:00-22:00' },
+                courses: ['crossfit', 'weightlifting', 'hyrox'],
+                distance: 7.8,
+                rating: 4.7,
+                price: 85
+            },
+            {
+                id: 'zen-movement',
+                name: 'Zen Movement Studio',
+                image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=200&fit=crop',
+                badge: { type: 'comprehensive', text: '综合训练馆' },
+                location: '北京市昌平区回龙观 · 8.5km',
+                status: { open: true, hours: '07:00-21:00' },
+                courses: ['yoga', 'stretching'],
+                distance: 8.5,
+                rating: 4.3,
+                price: 60
+            },
+            {
+                id: 'titan-fitness',
+                name: 'Titan Fitness Center',
+                image: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400&h=200&fit=crop',
+                badge: { type: 'comprehensive', text: '综合训练馆' },
+                location: '北京市通州区副中心 · 9.2km',
+                status: { open: false, hours: '明日05:30营业' },
+                courses: ['crossfit', 'weightlifting', 'gymnastics', 'hyrox'],
+                distance: 9.2,
+                rating: 4.6,
+                price: 90
+            }
+        ];
+        
+        /**
+         * 课程类型映射
+         */
+        const COURSE_TYPE_MAP = {
+            'crossfit': 'CrossFit',
+            'weightlifting': '举重',
+            'gymnastics': '体操',
+            'stretching': '拉伸',
+            'yoga': '瑜伽',
+            'hyrox': 'Hyrox'
+        };
+        
+        // ================================
+        // 应用状态管理
+        // ================================
+        
+        class AppState {
+            constructor() {
+                this.currentCity = 'beijing';
+                this.searchTerm = '';
+                this.filters = {
+                    gymType: [],
+                    courseType: []
+                };
+                // 临时筛选状态 - 用户选择但未确认的筛选条件
+                this.tempFilters = {
+                    gymType: [],
+                    courseType: []
+                };
+                this.isFilterVisible = false;
+                this.isFilterContentExpanded = false;
+                this.isLoading = false;
+                this.hasMoreData = true;
+                this.currentPage = 1;
+                this.allGyms = [...INITIAL_GYMS_DATA];
+                this.filteredGyms = [...INITIAL_GYMS_DATA];
+            }
+            
+            // 更新临时筛选器
+            updateTempFilter(type, value, isAdd) {
+                if (isAdd) {
+                    if (!this.tempFilters[type].includes(value)) {
+                        this.tempFilters[type].push(value);
+                    }
+                } else {
+                    this.tempFilters[type] = this.tempFilters[type].filter(item => item !== value);
+                }
+                this.updateTempFilterCount();
+            }
+            
+            // 确认筛选器 - 将临时筛选器应用到实际筛选器
+            confirmFilters() {
+                this.filters = {
+                    gymType: [...this.tempFilters.gymType],
+                    courseType: [...this.tempFilters.courseType]
+                };
+                this.applyFilters();
+            }
+            
+            // 重置筛选器
+            resetFilters() {
+                this.filters = {
+                    gymType: [],
+                    courseType: []
+                };
+                this.tempFilters = {
+                    gymType: [],
+                    courseType: []
+                };
+                this.applyFilters();
+                this.updateTempFilterCount();
+                this.updateFilterUI();
+            }
+            
+            // 初始化临时筛选器（用于打开筛选器时同步当前状态）
+            initTempFilters() {
+                this.tempFilters = {
+                    gymType: [...this.filters.gymType],
+                    courseType: [...this.filters.courseType]
+                };
+                this.updateTempFilterCount();
+                this.updateFilterUI();
+            }
+            
+            // 更新临时筛选计数
+            updateTempFilterCount() {
+                const count = this.tempFilters.gymType.length + this.tempFilters.courseType.length;
+                const countElement = document.getElementById('filterCount');
+                countElement.textContent = count;
+                countElement.classList.toggle('hidden', count === 0);
+            }
+            
+            // 更新筛选器UI状态
+            updateFilterUI() {
+                // 更新场馆类型筛选器UI
+                document.querySelectorAll('#gymTypeFilters .filter-option').forEach(option => {
+                    const value = option.dataset.value;
+                    const isSelected = this.tempFilters.gymType.includes(value);
+                    option.classList.toggle('filter-option--selected', isSelected);
+                });
+                
+                // 更新课程类型筛选器UI
+                document.querySelectorAll('#courseTypeFilters .filter-option').forEach(option => {
+                    const value = option.dataset.value;
+                    const isSelected = this.tempFilters.courseType.includes(value);
+                    option.classList.toggle('filter-option--selected', isSelected);
+                });
+            }
+            
+            // 更新实际筛选计数（显示在页面上的已确认筛选数量）
+            updateConfirmedFilterCount() {
+                const count = this.filters.gymType.length + this.filters.courseType.length;
+                // 这里可以更新其他UI元素来显示已确认的筛选数量
+                return count;
+            }
+            
+            // 应用筛选器
+            applyFilters() {
+                this.filteredGyms = this.allGyms.filter(gym => {
+                    // 搜索词筛选
+                    if (this.searchTerm) {
+                        const searchLower = this.searchTerm.toLowerCase();
+                        const matchesSearch = 
+                            gym.name.toLowerCase().includes(searchLower) ||
+                            gym.location.toLowerCase().includes(searchLower) ||
+                            gym.courses.some(course => 
+                                COURSE_TYPE_MAP[course].toLowerCase().includes(searchLower)
+                            );
+                        if (!matchesSearch) return false;
+                    }
+                    
+                    // 场馆类型筛选
+                    if (this.filters.gymType.length > 0) {
+                        if (!this.filters.gymType.includes(gym.badge.type)) {
+                            return false;
+                        }
+                    }
+                    
+                    // 课程类型筛选
+                    if (this.filters.courseType.length > 0) {
+                        const hasMatchingCourse = this.filters.courseType.some(type => 
+                            gym.courses.includes(type)
+                        );
+                        if (!hasMatchingCourse) return false;
+                    }
+                    
+                    return true;
+                });
+                
+                this.renderGymList();
+                this.updateCityDescription();
+                this.updateFilterCount();
+            }
+            
+            // 更新筛选计数
+            updateFilterCount() {
+                // 这个方法现在主要用于更新已确认的筛选数量
+                const count = this.filters.gymType.length + this.filters.courseType.length;
+                // 可以在这里更新其他需要显示已确认筛选数量的UI元素
+                return count;
+            }
+            
+            // 更新城市描述
+            updateCityDescription() {
+                const cityDesc = document.getElementById('cityDescription');
+                const count = this.filteredGyms.length;
+                
+                if (this.searchTerm || this.hasActiveFilters()) {
+                    cityDesc.textContent = `筛选结果: ${count} 个训练场馆`;
+                } else {
+                    cityDesc.textContent = `已发现 ${this.allGyms.length} 个训练场馆`;
+                }
+            }
+            
+            // 检查是否有活跃的筛选器
+            hasActiveFilters() {
+                return this.filters.gymType.length > 0 || this.filters.courseType.length > 0;
+            }
+            
+            // 渲染场馆列表
+            renderGymList() {
+                const container = document.getElementById('gymListContainer');
+                container.innerHTML = this.filteredGyms.map(gym => this.createGymCardHTML(gym)).join('');
+            }
+            
+            // 创建场馆卡片HTML
+            createGymCardHTML(gym) {
+                const statusDotClass = gym.status.open ? 'gym-card__status-dot' : 'gym-card__status-dot gym-card__status-dot--closed';
+                const statusText = gym.status.open ? `营业中 · ${gym.status.hours}` : `已闭店 · ${gym.status.hours}`;
+                
+                const courseTags = gym.courses.map(course => 
+                    `<span class="tag tag--${course}">${COURSE_TYPE_MAP[course]}</span>`
+                ).join('');
+                
+                return `
+                    <article class="gym-card fade-in" 
+                             data-gym-id="${gym.id}"
+                             data-gym-type="${gym.badge.type}" 
+                             data-course-types="${gym.courses.join(',')}"
+                             data-action="view-gym">
+                        <div class="gym-card__image">
+                            <img src="${gym.image}" alt="${gym.name}" loading="lazy">
+                            <span class="gym-card__badge gym-card__badge--${gym.badge.type}">${gym.badge.text}</span>
+                        </div>
+                        <div class="gym-card__content">
+                            <h3 class="gym-card__name">${gym.name}</h3>
+                            <p class="gym-card__location">
+                                <i class="fas fa-map-marker-alt"></i> ${gym.location}
+                            </p>
+                            <div class="gym-card__status">
+                                <span class="${statusDotClass}"></span>
+                                <span>${statusText}</span>
+                            </div>
+                            <div class="gym-card__tags">
+                                ${courseTags}
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+        }
+        
+        // ================================
+        // 组件管理器
+        // ================================
+        
+        class ComponentManager {
+            constructor(appState) {
+                this.appState = appState;
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.renderInitialData();
+                this.setupInfiniteScroll();
+            }
+            
+            // 设置事件监听器
+            setupEventListeners() {
+                // 使用事件委托优化性能
+                document.addEventListener('click', this.handleClick.bind(this));
+                document.addEventListener('input', this.handleInput.bind(this));
+                
+                // 城市选择器
+                document.getElementById('citySelector').addEventListener('click', () => {
+                    this.showCityModal();
+                });
+                
+                // 筛选器切换
+                document.getElementById('filterToggle').addEventListener('click', () => {
+                    this.toggleFilter();
+                });
+                
+                // 模态框外部点击关闭
+                document.getElementById('cityModal').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('modal__backdrop')) {
+                        this.hideCityModal();
+                    }
+                });
+            }
+            
+            // 处理点击事件
+            handleClick(e) {
+                const action = e.target.closest('[data-action]')?.dataset.action;
+                
+                switch (action) {
+                    case 'toggle-filter-content':
+                        this.toggleFilterContent();
+                        break;
+                    case 'confirm-filters':
+                        this.confirmFilters();
+                        break;
+                    case 'reset-filters':
+                        this.resetFilters();
+                        break;
+                    case 'view-gym':
+                        const gymId = e.target.closest('[data-gym-id]').dataset.gymId;
+                        this.viewGymDetail(gymId);
+                        break;
+                    case 'switch-tab':
+                        const tab = e.target.closest('[data-tab]').dataset.tab;
+                        this.switchTab(tab);
+                        break;
+                    case 'close-modal':
+                        this.hideCityModal();
+                        break;
+                    default:
+                        // 处理筛选选项点击
+                        if (e.target.closest('.filter-option')) {
+                            this.handleFilterOptionClick(e);
+                        }
+                        // 处理城市选择
+                        if (e.target.closest('[data-city-id]')) {
+                            this.handleCitySelection(e);
+                        }
+                }
+            }
+            
+            // 处理输入事件
+            handleInput(e) {
+                if (e.target.id === 'searchInput') {
+                    this.handleSearch(e.target.value);
+                }
+            }
+            
+            // 搜索处理
+            handleSearch(searchTerm) {
+                this.appState.searchTerm = searchTerm;
+                this.appState.applyFilters();
+            }
+            
+            // 筛选选项点击处理
+            handleFilterOptionClick(e) {
+                const option = e.target.closest('.filter-option');
+                const value = option.dataset.value;
+                const filterType = option.closest('[data-filter-type]').dataset.filterType;
+                const isSelected = option.classList.contains('filter-option--selected');
+                
+                // 转换筛选类型名称
+                const stateFilterType = filterType === 'gym-type' ? 'gymType' : 'courseType';
+                
+                // 切换选中状态
+                option.classList.toggle('filter-option--selected');
+                
+                // 更新临时筛选状态（不立即应用筛选）
+                this.appState.updateTempFilter(stateFilterType, value, !isSelected);
+            }
+            
+            // 确认筛选
+            confirmFilters() {
+                this.appState.confirmFilters();
+                this.hideFilter();
+                
+                // 可选：显示确认提示
+                console.log('筛选条件已应用');
+            }
+            
+            // 重置筛选
+            resetFilters() {
+                this.appState.resetFilters();
+                this.hideFilter();
+                
+                // 可选：显示重置提示
+                console.log('筛选条件已重置');
+            }
+            
+            // 隐藏筛选器
+            hideFilter() {
+                this.appState.isFilterVisible = false;
+                this.appState.isFilterContentExpanded = false;
+                
+                const filterSection = document.getElementById('filterSection');
+                const content = document.getElementById('filterContent');
+                const chevron = document.getElementById('filterChevron');
+                
+                filterSection.classList.add('hidden');
+                content.classList.remove('filter__content--expanded');
+                chevron.classList.remove('filter__chevron--expanded');
+            }
+            
+            // 城市选择处理
+            handleCitySelection(e) {
+                const cityItem = e.target.closest('[data-city-id]');
+                const cityId = cityItem.dataset.cityId;
+                const city = CITIES_DATA.find(c => c.id === cityId);
+                
+                if (city) {
+                    this.selectCity(city);
+                }
+            }
+            
+            // 显示城市模态框
+            showCityModal() {
+                this.renderCityList();
+                document.getElementById('cityModal').style.display = 'block';
+            }
+            
+            // 隐藏城市模态框
+            hideCityModal() {
+                document.getElementById('cityModal').style.display = 'none';
+            }
+            
+            // 渲染城市列表
+            renderCityList() {
+                const container = document.getElementById('cityList');
+                container.innerHTML = CITIES_DATA.map(city => `
+                    <div class="city-list__item ${city.id === this.appState.currentCity ? 'city-list__item--selected' : ''}"
+                         data-city-id="${city.id}">
+                        <div class="city-list__info">
+                            <div class="city-list__name">${city.name}</div>
+                            <div class="city-list__desc">${city.venueCount}个训练场馆</div>
+                        </div>
+                        ${city.id === this.appState.currentCity ? '<i class="fas fa-check" style="color: var(--color-secondary);"></i>' : ''}
+                    </div>
+                `).join('');
+            }
+            
+            // 选择城市
+            selectCity(city) {
+                this.appState.currentCity = city.id;
+                document.getElementById('currentCityName').textContent = city.name;
+                document.getElementById('currentCityName').dataset.cityId = city.id;
+                
+                // 模拟切换城市后的数据更新
+                this.loadCityGyms(city.id);
+                this.hideCityModal();
+            }
+            
+            // 加载城市场馆数据（模拟API调用）
+            async loadCityGyms(cityId) {
+                // 这里应该调用实际的API
+                console.log(`Loading gyms for city: ${cityId}`);
+                
+                // 模拟API延迟
+                setTimeout(() => {
+                    // 重置数据
+                    this.appState.allGyms = [...INITIAL_GYMS_DATA];
+                    this.appState.hasMoreData = true;
+                    this.appState.currentPage = 1;
+                    this.appState.applyFilters();
+                }, 500);
+            }
+            
+            // 切换筛选器显示
+            toggleFilter() {
+                this.appState.isFilterVisible = !this.appState.isFilterVisible;
+                const filterSection = document.getElementById('filterSection');
+                filterSection.classList.toggle('hidden', !this.appState.isFilterVisible);
+                
+                if (this.appState.isFilterVisible) {
+                    // 显示筛选器时，初始化临时筛选状态
+                    this.appState.initTempFilters();
+                    
+                    if (!this.appState.isFilterContentExpanded) {
+                        this.toggleFilterContent();
+                    }
+                }
+            }
+            
+            // 切换筛选器内容展开
+            toggleFilterContent() {
+                this.appState.isFilterContentExpanded = !this.appState.isFilterContentExpanded;
+                const content = document.getElementById('filterContent');
+                const chevron = document.getElementById('filterChevron');
+                
+                content.classList.toggle('filter__content--expanded', this.appState.isFilterContentExpanded);
+                chevron.classList.toggle('filter__chevron--expanded', this.appState.isFilterContentExpanded);
+            }
+            
+            // 查看场馆详情
+            viewGymDetail(gymId) {
+                console.log(`Navigating to gym detail: ${gymId}`);
+                // 这里应该进行路由跳转或页面切换
+                // 例如：router.push(`/gym/${gymId}`)
+                alert(`正在跳转到场馆详情页: ${gymId}`);
+            }
+            
+            // 切换底部Tab
+            switchTab(tab) {
+                console.log(`Switching to tab: ${tab}`);
+                // 这里应该进行页面切换
+                const tabName = tab === 'map' ? '足迹地图' : '我的';
+                alert(`正在切换到: ${tabName}`);
+            }
+            
+            // 渲染初始数据
+            renderInitialData() {
+                this.appState.renderGymList();
+                this.appState.updateCityDescription();
+            }
+            
+            // 设置无限滚动
+            setupInfiniteScroll() {
+                const pageContent = document.getElementById('pageContent');
+                
+                pageContent.addEventListener('scroll', () => {
+                    if (this.appState.isLoading || !this.appState.hasMoreData) return;
+                    
+                    const { scrollTop, scrollHeight, clientHeight } = pageContent;
+                    
+                    // 距离底部100px时触发加载
+                    if (scrollTop + clientHeight >= scrollHeight - 100) {
+                        this.loadMoreGyms();
+                    }
+                });
+            }
+            
+            // 加载更多场馆
+            async loadMoreGyms() {
+                if (this.appState.isLoading || !this.appState.hasMoreData) return;
+                
+                this.appState.isLoading = true;
+                
+                // 显示加载状态
+                document.getElementById('loadingIndicator').classList.remove('hidden');
+                document.getElementById('loadComplete').classList.add('hidden');
+                
+                try {
+                    // 模拟API调用
+                    await this.simulateAPICall();
+                    
+                    const startIndex = (this.appState.currentPage - 1) * 3;
+                    const endIndex = Math.min(startIndex + 3, ADDITIONAL_GYMS_DATA.length);
+                    
+                    // 添加新数据
+                    for (let i = startIndex; i < endIndex; i++) {
+                        if (ADDITIONAL_GYMS_DATA[i]) {
+                            this.appState.allGyms.push(ADDITIONAL_GYMS_DATA[i]);
+                        }
+                    }
+                    
+                    this.appState.currentPage++;
+                    
+                    // 检查是否还有更多数据
+                    if (endIndex >= ADDITIONAL_GYMS_DATA.length) {
+                        this.appState.hasMoreData = false;
+                        document.getElementById('loadComplete').classList.remove('hidden');
+                    }
+                    
+                    // 重新应用筛选并渲染
+                    this.appState.applyFilters();
+                    
+                } catch (error) {
+                    console.error('Failed to load more gyms:', error);
+                } finally {
+                    document.getElementById('loadingIndicator').classList.add('hidden');
+                    this.appState.isLoading = false;
+                }
+            }
+            
+            // 模拟API调用
+            simulateAPICall() {
+                return new Promise((resolve) => {
+                    setTimeout(resolve, 1500);
+                });
+            }
+        }
+        
+        // ================================
+        // API接口层 - 前端集成参考
+        // ================================
+        
+        /**
+         * API接口定义 - 供前端开发参考
+         */
+        class ApiService {
+            constructor(baseURL = '/api/v1') {
+                this.baseURL = baseURL;
+            }
+            
+            // 获取城市列表
+            async getCities() {
+                // return await fetch(`${this.baseURL}/cities`).then(r => r.json());
+                return Promise.resolve(CITIES_DATA);
+            }
+            
+            // 获取场馆列表
+            async getGyms(params = {}) {
+                const { 
+                    cityId, 
+                    page = 1, 
+                    limit = 10, 
+                    search = '', 
+                    gymTypes = [], 
+                    courseTypes = [],
+                    sortBy = 'distance'
+                } = params;
+                
+                const queryParams = new URLSearchParams({
+                    cityId,
+                    page,
+                    limit,
+                    search,
+                    gymTypes: gymTypes.join(','),
+                    courseTypes: courseTypes.join(','),
+                    sortBy
+                });
+                
+                // return await fetch(`${this.baseURL}/gyms?${queryParams}`).then(r => r.json());
+                
+                // 模拟返回数据
+                return Promise.resolve({
+                    data: page === 1 ? INITIAL_GYMS_DATA : ADDITIONAL_GYMS_DATA,
+                    pagination: {
+                        page,
+                        limit,
+                        total: INITIAL_GYMS_DATA.length + ADDITIONAL_GYMS_DATA.length,
+                        hasMore: page < 2
+                    }
+                });
+            }
+            
+            // 获取场馆详情
+            async getGymDetail(gymId) {
+                // return await fetch(`${this.baseURL}/gyms/${gymId}`).then(r => r.json());
+                const gym = [...INITIAL_GYMS_DATA, ...ADDITIONAL_GYMS_DATA].find(g => g.id === gymId);
+                return Promise.resolve(gym);
+            }
+            
+            // 搜索场馆
+            async searchGyms(query, filters = {}) {
+                const params = {
+                    search: query,
+                    ...filters
+                };
+                return this.getGyms(params);
+            }
+        }
+        
+        // ================================
+        // 应用初始化
+        // ================================
+        
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化应用状态
+            const appState = new AppState();
+            
+            // 初始化组件管理器
+            const componentManager = new ComponentManager(appState);
+            
+            // 初始化API服务
+            const apiService = new ApiService();
+            
+            // 全局对象，供调试使用
+            window.MobiLifApp = {
+                appState,
+                componentManager,
+                apiService,
+                // 工具函数
+                utils: {
+                    formatDistance: (distance) => `${distance}km`,
+                    formatPrice: (price) => `¥${price}`,
+                    formatRating: (rating) => rating.toFixed(1)
+                }
+            };
+            
+            console.log('MobiLiF拓练 - 探索场馆页面已加载完成');
+            console.log('开发工具已挂载到 window.MobiLifApp');
+        });
+        
+        // ================================
+        // 开发工具函数 - 生产环境可移除
+        // ================================
+        
+        /**
+         * 开发辅助函数 - 显示开发说明
+         */
+        function showDevNotes() {
+            document.querySelector('.dev-note').style.display = 'block';
+        }
+        
+        /**
+         * 开发辅助函数 - 切换设备容器
+         */
+        function toggleDeviceContainer() {
+            const container = document.querySelector('.device-container');
+            container.style.width = container.style.width === '100%' ? '430px' : '100%';
+            container.style.height = container.style.height === '100vh' ? '932px' : '100vh';
+        }
+        
+        // 开发环境自动显示开发说明（生产环境移除）
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            setTimeout(showDevNotes, 1000);
+        }
+    </script>
+</body>
+</html>

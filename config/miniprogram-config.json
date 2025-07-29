@@ -1,0 +1,35 @@
+{
+  "appid": "wx0a950fd30b3c2146",
+  "projectPath": "/Users/tonyfan/WeChatProjects/miniprogram-1",
+  "privateKeyPath": "/Users/tonyfan/Desktop/mobilif-project/config/keys/private.wx0a950fd30b3c2146.key",
+  "ipWhitelist": ["115.171.9.126", "152.67.99.47", "192.168.1.4", "240e:304:2b8c:4300:a024:76fc:2573:9da6"],
+  "version": "1.0.0",
+  "robot": 1,
+  "type": "miniProgram",
+  "ignores": [
+    "node_modules/**/*",
+    ".git/**/*",
+    "*.log",
+    ".DS_Store",
+    "*.md",
+    "scripts/**/*",
+    ".env*"
+  ],
+  "setting": {
+    "es6": true,
+    "es7": true,
+    "minify": false,
+    "codeProtect": false,
+    "minifyJS": false,
+    "minifyWXML": false,
+    "minifyWXSS": false,
+    "autoPrefixWXSS": true,
+    "uploadWithSourceMap": true
+  },
+  "preview": {
+    "qrcodeFormat": "image",
+    "qrcodeOutputDest": "./preview-qr-code.png",
+    "pagePath": "pages/index/index",
+    "scene": 1001
+  }
+}

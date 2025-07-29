@@ -1,0 +1,4 @@
+/* pages/map/map.wxss */
+.map-page {
+  padding: 20px;
+}

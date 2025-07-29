@@ -1,0 +1,313 @@
+version: '3.8'
+
+services:
+  # MySQL主数据库
+  mysql-master:
+    image: mysql:8.0
+    container_name: mobilif-mysql-master
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: MobiLiF@2025!
+      MYSQL_DATABASE: mobilif
+      MYSQL_USER: mobilif_user
+      MYSQL_PASSWORD: MobiLiF@2025!
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/mobilif/data/mysql/master:/var/lib/mysql
+      - /opt/mobilif/config/mysql/master.cnf:/etc/mysql/conf.d/master.cnf
+      - /opt/mobilif/logs/mysql:/var/log/mysql
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --binlog-do-db=mobilif
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=1000
+      --innodb_buffer_pool_size=1G
+      --innodb_log_file_size=256M
+      --slow_query_log=1
+      --long_query_time=2
+    networks:
+      - mobilif-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # MySQL从数据库
+  mysql-slave:
+    image: mysql:8.0
+    container_name: mobilif-mysql-slave
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: MobiLiF@2025!
+      MYSQL_DATABASE: mobilif
+      MYSQL_USER: mobilif_readonly
+      MYSQL_PASSWORD: MobiLiF@2025!
+    ports:
+      - "3307:3306"
+    volumes:
+      - /opt/mobilif/data/mysql/slave:/var/lib/mysql
+      - /opt/mobilif/config/mysql/slave.cnf:/etc/mysql/conf.d/slave.cnf
+      - /opt/mobilif/logs/mysql:/var/log/mysql
+    command: >
+      --server-id=2
+      --relay-log=mysql-relay-bin
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --read-only=1
+      --innodb_buffer_pool_size=512M
+    depends_on:
+      - mysql-master
+    networks:
+      - mobilif-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # Redis主缓存
+  redis:
+    image: redis:7.0-alpine
+    container_name: mobilif-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - /opt/mobilif/data/redis:/data
+      - /opt/mobilif/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - /opt/mobilif/logs/redis:/var/log/redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - mobilif-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # RocketMQ NameServer
+  rocketmq-nameserver:
+    image: apache/rocketmq:5.1.0
+    container_name: mobilif-rocketmq-nameserver
+    restart: unless-stopped
+    ports:
+      - "9876:9876"
+    volumes:
+      - /opt/mobilif/logs/rocketmq/nameserver:/home/rocketmq/logs
+    environment:
+      JAVA_OPT: "-Duser.home=/home/rocketmq -Xms512m -Xmx512m"
+    command: sh mqnamesrv
+    networks:
+      - mobilif-network
+
+  # RocketMQ Broker
+  rocketmq-broker:
+    image: apache/rocketmq:5.1.0
+    container_name: mobilif-rocketmq-broker
+    restart: unless-stopped
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+    volumes:
+      - /opt/mobilif/logs/rocketmq/broker:/home/rocketmq/logs
+      - /opt/mobilif/data/rocketmq:/home/rocketmq/store
+      - /opt/mobilif/config/rocketmq/broker.conf:/home/rocketmq/rocketmq-5.1.0/conf/broker.conf
+    environment:
+      NAMESRV_ADDR: "rocketmq-nameserver:9876"
+      JAVA_OPT: "-Duser.home=/home/rocketmq -Xms1g -Xmx1g"
+    command: sh mqbroker -c /home/rocketmq/rocketmq-5.1.0/conf/broker.conf
+    depends_on:
+      - rocketmq-nameserver
+    networks:
+      - mobilif-network
+
+  # MobiLiF后端应用
+  mobilif-backend:
+    image: registry.cn-hangzhou.aliyuncs.com/mobilif/mobilif-backend:latest
+    container_name: mobilif-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    env_file:
+      - /opt/mobilif/config/.env.production
+    volumes:
+      - /opt/mobilif/logs/app:/app/logs
+      - /opt/mobilif/data/uploads:/app/uploads
+      - /opt/mobilif/config/ssl:/app/ssl
+    depends_on:
+      - mysql-master
+      - mysql-slave
+      - redis
+      - rocketmq-nameserver
+      - rocketmq-broker
+    networks:
+      - mobilif-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: mobilif-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /opt/mobilif/config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /opt/mobilif/config/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/mobilif/config/ssl:/etc/nginx/ssl
+      - /opt/mobilif/data/static:/usr/share/nginx/html
+      - /opt/mobilif/logs/nginx:/var/log/nginx
+    depends_on:
+      - mobilif-backend
+    networks:
+      - mobilif-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # Prometheus监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mobilif-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - /opt/mobilif/config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /opt/mobilif/config/prometheus/rules:/etc/prometheus/rules
+      - /opt/mobilif/data/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    networks:
+      - mobilif-network
+
+  # Grafana可视化
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mobilif-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: MobiLiF@2025!
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - /opt/mobilif/data/grafana:/var/lib/grafana
+      - /opt/mobilif/config/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - mobilif-network
+    user: "472"
+
+  # Node Exporter系统监控
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: mobilif-node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - mobilif-network
+
+  # cAdvisor容器监控
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: mobilif-cadvisor
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - mobilif-network
+
+  # Redis Exporter
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: mobilif-redis-exporter
+    restart: unless-stopped
+    ports:
+      - "9121:9121"
+    environment:
+      REDIS_ADDR: "redis://redis:6379"
+    depends_on:
+      - redis
+    networks:
+      - mobilif-network
+
+  # MySQL Exporter
+  mysql-exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mobilif-mysql-exporter
+    restart: unless-stopped
+    ports:
+      - "9104:9104"
+    environment:
+      DATA_SOURCE_NAME: "mobilif_user:MobiLiF@2025!@(mysql-master:3306)/mobilif"
+    depends_on:
+      - mysql-master
+    networks:
+      - mobilif-network
+
+volumes:
+  mysql_master_data:
+    driver: local
+  mysql_slave_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  mobilif-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

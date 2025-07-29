@@ -1,0 +1,28 @@
+{
+  "name": "mobilif-miniprogram",
+  "version": "1.0.0",
+  "description": "MobiLiF拓练 - CrossFit场馆探索小程序",
+  "main": "app.js",
+  "scripts": {
+    "dev": "echo '请使用微信开发者工具打开项目进行开发'",
+    "build": "echo '构建完成'",
+    "workflow:miniprogram": "node scripts/upload.js preview",
+    "upload": "node scripts/upload.js upload",
+    "preview": "node scripts/upload.js preview"
+  },
+  "keywords": [
+    "wechat",
+    "miniprogram",
+    "crossfit",
+    "mobilif"
+  ],
+  "author": "MobiLiF Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mobilif/miniprogram"
+  },
+  "devDependencies": {
+    "miniprogram-ci": "^2.1.14"
+  }
+}

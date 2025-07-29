@@ -1,0 +1,138 @@
+{
+  "version": "1.0.0",
+  "appid": "wx0a950fd30b3c2146",
+  "robot": {
+    "1": {
+      "desc": "开发环境机器人",
+      "remark": "用于开发测试版本上传"
+    },
+    "2": {
+      "desc": "测试环境机器人", 
+      "remark": "用于测试版本上传"
+    },
+    "3": {
+      "desc": "预发布机器人",
+      "remark": "用于预发布版本上传"
+    }
+  },
+  "ignores": [
+    "node_modules/**/*",
+    ".git/**/*",
+    ".github/**/*",
+    "*.log",
+    "*.md",
+    ".DS_Store",
+    "Thumbs.db",
+    "*.tmp",
+    "*.bak",
+    "src/**/*.test.js",
+    "src/**/*.spec.js",
+    "coverage/**/*",
+    "docs/**/*",
+    "scripts/**/*",
+    ".env*",
+    "webpack.config.js",
+    "babel.config.js",
+    "jest.config.js",
+    "package-lock.json",
+    "yarn.lock"
+  ],
+  "setting": {
+    "es6": true,
+    "es7": true,
+    "minify": true,
+    "codeProtect": false,
+    "minifyJS": true,
+    "minifyWXML": true,
+    "minifyWXSS": true,
+    "autoPrefixWXSS": true,
+    "uploadWithSourceMap": false,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "preview": {
+    "qrcodeFormat": "image",
+    "qrcodeOutputDest": "./preview-qr-code.png",
+    "pagePath": "pages/index/index",
+    "searchQuery": "",
+    "scene": 1001
+  },
+  "upload": {
+    "threads": 4,
+    "onProgressUpdate": true
+  },
+  "env": {
+    "development": {
+      "robot": 1,
+      "desc": "开发版本 - 自动构建",
+      "setting": {
+        "minify": false,
+        "codeProtect": false,
+        "uploadWithSourceMap": true
+      }
+    },
+    "testing": {
+      "robot": 2, 
+      "desc": "测试版本 - 功能测试",
+      "setting": {
+        "minify": true,
+        "codeProtect": false,
+        "uploadWithSourceMap": true
+      }
+    },
+    "staging": {
+      "robot": 3,
+      "desc": "预发布版本 - 用户验收测试",
+      "setting": {
+        "minify": true,
+        "codeProtect": true,
+        "uploadWithSourceMap": false
+      }
+    },
+    "production": {
+      "robot": 30,
+      "desc": "生产版本 - 正式发布",
+      "setting": {
+        "minify": true,
+        "codeProtect": true,
+        "uploadWithSourceMap": false
+      }
+    }
+  },
+  "hooks": {
+    "beforeUpload": [
+      "npm run build",
+      "npm run test"
+    ],
+    "afterUpload": [
+      "npm run backup-version"
+    ],
+    "beforePreview": [
+      "npm run build:dev"
+    ]
+  },
+  "notification": {
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "events": ["upload.success", "upload.fail", "preview.success"]
+    },
+    "email": {
+      "enabled": false,
+      "recipients": [],
+      "events": ["upload.success", "upload.fail"]
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "path": "./backups",
+    "keepDays": 30,
+    "compress": true
+  }
+}

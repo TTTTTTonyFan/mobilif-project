@@ -1,0 +1,110 @@
+<!--pages/gyms/gym-detail/gym-detail.wxml-->
+<view class="container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 场馆详情内容 -->
+  <view wx:else class="detail-content">
+    <!-- 图片轮播 -->
+    <swiper wx:if="{{images.length > 0}}" 
+            class="image-swiper" 
+            indicator-dots="true"
+            autoplay="true"
+            interval="5000"
+            bindchange="onImageChange"
+            bindtap="previewImages">
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" class="swiper-image" />
+      </swiper-item>
+    </swiper>
+
+    <!-- 默认图片 -->
+    <view wx:else class="default-image">
+      <text>暂无图片</text>
+    </view>
+
+    <!-- 场馆基本信息 -->
+    <view class="gym-info">
+      <view class="gym-header">
+        <text class="gym-name">{{gym.name}}</text>
+        <view class="gym-tags">
+          <text wx:for="{{gym.tags}}" 
+                wx:for-item="tag" 
+                wx:key="*this" 
+                class="gym-tag {{tag === 'CrossFit认证' ? 'tag-crossfit' : ''}}">
+            {{tag}}
+          </text>
+        </view>
+      </view>
+
+      <view class="gym-rating">
+        <text class="rating-stars">★</text>
+        <text class="rating-text">{{gym.rating}} ({{gym.reviewCount}}条评价)</text>
+        <view class="gym-status {{gym.businessStatus === '营业中' ? 'status-open' : 'status-closed'}}">
+          {{gym.businessStatus}}
+        </view>
+      </view>
+
+      <view class="gym-address" bindtap="viewLocation">
+        <text class="address-icon">📍</text>
+        <text class="address-text">{{gym.address}}</text>
+        <text class="distance" wx:if="{{gym.distance}}">{{gym.distance}}km</text>
+      </view>
+
+      <view class="gym-contact" wx:if="{{gym.phone}}">
+        <text class="contact-icon">📞</text>
+        <text class="contact-text" bindtap="callPhone">{{gym.phone}}</text>
+      </view>
+    </view>
+
+    <!-- 营业时间 -->
+    <view class="section">
+      <view class="section-title">营业时间</view>
+      <view class="opening-hours">
+        <view class="today-hours">
+          <text class="day">今日</text>
+          <text class="hours">{{gym.todayHours || '营业时间未知'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 场馆设施 -->
+    <view class="section" wx:if="{{gym.facilities && gym.facilities.length > 0}}">
+      <view class="section-title">场馆设施</view>
+      <view class="facilities">
+        <text wx:for="{{gym.facilities}}" 
+              wx:key="*this" 
+              class="facility-item">
+          {{item}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 支持课程 -->
+    <view class="section" wx:if="{{gym.supportedPrograms && gym.supportedPrograms.length > 0}}">
+      <view class="section-title">支持课程</view>
+      <view class="programs">
+        <text wx:for="{{gym.supportedPrograms}}" 
+              wx:key="*this" 
+              class="program-item">
+          {{item}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 场馆介绍 -->
+    <view class="section" wx:if="{{gym.description}}">
+      <view class="section-title">场馆介绍</view>
+      <text class="description">{{gym.description}}</text>
+    </view>
+  </view>
+
+  <!-- 底部预约按钮 -->
+  <view class="bottom-actions">
+    <button class="book-button" type="primary" bindtap="bookNow">
+      立即预约
+    </button>
+  </view>
+</view>

@@ -1,232 +1,267 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# ==========================================
+# MobiLiF 项目 Git 忽略文件
+# ==========================================
+# 此文件定义了不应被版本控制追踪的文件和目录
+# 用于保护敏感信息、临时文件和构建产物
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# ==========================================
+# 环境变量和配置文件
+# ==========================================
+# 包含敏感信息如数据库密码、API密钥等，不应提交到版本控制
+.env                        # 主环境变量文件
+.env.local                  # 本地环境变量
+.env.development            # 开发环境变量
+.env.staging                # 预发布环境变量
+.env.production             # 生产环境变量（应通过CI/CD或服务器配置）
+.env.test                   # 测试环境变量
+.env.miniprogram            # 微信小程序环境变量（包含AppSecret）
 
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
+# 包含敏感数据的配置文件
+config/database.json        # 数据库配置文件
+config/secrets.json         # 密钥配置文件
+config/local.json           # 本地配置文件
+config/keys/                 # 微信小程序私钥文件目录
 
-# nyc test coverage
-.nyc_output
+# ==========================================
+# Node.js 依赖和包管理
+# ==========================================
+# Node.js 依赖包目录，体积庞大且可通过 package.json 重新安装
+node_modules/               # npm/yarn 安装的依赖包目录
+jspm_packages/              # jspm 包管理器依赖目录
 
-# Grunt intermediate storage
-.grunt
+# npm/yarn 调试和缓存文件
+npm-debug.log*              # npm 调试日志
+yarn-debug.log*             # yarn 调试日志
+yarn-error.log*             # yarn 错误日志
+.npm                        # npm 缓存目录
+.yarn-integrity             # yarn 完整性检查文件
 
-# Bower dependency directory
-bower_components
+# ==========================================
+# 日志文件和运行时数据
+# ==========================================
+# 应用运行时产生的日志文件，通常很大且包含临时信息
+*.log                       # 所有日志文件
+*.log.*                     # 轮转的日志文件（如 app.log.1）
+logs/                       # 日志文件目录
+npm-debug.log*              # npm 调试日志
+yarn-debug.log*             # yarn 调试日志
+yarn-error.log*             # yarn 错误日志
 
-# node-waf configuration
-.lock-wscript
+# 进程ID文件，用于追踪运行中的进程
+*.pid                       # 进程ID文件
+*.seed                      # 随机种子文件
+*.pid.lock                  # 进程锁文件
+pids                        # 进程ID目录
 
-# Compiled binary addons
-build/Release
+# ==========================================
+# 操作系统生成的文件
+# ==========================================
+# macOS 系统文件
+.DS_Store                   # macOS 目录服务存储文件
+.DS_Store?                  # macOS 目录服务存储备份文件
+._*                         # macOS 元数据文件
+.AppleDouble                # macOS 双分叉文件
+.LSOverride                 # macOS 启动服务覆盖
+.Spotlight-V100             # macOS Spotlight 索引
+.Trashes                    # macOS 垃圾箱文件
+Icon                        # macOS 图标文件
 
-# Dependency directories
-jspm_packages/
+# Windows 系统文件
+ehthumbs.db                 # Windows 缩略图数据库
+Thumbs.db                   # Windows 缩略图数据库
+Desktop.ini                 # Windows 桌面配置文件
+$RECYCLE.BIN/               # Windows 回收站
 
-# TypeScript v1 declaration files
-typings/
+# Linux 系统文件
+*~                          # Linux 临时文件
 
-# TypeScript cache
-*.tsbuildinfo
+# ==========================================
+# 构建产物和编译输出
+# ==========================================
+# TypeScript 和构建工具产生的文件，可通过源码重新生成
+dist/                       # 构建输出目录
+build/                      # 构建产物目录
+out/                        # 输出目录
+*.tsbuildinfo               # TypeScript 增量编译信息
+.cache                      # 缓存目录
+.parcel-cache               # Parcel 打包工具缓存
 
-# Optional npm cache directory
-.npm
+# ==========================================
+# 测试和覆盖率报告
+# ==========================================
+# 测试工具生成的报告和覆盖率数据
+coverage/                   # 测试覆盖率报告目录
+*.lcov                      # LCOV 覆盖率文件
+.nyc_output                 # NYC 测试覆盖率输出
+test-results/               # 测试结果目录
+screenshots/                # 测试截图目录
+videos/                     # 测试录像目录
 
-# Optional eslint cache
-.eslintcache
+# ==========================================
+# IDE 和编辑器配置
+# ==========================================
+# 开发工具的个人配置文件，因人而异
+.vscode/settings.json       # VS Code 个人设置
+.vscode/tasks.json          # VS Code 任务配置
+.vscode/launch.json         # VS Code 调试配置
+.vscode/extensions.json     # VS Code 扩展推荐
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+.idea/                      # JetBrains IDEs 配置目录
+*.iml                       # IntelliJ 模块文件
+*.ipr                       # IntelliJ 项目文件
+*.iws                       # IntelliJ 工作空间文件
 
-# Optional REPL history
-.node_repl_history
+*.swp                       # Vim 交换文件
+*.swo                       # Vim 交换文件
+*~                          # Vim 备份文件
 
-# Output of 'npm pack'
-*.tgz
+*.sublime-workspace         # Sublime Text 工作空间文件
 
-# Yarn Integrity file
-.yarn-integrity
+# Emacs 编辑器文件
+\#*\#                       # Emacs 自动保存文件
+/.emacs.desktop             # Emacs 桌面文件
+/.emacs.desktop.lock        # Emacs 桌面锁文件
+*.elc                       # Emacs 编译文件
+auto-save-list              # Emacs 自动保存列表
+tramp                       # Emacs TRAMP 文件
+.\#*                        # Emacs 锁文件
 
-# dotenv environment variables file
-.env
-.env.test
-.env.local
-.env.development
-.env.staging
-.env.production
+# ==========================================
+# 数据库文件
+# ==========================================
+# 本地数据库文件，不应包含在版本控制中
+*.sqlite                    # SQLite 数据库文件
+*.db                        # 通用数据库文件
+dump.rdb                    # Redis 数据转储文件
+*.sql.gz                    # 压缩的 SQL 转储文件
 
-# parcel-bundler cache
-.cache
-.parcel-cache
+# ==========================================
+# 上传和媒体文件
+# ==========================================
+# 用户上传的文件，通常存储在云端或CDN
+uploads/                    # 用户上传文件目录
+public/uploads/             # 公共上传文件目录
+static/uploads/             # 静态上传文件目录
 
-# Next.js build output
-.next
+# ==========================================
+# 安全和证书文件
+# ==========================================
+# SSL 证书和私钥文件，包含敏感信息
+*.pem                       # PEM 格式证书/私钥
+*.key                       # 私钥文件
+*.crt                       # 证书文件
+*.csr                       # 证书签名请求
+*.p12                       # PKCS#12 证书文件
 
-# Nuxt.js build / generate output
-.nuxt
-dist
+# ==========================================
+# 容器化和部署相关
+# ==========================================
+# Docker 和 Kubernetes 配置中的敏感信息
+.docker/                    # Docker 配置目录
+docker-compose.override.yml # Docker Compose 覆盖文件（通常包含本地配置）
+k8s-secrets/                # Kubernetes 密钥目录
+*.yaml.bak                  # Kubernetes 配置备份文件
 
-# Gatsby files
-.cache/
-public
+# Terraform 基础设施代码状态文件
+*.tfstate                   # Terraform 状态文件
+*.tfstate.*                 # Terraform 状态备份文件
+.terraform/                 # Terraform 配置目录
 
-# Storybook build outputs
-.out
-.storybook-out
+# PM2 进程管理器文件
+.pm2/                       # PM2 配置和日志目录
 
-# Temporary folders
-tmp/
-temp/
+# ==========================================
+# 临时文件和备份
+# ==========================================
+# 各种临时文件和备份文件
+tmp/                        # 临时文件目录
+temp/                       # 临时文件目录
+*.tmp                       # 临时文件
+*.bak                       # 备份文件
+*.backup                    # 备份文件
+*.old                       # 旧版本文件
 
-# Runtime data
-*.log
-logs/
-*.log.*
+# ==========================================
+# 缓存和工具文件
+# ==========================================
+# 各种工具和框架的缓存文件
+.eslintcache                # ESLint 缓存文件
+.rpt2_cache/                # Rollup TypeScript 缓存
+.rts2_cache_cjs/            # Rollup TypeScript CJS 缓存
+.rts2_cache_es/             # Rollup TypeScript ES 缓存
+.rts2_cache_umd/            # Rollup TypeScript UMD 缓存
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Node.js 和包管理相关
+.node_repl_history          # Node.js REPL 历史
+*.tgz                       # npm pack 输出文件
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# 构建工具缓存
+.grunt                      # Grunt 中间存储
+bower_components            # Bower 依赖目录
+.lock-wscript               # node-waf 配置文件
 
-# Build outputs
-dist/
-build/
-out/
+# ==========================================
+# 框架特定文件
+# ==========================================
+# Next.js
+.next                       # Next.js 构建输出
 
-# Database
-*.sqlite
-*.db
+# Nuxt.js
+.nuxt                       # Nuxt.js 构建输出
 
-# Uploads and media files
-uploads/
-public/uploads/
-static/uploads/
+# Gatsby
+public                      # Gatsby 公共文件
 
-# SSL certificates
-*.pem
-*.key
-*.crt
-*.csr
-*.p12
+# Storybook
+.out                        # Storybook 构建输出
+.storybook-out              # Storybook 输出目录
 
-# Docker
-.docker/
-docker-compose.override.yml
+# ==========================================
+# TypeScript 相关
+# ==========================================
+typings/                    # TypeScript v1 声明文件目录
 
-# Kubernetes
-k8s-secrets/
-*.yaml.bak
+# ==========================================
+# 移动端开发（如果涉及）
+# ==========================================
+# Xcode (iOS)
+build/                      # Xcode 构建目录
+*.pbxuser                   # Xcode 用户设置
+!default.pbxuser            # 保留默认用户设置
+*.mode1v3                   # Xcode 模式文件
+!default.mode1v3            # 保留默认模式
+*.mode2v3                   # Xcode 模式文件
+!default.mode2v3            # 保留默认模式
+*.perspectivev3             # Xcode 透视文件
+!default.perspectivev3      # 保留默认透视
+xcuserdata/                 # Xcode 用户数据
+*.moved-aside               # Xcode 移动文件
+DerivedData                 # Xcode 派生数据
+*.hmap                      # Xcode 头部映射
+*.ipa                       # iOS 应用包
+*.xcuserstate               # Xcode 用户状态
 
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
+# ==========================================
+# 文档构建
+# ==========================================
+docs/_build/                # 文档构建输出目录
 
-# Test artifacts
-test-results/
-screenshots/
-videos/
+# ==========================================
+# 项目特定忽略
+# ==========================================
+# 根据 MobiLiF 项目的特殊需求添加的忽略规则
 
-# Backup files
-*.bak
-*.backup
-*.old
+# 微信小程序相关（如果有）
+miniprogram_npm/            # 微信小程序 npm 构建目录
 
-# Configuration files with sensitive data
-config/database.json
-config/secrets.json
-config/local.json
+# 服务器部署脚本中的敏感信息
+scripts/deployment/*.local  # 本地部署配置
+scripts/deployment/secrets/ # 部署密钥目录
 
-# PM2
-.pm2/
+# 监控和日志
+monitoring/                 # 监控数据目录
+metrics/                    # 指标数据目录
 
-# Redis dump
-dump.rdb
-
-# MySQL
-*.sql.gz
-
-# Documentation build
-docs/_build/
-
-# MacOS
-.AppleDouble
-.LSOverride
-Icon
-
-# Windows
-Desktop.ini
-$RECYCLE.BIN/
-
-# Linux
-*~
-
-# JetBrains IDEs
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# VS Code
-.vscode/settings.json
-.vscode/tasks.json
-.vscode/launch.json
-.vscode/extensions.json
-
-# Vim
-*.swp
-*.swo
-
-# Emacs
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
-auto-save-list
-tramp
-.\#*
-
-# SublimeText
-*.sublime-workspace
-
-# Xcode
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata/
-*.moved-aside
-DerivedData
-.idea/
-*.hmap
-*.ipa
-*.xcuserstate
+# 本地开发数据
+local-data/                 # 本地开发数据目录
+dev-backups/                # 开发备份目录

@@ -1,0 +1,8 @@
+
+# MobiLiF 微信小程序CI - 强制IPv4配置
+# 添加到 /etc/hosts 文件中（需要管理员权限）
+
+# 微信服务器IPv4地址（示例，实际需要查询）
+# 183.3.226.35 servicewechat.com
+# 183.3.226.35 api.weixin.qq.com
+# 183.3.226.35 mp.weixin.qq.com
