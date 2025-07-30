@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CrossFit Terminal Station - 场馆详情</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Rajdhani:wght@600&family=Source+Sans+Pro:wght@300;400&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* 主色调系统 */
+            --space-blue: #082b41;
+            --terminal-blue: #105286;
+            --weightless-white: #f1f2f4;
+            --arcade-orange: #fdb338;
+            --starfield-black: #171d1d;
+            
+            /* 功能色 */
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --danger-red: #ef4444;
+            --info-blue: #3b82f6;
+            
+            /* 中性色 */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* 阴影系统 */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            /* 圆角系统 */
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 20px;
+            --radius-full: 9999px;
+            
+            /* 过渡动画 */
+            --transition-fast: 150ms ease;
+            --transition-base: 200ms ease;
+            --transition-slow: 300ms ease;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* 页面头部 */
+        .page-header {
+            background: linear-gradient(135deg, var(--space-blue) 0%, var(--terminal-blue) 100%);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            color: white;
+            font-size: 18px;
+        }
+        
+        .back-btn:active {
+            background: rgba(255,255,255,0.2);
+            transform: scale(0.95);
+        }
+        
+        .page-title {
+            font-family: 'Barlow', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            color: white;
+            font-size: 18px;
+        }
+        
+        .action-btn:active {
+            background: rgba(255,255,255,0.2);
+            transform: scale(0.95);
+        }
+        
+        .action-btn.favorited {
+            background: var(--arcade-orange);
+            color: white;
+        }
+        
+        /* 页面内容 */
+        .page-content {
+            padding: 0 0 20px;
+        }
+        
+        /* 场馆头部图片 */
+        .gym-gallery {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+        
+        .gallery-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .gallery-dot.active {
+            background: var(--arcade-orange);
+            width: 20px;
+            border-radius: 3px;
+        }
+        
+        /* 场馆基本信息 */
+        .gym-basic-info {
+            background: white;
+            padding: 20px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gym-basic-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--arcade-orange), var(--terminal-blue));
+        }
+        
+        .gym-header {
+            margin-bottom: 16px;
+        }
+        
+        .gym-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .gym-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--arcade-orange), #fbbf24);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(253, 179, 56, 0.3);
+        }
+        
+        .gym-status-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+        
+        .gym-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success-green);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .status-dot.closed {
+            background: var(--danger-red);
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+        
+        .status-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .status-text {
+            font-weight: 600;
+            color: var(--success-green);
+            font-size: 14px;
+        }
+        
+        .status-text.closed {
+            color: var(--danger-red);
+        }
+        
+        .hours-today {
+            color: var(--gray-600);
+            font-size: 12px;
+        }
+        
+        .contact-gym-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--arcade-orange), #fbbf24);
+            color: white;
+            box-shadow: 0 4px 12px rgba(253, 179, 56, 0.3);
+            white-space: nowrap;
+        }
+        
+        .contact-gym-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .expandable-section {
+            margin-top: 12px;
+        }
+        
+        .expand-trigger {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            color: var(--terminal-blue);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 0;
+        }
+        
+        .expand-trigger:active {
+            color: var(--arcade-orange);
+        }
+        
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .expand-content.expanded {
+            max-height: 400px;
+        }
+        
+        .gym-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        
+        .gym-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
+            color: var(--gray-700);
+            padding: 6px 10px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--gray-200);
+        }
+        
+        /* 内容卡片 */
+        .content-card {
+            background: white;
+            margin-top: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Tab样式 */
+        .info-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            background: var(--gray-100);
+            margin: 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .info-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            color: var(--gray-600);
+            font-size: 11px;
+            font-weight: 500;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .info-tab i {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .info-tab:active {
+            background: var(--gray-200);
+        }
+        
+        .info-tab.active {
+            background: white;
+            color: var(--arcade-orange);
+            border-bottom-color: var(--arcade-orange);
+        }
+        
+        .tab-content-container {
+            padding: 16px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 营业时间表 */
+        .hours-table {
+            margin-top: 12px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-100);
+            background: white;
+        }
+        
+        .hours-row:last-child {
+            border-bottom: none;
+        }
+        
+        .hours-row.today {
+            background: linear-gradient(135deg, var(--arcade-orange), #fbbf24);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .hours-day {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .hours-time {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        
+        .hours-row.today .hours-time {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .hours-closed {
+            color: var(--danger-red);
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        /* 联系方式 - 移动端优化 */
+        .contact-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border: 2px solid transparent;
+        }
+        
+        .contact-item:active {
+            background: var(--gray-100);
+            transform: scale(0.98);
+        }
+        
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--terminal-blue), var(--space-blue));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+        
+        .contact-subtitle {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+        
+        .contact-arrow {
+            color: var(--gray-400);
+            font-size: 16px;
+        }
+        
+        /* 设施设备 */
+        .facilities-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .facility-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+        }
+        
+        .facility-item.available {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .facility-item.unavailable {
+            background: var(--gray-100);
+            opacity: 0.6;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .facility-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .facility-item.available .facility-icon {
+            background: linear-gradient(135deg, var(--terminal-blue), var(--space-blue));
+            color: white;
+        }
+        
+        .facility-item.unavailable .facility-icon {
+            background: var(--gray-300);
+            color: var(--gray-500);
+        }
+        
+        .facility-info {
+            flex: 1;
+        }
+        
+        .facility-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+        
+        .facility-desc {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+        
+        /* 价格信息 */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .price-item {
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-base);
+        }
+        
+        .price-item:active {
+            transform: scale(0.98);
+        }
+        
+        .price-type {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+            font-size: 13px;
+        }
+        
+        .price-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--arcade-orange);
+            margin-bottom: 4px;
+        }
+        
+        .price-desc {
+            font-size: 11px;
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+        
+        .price-note {
+            background: linear-gradient(135deg, var(--info-blue), #2563eb);
+            color: white;
+            padding: 12px;
+            border-radius: var(--radius-lg);
+            font-size: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .payment-methods-title {
+            margin-top: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .payment-methods-title h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .payment-methods-title h4::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: linear-gradient(135deg, var(--arcade-orange), #fbbf24);
+            border-radius: 2px;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .payment-badge {
+            background: white;
+            border: 1px solid var(--gray-200);
+            padding: 8px 12px;
+            border-radius: var(--radius-lg);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-700);
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .payment-badge:active {
+            background: var(--gray-50);
+        }
+        
+        /* 交通位置 */
+        .map-container {
+            height: 180px;
+            background: linear-gradient(135deg, var(--gray-200), var(--gray-100));
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .map-container:active {
+            transform: scale(0.98);
+        }
+        
+        .map-placeholder {
+            text-align: center;
+            color: var(--gray-500);
+        }
+        
+        .map-placeholder i {
+            font-size: 40px;
+            margin-bottom: 8px;
+            display: block;
+            color: var(--terminal-blue);
+        }
+        
+        .map-placeholder div {
+            font-size: 14px;
+        }
+        
+        .address-info {
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .address-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .address-action {
+            font-size: 12px;
+            color: var(--terminal-blue);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .address-action:active {
+            color: var(--arcade-orange);
+        }
+        
+        .distance-info {
+            background: linear-gradient(135deg, var(--arcade-orange), #fbbf24);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .distance-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .distance-time {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .transport-info {
+            margin-top: 16px;
+        }
+        
+        .transport-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .transport-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transport-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--terminal-blue), var(--space-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .transport-text {
+            flex: 1;
+            font-size: 13px;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+        
+        /* 通知提示 */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 80%;
+            text-align: center;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* 底部安全区域 */
+        .safe-area-bottom {
+            height: env(safe-area-inset-bottom);
+            background: var(--gray-50);
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <div class="page-header">
+        <div class="header-left">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="page-title">场馆详情</h1>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="favoriteBtn" onclick="toggleFavorite()">
+                <i class="far fa-heart"></i>
+            </button>
+            <button class="action-btn" onclick="shareGym()">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 页面内容 -->
+    <div class="page-content">
+        <!-- 场馆图片轮播 -->
+        <div class="gym-gallery">
+            <img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=800&h=400&fit=crop" 
+                 alt="CrossFit Terminal Station" class="gallery-image">
+            <div class="gallery-dots">
+                <span class="gallery-dot active"></span>
+                <span class="gallery-dot"></span>
+                <span class="gallery-dot"></span>
+            </div>
+        </div>
+        
+        <!-- 场馆基本信息 -->
+        <div class="gym-basic-info">
+            <div class="gym-header">
+                <h2 class="gym-name">CrossFit Terminal Station</h2>
+                <span class="gym-type-badge">
+                    <i class="fas fa-certificate"></i>
+                    CrossFit官方认证场馆
+                </span>
+            </div>
+            
+            <div class="gym-status-contact">
+                <div class="gym-status">
+                    <span class="status-dot"></span>
+                    <div class="status-info">
+                        <span class="status-text">营业中</span>
+                        <span class="hours-today">今日 06:00-22:00</span>
+                    </div>
+                </div>
+                <button class="contact-gym-btn" onclick="callGym()">
+                    <i class="fas fa-phone"></i>
+                    联系场馆
+                </button>
+            </div>
+            
+            <div class="expandable-section">
+                <div class="expand-trigger" onclick="toggleHours()">
+                    <span>查看本周营业时间</span>
+                    <i class="fas fa-chevron-down" id="hoursArrow"></i>
+                </div>
+                <div class="expand-content" id="hoursContent">
+                    <div class="hours-table">
+                        <div class="hours-row today">
+                            <span class="hours-day">今天 (周一)</span>
+                            <span class="hours-time">06:00 - 22:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周二</span>
+                            <span class="hours-time">06:00 - 22:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周三</span>
+                            <span class="hours-time">06:00 - 22:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周四</span>
+                            <span class="hours-time">06:00 - 22:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周五</span>
+                            <span class="hours-time">06:00 - 23:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周六</span>
+                            <span class="hours-time">08:00 - 21:00</span>
+                        </div>
+                        <div class="hours-row">
+                            <span class="hours-day">周日</span>
+                            <span class="hours-closed">休息</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gym-tags">
+                <span class="gym-tag">
+                    <i class="fas fa-fire"></i> WOD训练
+                </span>
+                <span class="gym-tag">
+                    <i class="fas fa-dumbbell"></i> Olympic Lifting
+                </span>
+                <span class="gym-tag">
+                    <i class="fas fa-child"></i> Gymnastics
+                </span>
+                <span class="gym-tag">
+                    <i class="fas fa-weight-hanging"></i> Powerlifting
+                </span>
+                <span class="gym-tag">
+                    <i class="fas fa-user"></i> 私教课程
+                </span>
+            </div>
+        </div>
+        
+        <!-- 详细信息Tab区域 -->
+        <div class="content-card">
+            <div class="info-tabs">
+                <div class="info-tab active" onclick="switchInfoTab(this, 'contact')">
+                    <i class="fas fa-address-book"></i>
+                    <span>联系方式</span>
+                </div>
+                <div class="info-tab" onclick="switchInfoTab(this, 'pricing')">
+                    <i class="fas fa-tags"></i>
+                    <span>价格信息</span>
+                </div>
+                <div class="info-tab" onclick="switchInfoTab(this, 'location')">
+                    <i class="fas fa-route"></i>
+                    <span>交通位置</span>
+                </div>
+                <div class="info-tab" onclick="switchInfoTab(this, 'facilities')">
+                    <i class="fas fa-cogs"></i>
+                    <span>设施设备</span>
+                </div>
+            </div>
+            
+            <div class="tab-content-container">
+                <!-- 联系方式 -->
+                <div class="tab-content active" id="contactTab">
+                    <div class="contact-grid">
+                        <div class="contact-item" onclick="callGym()">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-title">联系电话</div>
+                                <div class="contact-subtitle">010-8888-8888</div>
+                            </div>
+                            <i class="fas fa-chevron-right contact-arrow"></i>
+                        </div>
+                        
+                        <div class="contact-item" onclick="copyEmail()">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-title">Email地址</div>
+                                <div class="contact-subtitle">info@terminal-station.com</div>
+                            </div>
+                            <i class="fas fa-chevron-right contact-arrow"></i>
+                        </div>
+                        
+                        <div class="contact-item" onclick="openMiniProgram()">
+                            <div class="contact-icon">
+                                <i class="fab fa-weixin"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-title">微信小程序</div>
+                                <div class="contact-subtitle">Terminal Station CF</div>
+                            </div>
+                            <i class="fas fa-chevron-right contact-arrow"></i>
+                        </div>
+                        
+                        <div class="contact-item" onclick="copyInstagram()">
+                            <div class="contact-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-title">Instagram</div>
+                                <div class="contact-subtitle">@terminal_station_cf</div>
+                            </div>
+                            <i class="fas fa-chevron-right contact-arrow"></i>
+                        </div>
+                        
+                        <div class="contact-item" onclick="openWebsite()">
+                            <div class="contact-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="contact-info">
+                                <div class="contact-title">官网</div>
+                                <div class="contact-subtitle">terminal-station.com</div>
+                            </div>
+                            <i class="fas fa-chevron-right contact-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 价格信息 -->
+                <div class="tab-content" id="pricingTab">
+                    <div class="price-grid">
+                        <div class="price-item">
+                            <div class="price-type">单次Drop-in</div>
+                            <div class="price-value">¥120</div>
+                            <div class="price-desc">包含器械使用、教练指导</div>
+                        </div>
+                        
+                        <div class="price-item">
+                            <div class="price-type">会员Drop-in</div>
+                            <div class="price-value">¥80</div>
+                            <div class="price-desc">MobiLiF会员专享价格</div>
+                        </div>
+                        
+                        <div class="price-item">
+                            <div class="price-type">周卡</div>
+                            <div class="price-value">¥400</div>
+                            <div class="price-desc">7天内无限次训练</div>
+                        </div>
+                        
+                        <div class="price-item">
+                            <div class="price-type">月卡</div>
+                            <div class="price-value">¥1200</div>
+                            <div class="price-desc">30天内无限次训练</div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-note">
+                        <i class="fas fa-gift"></i>
+                        新用户首次训练免费！需购买运动意外保险（¥5/次）
+                    </div>
+                    
+                    <div class="payment-methods-title">
+                        <h4>支持的付款方式</h4>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <span class="payment-badge">
+                            <i class="fas fa-money-bill"></i> 现金
+                        </span>
+                        <span class="payment-badge">
+                            <i class="fab fa-alipay"></i> 支付宝
+                        </span>
+                        <span class="payment-badge">
+                            <i class="fab fa-weixin"></i> 微信支付
+                        </span>
+                        <span class="payment-badge">
+                            <i class="fas fa-credit-card"></i> 信用卡
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- 交通位置 -->
+                <div class="tab-content" id="locationTab">
+                    <div class="map-container" onclick="openNavigation()">
+                        <div class="map-placeholder">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <div>点击查看地图并导航</div>
+                        </div>
+                    </div>
+                    
+                    <div class="address-info">
+                        <div class="address-text">
+                            <i class="fas fa-map-marker-alt"></i>
+                            北京市朝阳区建国门外大街1号
+                        </div>
+                        <div class="address-action" onclick="copyAddress()">
+                            <i class="fas fa-copy"></i> 点击复制地址
+                        </div>
+                    </div>
+                    
+                    <div class="distance-info">
+                        <div class="distance-text">距离您约 2.3km</div>
+                        <div class="distance-time">步行约15分钟 · 驾车约8分钟</div>
+                    </div>
+                    
+                    <div class="transport-info">
+                        <div class="transport-item">
+                            <div class="transport-icon">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <div class="transport-text">地铁1号线 建国门站B口 步行5分钟</div>
+                        </div>
+                        
+                        <div class="transport-item">
+                            <div class="transport-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="transport-text">公交站：建国门外大街 步行2分钟</div>
+                        </div>
+                        
+                        <div class="transport-item">
+                            <div class="transport-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="transport-text">地下停车场：免费停车2小时</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 设施设备 -->
+                <div class="tab-content" id="facilitiesTab">
+                    <div class="facilities-grid">
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">停车位</div>
+                                <div class="facility-desc">免费停车</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-shower"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">淋浴间</div>
+                                <div class="facility-desc">热水供应</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">更衣室</div>
+                                <div class="facility-desc">男女分开</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">储物柜</div>
+                                <div class="facility-desc">免费使用</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-weight-hanging"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">杠铃</div>
+                                <div class="facility-desc">20套奥林匹克杠铃</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">壶铃</div>
+                                <div class="facility-desc">8-32kg全套</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-horse"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">引体架</div>
+                                <div class="facility-desc">Rogue品牌</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-ship"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">划船机</div>
+                                <div class="facility-desc">Concept2</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">风阻单车</div>
+                                <div class="facility-desc">Assault Bike</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-couch"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">休息区</div>
+                                <div class="facility-desc">舒适沙发</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item available">
+                            <div class="facility-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">营养补给</div>
+                                <div class="facility-desc">蛋白粉、饮料</div>
+                            </div>
+                        </div>
+                        
+                        <div class="facility-item unavailable">
+                            <div class="facility-icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div class="facility-info">
+                                <div class="facility-name">装备售卖</div>
+                                <div class="facility-desc">暂未提供</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部安全区域 -->
+    <div class="safe-area-bottom"></div>
+    
+    <!-- 通知提示 -->
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // 全局变量
+        let isFavorited = false;
+        
+        // Tab切换功能
+        function switchInfoTab(element, tabId) {
+            // 移除所有tab的active状态
+            document.querySelectorAll('.info-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 添加当前tab的active状态
+            element.classList.add('active');
+            
+            // 隐藏所有tab内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 显示对应的tab内容
+            const targetTab = document.getElementById(tabId + 'Tab');
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+        }
+        
+        // 页面功能函数
+        function goBack() {
+            // 小程序返回
+            if (typeof wx !== 'undefined') {
+                wx.navigateBack();
+            } else {
+                window.history.back();
+            }
+        }
+        
+        // 收藏功能
+        function toggleFavorite() {
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            const icon = favoriteBtn.querySelector('i');
+            
+            isFavorited = !isFavorited;
+            
+            if (isFavorited) {
+                icon.className = 'fas fa-heart';
+                favoriteBtn.classList.add('favorited');
+                showToast('已添加到收藏');
+            } else {
+                icon.className = 'far fa-heart';
+                favoriteBtn.classList.remove('favorited');
+                showToast('已取消收藏');
+            }
+        }
+        
+        // 分享功能
+        function shareGym() {
+            // 小程序分享
+            if (typeof wx !== 'undefined') {
+                wx.showShareMenu({
+                    withShareTicket: true
+                });
+            } else {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'CrossFit Terminal Station',
+                        text: '推荐一个很棒的CrossFit场馆',
+                        url: window.location.href
+                    });
+                } else {
+                    copyToClipboard(window.location.href);
+                    showToast('链接已复制到剪切板');
+                }
+            }
+        }
+        
+        // 营业时间展开/收起
+        function toggleHours() {
+            const content = document.getElementById('hoursContent');
+            const arrow = document.getElementById('hoursArrow');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('expanded');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // 联系功能
+        function callGym() {
+            // 小程序拨打电话
+            if (typeof wx !== 'undefined') {
+                wx.makePhoneCall({
+                    phoneNumber: '010-8888-8888'
+                });
+            } else {
+                window.location.href = 'tel:010-8888-8888';
+            }
+        }
+        
+        function copyEmail() {
+            copyToClipboard('info@terminal-station.com');
+            showToast('Email地址已复制');
+        }
+        
+        function copyAddress() {
+            copyToClipboard('北京市朝阳区建国门外大街1号');
+            showToast('地址已复制');
+        }
+        
+        function openMiniProgram() {
+            // 小程序内跳转
+            if (typeof wx !== 'undefined') {
+                // 这里应该调用具体的小程序跳转API
+                showToast('正在打开小程序...');
+            } else {
+                showToast('正在打开小程序...');
+            }
+        }
+        
+        function copyInstagram() {
+            copyToClipboard('@terminal_station_cf');
+            showToast('已复制Instagram账号');
+        }
+        
+        function openWebsite() {
+            // 小程序内置浏览器
+            if (typeof wx !== 'undefined') {
+                wx.navigateTo({
+                    url: '/pages/webview/webview?url=' + encodeURIComponent('https://terminal-station.com')
+                });
+            } else {
+                window.open('https://terminal-station.com', '_blank');
+            }
+        }
+        
+        // 地图导航
+        function openNavigation() {
+            // 小程序地图
+            if (typeof wx !== 'undefined') {
+                wx.openLocation({
+                    latitude: 39.9042,
+                    longitude: 116.4074,
+                    name: 'CrossFit Terminal Station',
+                    address: '北京市朝阳区建国门外大街1号'
+                });
+            } else {
+                const address = encodeURIComponent('北京市朝阳区建国门外大街1号');
+                const mapUrl = `https://maps.apple.com/?q=${address}`;
+                window.open(mapUrl, '_blank');
+            }
+        }
+        
+        // 工具函数
+        function copyToClipboard(text) {
+            // 小程序复制
+            if (typeof wx !== 'undefined') {
+                wx.setClipboardData({
+                    data: text,
+                    success: function() {
+                        // 成功回调在showToast中处理
+                    }
+                });
+            } else {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    // 兼容性处理
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                }
+            }
+        }
+        
+        function showToast(message) {
+            // 小程序提示
+            if (typeof wx !== 'undefined') {
+                wx.showToast({
+                    title: message,
+                    duration: 2000
+                });
+            } else {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+        }
+        
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置当前时间的营业状态
+            const now = new Date();
+            const currentHour = now.getHours();
+            const statusDot = document.querySelector('.status-dot');
+            const statusText = document.querySelector('.status-text');
+            
+            if (currentHour >= 6 && currentHour < 22) {
+                statusDot.classList.remove('closed');
+                statusText.classList.remove('closed');
+                statusText.textContent = '营业中';
+            } else {
+                statusDot.classList.add('closed');
+                statusText.classList.add('closed');
+                statusText.textContent = '未营业';
+            }
+        });
+        
+        // 防止页面滚动穿透
+        document.body.style.overflowX = 'hidden';
+        
+        // 适配小程序环境
+        if (typeof wx !== 'undefined') {
+            // 小程序特有的初始化代码
+            wx.ready(function() {
+                // 设置页面标题
+                wx.setNavigationBarTitle({
+                    title: '场馆详情'
+                });
+            });
+        }
+    </script>
+</body>
+</html>

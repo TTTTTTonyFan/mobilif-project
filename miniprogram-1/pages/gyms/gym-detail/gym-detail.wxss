@@ -1,236 +1,827 @@
-/* pages/gyms/gym-detail/gym-detail.wxss */
-.container {
+/* MobiLiF拓练 - 场馆详情页面样式 - 完全按照gym_detail_page2.html实现 */
+
+/* 导入设计系统 */
+@import "/styles/design-system.wxss";
+
+/* 页面基础样式 */
+.gym-detail-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding-bottom: 80px;
+  background: var(--color-gray-50);
+  padding-bottom: 120rpx; /* 为底部操作栏留出空间 */
 }
 
-.loading {
+/* 页面头部 */
+.page-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  padding: 24rpx 32rpx;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 200px;
-  color: #999;
+  justify-content: space-between;
+  box-shadow: var(--shadow-lg);
 }
 
-/* 图片轮播 */
-.image-swiper {
-  height: 250px;
-  width: 100%;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
 }
 
-.swiper-image {
+.back-btn {
+  width: 88rpx;
+  height: 88rpx;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.back-btn:active {
+  background: rgba(255,255,255,0.2);
+  transform: scale(0.95);
+}
+
+.page-title {
+  font-family: 'Barlow', sans-serif;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: white;
+}
+
+.header-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  width: 88rpx;
+  height: 88rpx;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.action-btn:active {
+  background: rgba(255,255,255,0.2);
+  transform: scale(0.95);
+}
+
+.action-btn.favorited {
+  background: var(--color-accent);
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400rpx;
+  color: var(--color-gray-500);
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid var(--color-gray-200);
+  border-top: 4rpx solid var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: var(--color-gray-500);
+}
+
+/* 页面内容 */
+.page-content {
+  padding: 0 0 40rpx;
+}
+
+/* 场馆图片轮播 */
+.gym-gallery {
+  position: relative;
+  height: 480rpx;
+  overflow: hidden;
+}
+
+.gallery-swiper {
   width: 100%;
   height: 100%;
 }
 
-.default-image {
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-  color: #999;
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* 场馆信息 */
-.gym-info {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 10px;
+/* 场馆基本信息 */
+.gym-basic-info {
+  background: white;
+  padding: 40rpx 32rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.gym-basic-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6rpx;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
 }
 
 .gym-header {
-  margin-bottom: 12px;
+  margin-bottom: 32rpx;
 }
 
 .gym-name {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin-bottom: 16rpx;
+  line-height: 1.3;
   display: block;
-  margin-bottom: 8px;
 }
 
-.gym-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.gym-tag {
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 10px;
-  background: #f0f0f0;
-  color: #666;
-}
-
-.tag-crossfit {
-  background: #fff0f6;
-  color: #c41d7f;
-}
-
-.gym-rating {
-  display: flex;
+.gym-type-badge {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.rating-stars {
-  color: #ffa940;
-  font-size: 14px;
-}
-
-.rating-text {
-  font-size: 13px;
-  color: #666;
-}
-
-.gym-status {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: auto;
-}
-
-.status-open {
-  background: #f6ffed;
-  color: #52c41a;
-}
-
-.status-closed {
-  background: #fff2e8;
-  color: #fa8c16;
-}
-
-.gym-address {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  padding: 8px 0;
-}
-
-.address-icon {
-  margin-right: 8px;
-  font-size: 14px;
-}
-
-.address-text {
-  flex: 1;
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
-}
-
-.distance {
-  font-size: 12px;
-  color: #999;
-  margin-left: 8px;
-}
-
-.gym-contact {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.contact-icon {
-  margin-right: 8px;
-  font-size: 14px;
-}
-
-.contact-text {
-  font-size: 14px;
-  color: #1890ff;
-}
-
-/* 内容区块 */
-.section {
-  background: #fff;
-  margin-bottom: 10px;
-  padding: 20px;
-}
-
-.section-title {
-  font-size: 16px;
+  gap: 12rpx;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+  color: white;
+  padding: 12rpx 24rpx;
+  border-radius: var(--radius-full);
+  font-size: 24rpx;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 12px;
+  margin-bottom: 32rpx;
+  box-shadow: 0 8rpx 24rpx rgba(253, 179, 56, 0.3);
 }
 
-/* 营业时间 */
-.opening-hours {
-  margin-top: 8px;
-}
-
-.today-hours {
+.gym-status-contact {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  margin-bottom: 32rpx;
+  gap: 24rpx;
 }
 
-.day {
-  font-size: 14px;
-  color: #333;
+.gym-status {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+}
+
+.status-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 0 4rpx rgba(16, 185, 129, 0.2);
+  flex-shrink: 0;
+}
+
+.status-dot.closed {
+  background: var(--color-danger);
+  box-shadow: 0 0 0 4rpx rgba(239, 68, 68, 0.2);
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.status-text {
+  font-weight: 600;
+  color: var(--color-success);
+  font-size: 28rpx;
+}
+
+.status-text.closed {
+  color: var(--color-danger);
+}
+
+.hours-today {
+  color: var(--color-gray-600);
+  font-size: 24rpx;
+}
+
+.contact-gym-btn {
+  padding: 20rpx 32rpx;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 28rpx;
+  font-weight: 600;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+  color: white;
+  box-shadow: 0 8rpx 24rpx rgba(253, 179, 56, 0.3);
+  white-space: nowrap;
+}
+
+.contact-gym-btn:active {
+  transform: scale(0.95);
+}
+
+/* 可展开区域 */
+.expandable-section {
+  margin-top: 24rpx;
+}
+
+.expand-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  color: var(--color-secondary);
+  font-size: 28rpx;
+  font-weight: 500;
+  padding: 20rpx 0;
+}
+
+.expand-trigger:active {
+  color: var(--color-accent);
+}
+
+.expand-arrow {
+  width: 24rpx;
+  height: 24rpx;
+  transition: transform var(--transition-base);
+}
+
+.expand-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.expand-content.expanded {
+  max-height: 800rpx;
+}
+
+/* 营业时间表 */
+.hours-table {
+  margin-top: 24rpx;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid var(--color-gray-100);
+  background: white;
+}
+
+.hours-row:last-child {
+  border-bottom: none;
+}
+
+.hours-row.today {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+  color: white;
+  font-weight: 600;
+}
+
+.hours-day {
+  font-weight: 500;
+  font-size: 28rpx;
+}
+
+.hours-time {
+  color: var(--color-gray-600);
+  font-size: 28rpx;
+}
+
+.hours-row.today .hours-time {
+  color: rgba(255,255,255,0.9);
+}
+
+.hours-time.closed {
+  color: var(--color-danger);
   font-weight: 500;
 }
 
-.hours {
-  font-size: 14px;
-  color: #666;
-}
-
-/* 设施和课程 */
-.facilities,
-.programs {
+/* 课程标签 */
+.gym-tags {
   display: flex;
+  gap: 12rpx;
   flex-wrap: wrap;
-  gap: 8px;
+  margin-top: 32rpx;
 }
 
-.facility-item,
-.program-item {
-  font-size: 13px;
-  padding: 6px 12px;
-  background: #f8f9fa;
-  border-radius: 16px;
-  color: #666;
-  border: 1px solid #e9ecef;
+.gym-tag {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: linear-gradient(135deg, var(--color-gray-100), var(--color-gray-50));
+  color: var(--color-gray-700);
+  padding: 12rpx 20rpx;
+  border-radius: var(--radius-full);
+  font-size: 24rpx;
+  font-weight: 500;
+  border: 1rpx solid var(--color-gray-200);
 }
 
-/* 场馆介绍 */
-.description {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.6;
+/* 内容卡片 */
+.content-card {
+  background: white;
+  margin-top: 24rpx;
+  box-shadow: var(--shadow-sm);
 }
 
-/* 底部操作按钮 */
+/* Tab样式 */
+.info-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--color-gray-100);
+  margin: 0;
+  border-bottom: 1rpx solid var(--color-gray-200);
+}
+
+.info-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 24rpx 16rpx;
+  transition: all var(--transition-base);
+  color: var(--color-gray-600);
+  font-size: 22rpx;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 6rpx solid transparent;
+  position: relative;
+}
+
+.info-tab:active {
+  background: var(--color-gray-200);
+}
+
+.info-tab.active {
+  background: white;
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.tab-content-container {
+  padding: 32rpx;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* 联系方式网格 */
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+  background: var(--color-gray-50);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  border: 4rpx solid transparent;
+}
+
+.contact-item:active {
+  background: var(--color-gray-100);
+  transform: scale(0.98);
+}
+
+.contact-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  flex-shrink: 0;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-title {
+  font-weight: 600;
+  margin-bottom: 4rpx;
+  font-size: 28rpx;
+  color: var(--color-gray-900);
+}
+
+.contact-subtitle {
+  font-size: 26rpx;
+  color: var(--color-gray-600);
+}
+
+.contact-arrow {
+  color: var(--color-gray-400);
+}
+
+/* 价格网格 */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.price-item {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  text-align: center;
+  border: 1rpx solid var(--color-gray-200);
+  transition: all var(--transition-base);
+}
+
+.price-item:active {
+  transform: scale(0.98);
+}
+
+.price-type {
+  font-weight: 600;
+  margin-bottom: 16rpx;
+  color: var(--color-gray-900);
+  font-size: 26rpx;
+  display: block;
+}
+
+.price-value {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.price-desc {
+  font-size: 22rpx;
+  color: var(--color-gray-600);
+  line-height: 1.4;
+}
+
+.price-note {
+  background: linear-gradient(135deg, var(--color-info), #2563eb);
+  color: white;
+  padding: 24rpx;
+  border-radius: var(--radius-lg);
+  font-size: 24rpx;
+  margin-bottom: 32rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.payment-methods-title {
+  margin-top: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.section-title::before {
+  content: '';
+  width: 6rpx;
+  height: 32rpx;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+  border-radius: 4rpx;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.payment-badge {
+  background: white;
+  border: 1rpx solid var(--color-gray-200);
+  padding: 16rpx 24rpx;
+  border-radius: var(--radius-lg);
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.payment-badge:active {
+  background: var(--color-gray-50);
+}
+
+/* 地图和位置 */
+.map-container {
+  height: 360rpx;
+  background: linear-gradient(135deg, var(--color-gray-200), var(--color-gray-100));
+  border-radius: var(--radius-lg);
+  margin-bottom: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.map-container:active {
+  transform: scale(0.98);
+}
+
+.map-placeholder {
+  text-align: center;
+  color: var(--color-gray-500);
+}
+
+.map-icon {
+  width: 80rpx;
+  height: 80rpx;
+  color: var(--color-secondary);
+  margin-bottom: 16rpx;
+}
+
+.address-info {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.address-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-bottom: 12rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.address-action {
+  font-size: 24rpx;
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.address-action:active {
+  color: var(--color-accent);
+}
+
+.distance-info {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+  text-align: center;
+}
+
+.distance-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.distance-time {
+  font-size: 26rpx;
+  opacity: 0.9;
+}
+
+.transport-info {
+  margin-top: 32rpx;
+}
+
+.transport-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--color-gray-100);
+}
+
+.transport-item:last-child {
+  border-bottom: none;
+}
+
+.transport-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28rpx;
+  flex-shrink: 0;
+}
+
+.transport-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: var(--color-gray-700);
+  font-weight: 500;
+}
+
+/* 设施设备 */
+.facilities-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.facility-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 32rpx;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.facility-item.available {
+  background: var(--color-gray-50);
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.facility-item.unavailable {
+  background: var(--color-gray-100);
+  opacity: 0.6;
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.facility-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  flex-shrink: 0;
+}
+
+.facility-item.available .facility-icon {
+  background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+  color: white;
+}
+
+.facility-item.unavailable .facility-icon {
+  background: var(--color-gray-300);
+  color: var(--color-gray-500);
+}
+
+.facility-emoji {
+  font-size: 32rpx;
+}
+
+.facility-info {
+  flex: 1;
+}
+
+.facility-name {
+  font-weight: 600;
+  margin-bottom: 4rpx;
+  font-size: 28rpx;
+  color: var(--color-gray-900);
+}
+
+.facility-desc {
+  font-size: 24rpx;
+  color: var(--color-gray-600);
+}
+
+/* 底部操作栏 */
 .bottom-actions {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
-  padding: 12px 20px;
-  border-top: 1px solid #eee;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+  background: white;
+  padding: 24rpx 32rpx;
+  border-top: 1rpx solid var(--color-gray-200);
+  box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06);
+  display: flex;
+  gap: 24rpx;
+  z-index: 100;
 }
 
-.book-button {
-  width: 100%;
-  height: 48px;
-  background: #ff4d4f;
-  color: #fff;
+.action-button {
+  flex: 1;
+  height: 96rpx;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: var(--radius-lg);
+  font-size: 28rpx;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  transition: all var(--transition-base);
 }
 
-.book-button:active {
-  background: #d73027;
+.action-button.secondary {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border: 1rpx solid var(--color-gray-200);
+}
+
+.action-button.secondary:active {
+  background: var(--color-gray-200);
+  transform: scale(0.98);
+}
+
+/* 底部安全区域 */
+.safe-area-bottom {
+  height: env(safe-area-inset-bottom);
+  background: var(--color-gray-50);
+}
+
+/* 图标颜色工具类 */
+.icon-white {
+  filter: brightness(0) invert(1);
+}
+
+.icon-gray {
+  filter: invert(70%) sepia(56%) saturate(2618%) hue-rotate(97deg) brightness(89%) contrast(81%);
+}
+
+.icon-accent {
+  filter: invert(70%) sepia(98%) saturate(1919%) hue-rotate(11deg) brightness(101%) contrast(99%);
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

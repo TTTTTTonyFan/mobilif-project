@@ -1,110 +1,338 @@
-<!--pages/gyms/gym-detail/gym-detail.wxml-->
-<view class="container">
-  <!-- 加载状态 -->
-  <view wx:if="{{loading}}" class="loading">
-    <text>加载中...</text>
-  </view>
-
-  <!-- 场馆详情内容 -->
-  <view wx:else class="detail-content">
-    <!-- 图片轮播 -->
-    <swiper wx:if="{{images.length > 0}}" 
-            class="image-swiper" 
-            indicator-dots="true"
-            autoplay="true"
-            interval="5000"
-            bindchange="onImageChange"
-            bindtap="previewImages">
-      <swiper-item wx:for="{{images}}" wx:key="*this">
-        <image src="{{item}}" mode="aspectFill" class="swiper-image" />
-      </swiper-item>
-    </swiper>
-
-    <!-- 默认图片 -->
-    <view wx:else class="default-image">
-      <text>暂无图片</text>
+<!-- MobiLiF拓练 - 场馆详情页面 - 完全按照gym_detail_page2.html实现 -->
+<view class="gym-detail-container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-left">
+      <button class="back-btn" bind:tap="navigateBack">
+        <image src="/images/icons/arrow-left.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+      </button>
+      <text class="page-title">场馆详情</text>
     </view>
-
+    <view class="header-actions">
+      <button class="action-btn {{gym.isFavorited ? 'favorited' : ''}}" bind:tap="toggleFavorite">
+        <image src="/images/icons/{{gym.isFavorited ? 'heart-fill' : 'heart'}}.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+      </button>
+      <button class="action-btn" bind:tap="shareGym">
+        <image src="/images/icons/share.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+      </button>
+    </view>
+  </view>
+  
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 主要内容 -->
+  <view wx:else class="page-content">
+    <!-- 场馆图片轮播 -->
+    <view class="gym-gallery">
+      <swiper 
+        class="gallery-swiper" 
+        indicator-dots="true"
+        indicator-color="rgba(255,255,255,0.5)"
+        indicator-active-color="#fdb338"
+        autoplay="true"
+        interval="5000"
+        duration="500"
+        bind:change="onImageChange"
+        bind:tap="previewImages"
+      >
+        <swiper-item wx:for="{{gym.images}}" wx:key="*this">
+          <image src="{{item}}" class="gallery-image" mode="aspectFill" />
+        </swiper-item>
+      </swiper>
+    </view>
+    
     <!-- 场馆基本信息 -->
-    <view class="gym-info">
+    <view class="gym-basic-info">
       <view class="gym-header">
         <text class="gym-name">{{gym.name}}</text>
-        <view class="gym-tags">
-          <text wx:for="{{gym.tags}}" 
-                wx:for-item="tag" 
-                wx:key="*this" 
-                class="gym-tag {{tag === 'CrossFit认证' ? 'tag-crossfit' : ''}}">
-            {{tag}}
-          </text>
+        <view class="gym-type-badge">
+          <image src="/images/icons/check.svg" class="icon-sm icon-white" mode="aspectFit"></image>
+          <text>{{gym.typeLabel}}</text>
         </view>
       </view>
-
-      <view class="gym-rating">
-        <text class="rating-stars">★</text>
-        <text class="rating-text">{{gym.rating}} ({{gym.reviewCount}}条评价)</text>
-        <view class="gym-status {{gym.businessStatus === '营业中' ? 'status-open' : 'status-closed'}}">
-          {{gym.businessStatus}}
+      
+      <view class="gym-status-contact">
+        <view class="gym-status">
+          <view class="status-dot {{gym.businessStatus === '营业中' ? '' : 'closed'}}"></view>
+          <view class="status-info">
+            <text class="status-text {{gym.businessStatus === '营业中' ? '' : 'closed'}}">{{gym.businessStatus}}</text>
+            <text class="hours-today">今日 {{gym.todayHours}}</text>
+          </view>
+        </view>
+        <button class="contact-gym-btn" bind:tap="callGym">
+          <image src="/images/icons/phone.svg" class="icon-sm icon-white" mode="aspectFit"></image>
+          <text>联系场馆</text>
+        </button>
+      </view>
+      
+      <!-- 营业时间展开 -->
+      <view class="expandable-section">
+        <view class="expand-trigger" bind:tap="toggleHours">
+          <text>查看本周营业时间</text>
+          <image src="/images/icons/arrow-down.svg" class="expand-arrow {{hoursExpanded ? 'expanded' : ''}}" mode="aspectFit"></image>
+        </view>
+        <view class="expand-content {{hoursExpanded ? 'expanded' : ''}}">
+          <view class="hours-table">
+            <view 
+              wx:for="{{weeklyHours}}" 
+              wx:key="day"
+              class="hours-row {{item.isToday ? 'today' : ''}}"
+            >
+              <text class="hours-day">{{item.day}}</text>
+              <text class="hours-time {{item.isClosed ? 'closed' : ''}}">{{item.hours}}</text>
+            </view>
+          </view>
         </view>
       </view>
-
-      <view class="gym-address" bindtap="viewLocation">
-        <text class="address-icon">📍</text>
-        <text class="address-text">{{gym.address}}</text>
-        <text class="distance" wx:if="{{gym.distance}}">{{gym.distance}}km</text>
-      </view>
-
-      <view class="gym-contact" wx:if="{{gym.phone}}">
-        <text class="contact-icon">📞</text>
-        <text class="contact-text" bindtap="callPhone">{{gym.phone}}</text>
-      </view>
-    </view>
-
-    <!-- 营业时间 -->
-    <view class="section">
-      <view class="section-title">营业时间</view>
-      <view class="opening-hours">
-        <view class="today-hours">
-          <text class="day">今日</text>
-          <text class="hours">{{gym.todayHours || '营业时间未知'}}</text>
+      
+      <!-- 支持课程标签 -->
+      <view class="gym-tags">
+        <view 
+          wx:for="{{gym.supportedPrograms}}" 
+          wx:key="*this"
+          class="gym-tag"
+        >
+          <image src="/images/icons/dumbbell.svg" class="icon-xs" mode="aspectFit"></image>
+          <text>{{item}}</text>
         </view>
       </view>
     </view>
-
-    <!-- 场馆设施 -->
-    <view class="section" wx:if="{{gym.facilities && gym.facilities.length > 0}}">
-      <view class="section-title">场馆设施</view>
-      <view class="facilities">
-        <text wx:for="{{gym.facilities}}" 
-              wx:key="*this" 
-              class="facility-item">
-          {{item}}
-        </text>
+    
+    <!-- 详细信息Tab区域 -->
+    <view class="content-card">
+      <view class="info-tabs">
+        <view class="info-tab {{activeTab === 'contact' ? 'active' : ''}}" data-tab="contact" bind:tap="switchTab">
+          <image src="/images/icons/user.svg" class="icon-md" mode="aspectFit"></image>
+          <text>联系方式</text>
+        </view>
+        <view class="info-tab {{activeTab === 'pricing' ? 'active' : ''}}" data-tab="pricing" bind:tap="switchTab">
+          <image src="/images/icons/price-tag.svg" class="icon-md" mode="aspectFit"></image>
+          <text>价格信息</text>
+        </view>
+        <view class="info-tab {{activeTab === 'location' ? 'active' : ''}}" data-tab="location" bind:tap="switchTab">
+          <image src="/images/icons/map.svg" class="icon-md" mode="aspectFit"></image>
+          <text>交通位置</text>
+        </view>
+        <view class="info-tab {{activeTab === 'facilities' ? 'active' : ''}}" data-tab="facilities" bind:tap="switchTab">
+          <image src="/images/icons/building.svg" class="icon-md" mode="aspectFit"></image>
+          <text>设施设备</text>
+        </view>
       </view>
-    </view>
-
-    <!-- 支持课程 -->
-    <view class="section" wx:if="{{gym.supportedPrograms && gym.supportedPrograms.length > 0}}">
-      <view class="section-title">支持课程</view>
-      <view class="programs">
-        <text wx:for="{{gym.supportedPrograms}}" 
-              wx:key="*this" 
-              class="program-item">
-          {{item}}
-        </text>
+      
+      <view class="tab-content-container">
+        <!-- 联系方式 -->
+        <view class="tab-content {{activeTab === 'contact' ? 'active' : ''}}">
+          <view class="contact-grid">
+            <view class="contact-item" bind:tap="callGym">
+              <view class="contact-icon">
+                <image src="/images/icons/phone.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">联系电话</text>
+                <text class="contact-subtitle">{{gym.phone}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+            
+            <view class="contact-item" bind:tap="copyEmail">
+              <view class="contact-icon">
+                <image src="/images/icons/mail.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">Email地址</text>
+                <text class="contact-subtitle">{{gym.email}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+            
+            <view class="contact-item" bind:tap="copyAddress">
+              <view class="contact-icon">
+                <image src="/images/icons/location.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">详细地址</text>
+                <text class="contact-subtitle">{{gym.address}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+            
+            <view class="contact-item" bind:tap="openMiniProgram">
+              <view class="contact-icon">
+                <image src="/images/icons/wechat.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">微信小程序</text>
+                <text class="contact-subtitle">{{gym.miniProgram.name}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+            
+            <view class="contact-item" bind:tap="copyInstagram">
+              <view class="contact-icon">
+                <image src="/images/icons/instagram.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">Instagram</text>
+                <text class="contact-subtitle">{{gym.instagram}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+            
+            <view class="contact-item" bind:tap="openWebsite">
+              <view class="contact-icon">
+                <image src="/images/icons/globe.svg" class="icon-lg icon-white" mode="aspectFit"></image>
+              </view>
+              <view class="contact-info">
+                <text class="contact-title">官网</text>
+                <text class="contact-subtitle">{{gym.website.domain}}</text>
+              </view>
+              <image src="/images/icons/arrow-right.svg" class="contact-arrow icon-md" mode="aspectFit"></image>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 价格信息 -->
+        <view class="tab-content {{activeTab === 'pricing' ? 'active' : ''}}">
+          <view class="price-grid">
+            <view class="price-item">
+              <text class="price-type">单次Drop-in</text>
+              <text class="price-value">¥{{gym.pricing.dropInPrice}}</text>
+              <text class="price-desc">包含器械使用、教练指导</text>
+            </view>
+            
+            <view class="price-item">
+              <text class="price-type">会员Drop-in</text>
+              <text class="price-value">¥{{gym.pricing.memberPrice}}</text>
+              <text class="price-desc">MobiLiF会员专享价格</text>
+            </view>
+            
+            <view class="price-item">
+              <text class="price-type">周卡</text>
+              <text class="price-value">¥{{gym.pricing.weeklyPass}}</text>
+              <text class="price-desc">7天内无限次训练</text>
+            </view>
+            
+            <view class="price-item">
+              <text class="price-type">月卡</text>
+              <text class="price-value">¥{{gym.pricing.monthlyPass}}</text>
+              <text class="price-desc">30天内无限次训练</text>
+            </view>
+          </view>
+          
+          <view class="price-note">
+            <image src="/images/icons/gift.svg" class="icon-sm icon-white" mode="aspectFit"></image>
+            <text>{{gym.pricing.specialNote}}</text>
+          </view>
+          
+          <view class="payment-methods-title">
+            <text class="section-title">支持的付款方式</text>
+          </view>
+          
+          <view class="payment-methods">
+            <view 
+              wx:for="{{gym.pricing.paymentMethods}}" 
+              wx:key="*this"
+              class="payment-badge"
+            >
+              <image src="/images/icons/payment.svg" class="icon-sm" mode="aspectFit"></image>
+              <text>{{item}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 交通位置 -->
+        <view class="tab-content {{activeTab === 'location' ? 'active' : ''}}">
+          <view class="map-container" bind:tap="openNavigation">
+            <view class="map-placeholder">
+              <image src="/images/icons/map.svg" class="map-icon" mode="aspectFit"></image>
+              <text>点击查看地图并导航</text>
+            </view>
+          </view>
+          
+          <view class="address-info">
+            <view class="address-text">
+              <image src="/images/icons/location.svg" class="icon-sm" mode="aspectFit"></image>
+              <text>{{gym.address}}</text>
+            </view>
+            <view class="address-action" bind:tap="copyAddress">
+              <image src="/images/icons/copy.svg" class="icon-xs" mode="aspectFit"></image>
+              <text>点击复制地址</text>
+            </view>
+          </view>
+          
+          <view class="distance-info">
+            <text class="distance-text">距离您约 {{gym.distance}}km</text>
+            <text class="distance-time">步行约{{gym.transportation.walkTime}} · 驾车约{{gym.transportation.driveTime}}</text>
+          </view>
+          
+          <view class="transport-info">
+            <view class="transport-item">
+              <view class="transport-icon">
+                <image src="/images/icons/subway.svg" class="icon-md icon-white" mode="aspectFit"></image>
+              </view>
+              <text class="transport-text">{{gym.transportation.subway}}</text>
+            </view>
+            
+            <view class="transport-item">
+              <view class="transport-icon">
+                <image src="/images/icons/bus.svg" class="icon-md icon-white" mode="aspectFit"></image>
+              </view>
+              <text class="transport-text">{{gym.transportation.bus}}</text>
+            </view>
+            
+            <view class="transport-item">
+              <view class="transport-icon">
+                <image src="/images/icons/car.svg" class="icon-md icon-white" mode="aspectFit"></image>
+              </view>
+              <text class="transport-text">{{gym.transportation.parking}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 设施设备 -->
+        <view class="tab-content {{activeTab === 'facilities' ? 'active' : ''}}">
+          <view class="facilities-grid">
+            <view 
+              wx:for="{{facilities}}" 
+              wx:key="name"
+              class="facility-item {{item.available ? 'available' : 'unavailable'}}"
+            >
+              <view class="facility-icon">
+                <text class="facility-emoji">{{item.icon}}</text>
+              </view>
+              <view class="facility-info">
+                <text class="facility-name">{{item.name}}</text>
+                <text class="facility-desc">{{item.desc}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
-    </view>
-
-    <!-- 场馆介绍 -->
-    <view class="section" wx:if="{{gym.description}}">
-      <view class="section-title">场馆介绍</view>
-      <text class="description">{{gym.description}}</text>
     </view>
   </view>
-
-  <!-- 底部预约按钮 -->
+  
+  <!-- 底部固定操作栏 -->
   <view class="bottom-actions">
-    <button class="book-button" type="primary" bindtap="bookNow">
-      立即预约
+    <button class="action-button secondary" bind:tap="toggleFavorite">
+      <image src="/images/icons/{{gym.isFavorited ? 'heart-fill' : 'heart'}}.svg" class="icon-md" mode="aspectFit"></image>
+      <text>{{gym.isFavorited ? '已收藏' : '收藏'}}</text>
+    </button>
+    
+    <button class="action-button secondary" bind:tap="callGym">
+      <image src="/images/icons/phone.svg" class="icon-md" mode="aspectFit"></image>
+      <text>联系场馆</text>
+    </button>
+    
+    <button class="action-button secondary" bind:tap="shareGym">
+      <image src="/images/icons/share.svg" class="icon-md" mode="aspectFit"></image>
+      <text>分享</text>
     </button>
   </view>
+  
+  <!-- 底部安全区域 -->
+  <view class="safe-area-bottom"></view>
 </view>
